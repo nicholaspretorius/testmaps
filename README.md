@@ -5,7 +5,16 @@
 * `pip list`
 * `pip install flask-restplus`
 
+### Swagger
+
+* See Swagger docs at: http://localhost:5001/swagger
+
 ### Run Local
 
 * `export FLASK_APP=project/__init__.py`
 * `python manage.py run`
+
+### Run docker-compose
+
+* `docker-compose up --build`
+* Check for api at: http://localhost:5001/hello
