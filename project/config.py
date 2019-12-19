@@ -1,23 +1,28 @@
 # project/config.py
+import os
 
 
 class BaseConfig:
     """Base config"""
 
     TESTING = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevelopmentConfig(BaseConfig):
     """Development config"""
 
-    pass
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
 class TestingConfig(BaseConfig):
     """Testing config"""
 
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")
 
 
 class ProductionConfig(BaseConfig):
-    pass
+    """Production config"""
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
