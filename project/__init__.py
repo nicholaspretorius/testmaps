@@ -1,52 +1,30 @@
 import os
 from flask import Flask
-from flask_restplus import Api
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
 
 # import sys
 # print(app.config, file=sys.stderr)
 
-from project.api.hello import api as hello_api
 
-app = Flask(__name__)
-
-
-api = Api(
-    app,
-    doc="/swagger",
-    title="Wakemaps API",
-    version="0.1",
-    description="Wakepark listing directory",
-)
-
-app_settings = os.getenv("APP_SETTINGS")
-app.config.from_object(app_settings)
-
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
-class User(db.Model):
-    __tablename__ = "users"
+def create_app(script_info=None):
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(128), nullable=False)
-    password = db.Column(db.String(255), nullable=False)
-    active = db.Column(db.Boolean(), default=True, nullable=False)
-    created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
+    app = Flask(__name__)
 
-    def __init__(self, email=""):
-        self.email = email
+    app_settings = os.getenv("APP_SETTINGS")
+    app.config.from_object(app_settings)
 
-    def __repr__(self):
-        return f"<User id: {self.id}, email: {self.email}>"
+    db.init_app(app)
 
-    def to_json(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            "active": self.active,
-        }
+    from project.apis import blueprint as api
 
+    app.register_blueprint(api, url_prefix="/api/1")
 
-api.add_namespace(hello_api)
+    @app.shell_context_processor
+    def ctx():
+        return {"app": app, "db": db}
+
+    return app
+
