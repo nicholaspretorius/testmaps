@@ -18,3 +18,11 @@
 
 * `docker-compose up --build`
 * Check for api at: http://localhost:5001/hello
+
+Remove <none> Docker images: 
+
+* `docker rmi $(docker images -f "dangling=true" -q)`
+
+### Run tests
+
+* `docker-compose exec api pytest "project/tests"`
