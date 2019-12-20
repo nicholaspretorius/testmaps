@@ -34,6 +34,7 @@ Remove <none> Docker images:
 ### Run tests
 
 * `docker-compose exec api pytest "project/tests"`
+* `docker-compose exec api pytest "project/tests" --disable-warnings`
 
 ### Run the shell
 
