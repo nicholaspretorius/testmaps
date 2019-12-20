@@ -1,5 +1,4 @@
 from flask_restplus import Namespace, Resource
-from ..utils.logger import log
 
 api = Namespace("hello", description="Hello world sanity check!")
 
@@ -8,5 +7,4 @@ api = Namespace("hello", description="Hello world sanity check!")
 class HelloWorld(Resource):
     def get(self):
         """Hello world!"""
-        log.error("Test")
         return {"status": "success", "hello": "world!"}
