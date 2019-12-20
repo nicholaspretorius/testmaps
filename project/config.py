@@ -8,6 +8,7 @@ class BaseConfig:
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = "test"
+    API_PREFIX = "/api/1"
 
 
 class DevelopmentConfig(BaseConfig):

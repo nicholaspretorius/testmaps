@@ -20,11 +20,10 @@ def create_app(script_info=None):
 
     from project.apis import blueprint as api
 
-    app.register_blueprint(api, url_prefix="/api/1")
+    app.register_blueprint(api, url_prefix=app.config["API_PREFIX"])
 
     @app.shell_context_processor
     def ctx():
         return {"app": app, "db": db}
 
     return app
-
