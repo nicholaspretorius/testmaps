@@ -23,6 +23,18 @@ Remove <none> Docker images:
 
 * `docker rmi $(docker images -f "dangling=true" -q)`
 
+### Database
+
+* `docker-compose exec api python manage.py recreate_db`
+* `docker-compose exec db psql -U postgres`
+* `\l` list the databases
+* `\c users_dev` connect to the 'users_dev' db
+* `\dt` list relations for that db
+
 ### Run tests
 
 * `docker-compose exec api pytest "project/tests"`
+
+### Run the shell
+
+* `docker-compose exec api flask shell`
