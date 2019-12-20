@@ -20,6 +20,9 @@ api = Api(
     description="Wakepark listing directory",
 )
 
+app_settings = os.getenv("APP_SETTINGS")
+app.config.from_object(app_settings)
+
 db = SQLAlchemy(app)
 
 
@@ -45,8 +48,5 @@ class User(db.Model):
             "active": self.active,
         }
 
-
-app_settings = os.getenv("APP_SETTINGS")
-app.config.from_object(app_settings)
 
 api.add_namespace(hello_api)

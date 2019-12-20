@@ -8,4 +8,4 @@ api = Namespace("hello", description="Hello world sanity check!")
 class HelloWorld(Resource):
     def get(self):
         log.error("Test")
-        return {"hello": "world!"}
+        return {"status": "success", "hello": "world!"}
