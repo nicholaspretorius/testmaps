@@ -39,3 +39,15 @@ Remove <none> Docker images:
 ### Run the shell
 
 * `docker-compose exec api flask shell`
+
+
+### Logging
+
+* Import: `from project.utils.logger import log`
+* Usage: `log.debug(f"Message goes here: {var_name_here}")` or `log.error(f"Message goes here: {var_name_here}")`
+* Levels: info, debug, error
+* Check the logging.conf file for how `console` and `file` are setup as handlers. 
+
+### View Swagger
+
+* `http://localhost:5001/api/1/docs`
