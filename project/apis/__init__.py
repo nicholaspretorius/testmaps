@@ -1,7 +1,5 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask_restplus import Api
-from ..utils.logger import log
-from webargs import ValidationError
 
 from .hello import api as hello_api
 from .users import api as users_api
@@ -19,19 +17,16 @@ api.add_namespace(hello_api)
 api.add_namespace(users_api)
 
 
-@api.errorhandler
-def default_error_handler(err):
-    message = "An unhandled error occurred."
-    log.error(message)
+# @api.errorhandler
+# def default_error_handler(err):
+#     message = "An unhandled error occurred."
+#     log.error(message)
 
-    return {"message": message}, 500
+#     return {"message": message}, 500
 
 
-@api.errorhandler(ValidationError)
-def invalid_payload(err):
-    headers = err.data.get("headers", None)
-    messages = err.data.get("messages", ["Invalid payload."])
-    if headers:
-        return jsonify({"errors": messages}), err.code, headers
-    else:
-        return jsonify({"errors": messages}), err.code
+# @api.errorhandler(BadRequest)
+# def invalid_payload(err):
+#     """Invalid payload provided"""
+#     log("Error: ", err)
+#     return jsonify({"status": "fail", "error": 400, "message": "Invalid payload"}), 400
