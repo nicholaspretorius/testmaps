@@ -1,11 +1,8 @@
 from flask import request
 from flask_restplus import fields, Namespace, Resource
 from project.apis.services import get_users, create_user, get_user_by_email
-from project.utils.logger import log
 
 api = Namespace("users", description="Users resource")
-
-# TODO: extract to openapi.models file
 
 # flask_resplus models
 user = api.model(
@@ -22,7 +19,7 @@ user = api.model(
     },
 )
 
-# TODO: extract to openapi.models file
+# Not used at present
 error = api.model(
     "Error",
     {
@@ -49,13 +46,7 @@ class UserList(Resource):
         """Create user"""
         post_data = request.get_json()
         email = post_data.get("email")
-        print("Email: ", email)
-        log.debug(f"Email: {email}")
         res = {}
-
-        # if not email:
-        #     res["message"] = "Email is required"
-        #     return res, 400
 
         user = get_user_by_email(email)
         if user:
