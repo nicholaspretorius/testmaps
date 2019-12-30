@@ -1,10 +1,13 @@
 from flask import request
 from flask_restplus import fields, Namespace, Resource
-from project import db
-from project.apis.models import User
+from project.apis.services import get_users, create_user, get_user_by_email
+from project.utils.logger import log
 
 api = Namespace("users", description="Users resource")
 
+# TODO: extract to openapi.models file
+
+# flask_resplus models
 user = api.model(
     "User",
     {
@@ -19,6 +22,7 @@ user = api.model(
     },
 )
 
+# TODO: extract to openapi.models file
 error = api.model(
     "Error",
     {
@@ -31,31 +35,34 @@ error = api.model(
 )
 
 
-def get_users():
-    return [user.to_json() for user in User.query.all()]
-
-
-def create_user(data):
-    email = data.get("email")
-    new_user = User(email=email)
-    db.session.add(new_user)
-    db.session.commit()
-    return new_user
-
-
 @api.route("/")
 class UserList(Resource):
-    @api.doc("get_users")
     @api.marshal_with(user, as_list=True)
     def get(self):
         """List all users"""
-        return get_users()
+        return get_users(), 200
 
-    @api.doc("create_user")
-    @api.expect(user)
-    @api.marshal_with(user, code=201)
-    @api.response(400, "invalid payload", error)
+    @api.expect(user, validate=True)
+    @api.response(201, "<user_email> was added!")
+    @api.response(400, "invalid payload")
     def post(self):
         """Create user"""
-        new_user = create_user(request.json)
-        return new_user, 201
+        post_data = request.get_json()
+        email = post_data.get("email")
+        print("Email: ", email)
+        log.debug(f"Email: {email}")
+        res = {}
+
+        # if not email:
+        #     res["message"] = "Email is required"
+        #     return res, 400
+
+        user = get_user_by_email(email)
+        if user:
+            res["message"] = "Sorry, that email already exists."
+            return res, 400
+
+        new_user = create_user(email)
+        res["message"] = f"{email} was added!"
+        res["user"] = new_user.to_json()
+        return res, 201
