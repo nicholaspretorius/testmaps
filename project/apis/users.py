@@ -1,11 +1,14 @@
+import re
 from flask import request
 from flask_restplus import fields, Namespace, Resource
 from project.apis.services import get_users, create_user, get_user_by_email
 
 api = Namespace("users", description="Users resource")
 
+EMAIL_REGEX = re.compile(r"\S+@\S+\.\S+")
+
 # flask_resplus models
-user = api.model(
+USER = api.model(
     "User",
     {
         "id": fields.String(
@@ -34,26 +37,37 @@ error = api.model(
 
 @api.route("/")
 class UserList(Resource):
-    @api.marshal_with(user, as_list=True)
+    @api.marshal_with(USER, as_list=True)
     def get(self):
         """List all users"""
         return get_users(), 200
 
-    @api.expect(user, validate=True)
+    @api.expect(USER, validate=False)
     @api.response(201, "<user_email> was added!")
     @api.response(400, "invalid payload")
     def post(self):
         """Create user"""
         post_data = request.get_json()
         email = post_data.get("email")
-        res = {}
+        res = {"status": "fail"}
 
-        user = get_user_by_email(email)
-        if user:
+        if email is None:
+            res["message"] = "Invalid payload"
+            return res, 400
+
+        valid_email = EMAIL_REGEX.match(email)
+
+        if valid_email is None:
+            res["message"] = "Please provide a valid email address"
+            return res, 400
+
+        current_user = get_user_by_email(email)
+        if current_user:
             res["message"] = "Sorry, that email already exists."
             return res, 400
 
         new_user = create_user(email)
+        res["status"] = "success"
         res["message"] = f"{email} was added!"
         res["user"] = new_user.to_json()
         return res, 201
