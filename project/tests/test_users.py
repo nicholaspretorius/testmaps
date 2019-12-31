@@ -102,3 +102,12 @@ def test_single_user_not_found(test_app, test_db):
     assert res.status_code == 404
     assert "fail" in data["status"]
     assert "User does not exist" in data["message"]
+
+
+def test_single_user_no_id(test_app, test_db):
+    client = test_app.test_client()
+    res = client.get(f"{prefix}/users/test")
+    data = json.loads(res.data.decode())
+    assert res.status_code == 404
+    assert "fail" in data["status"]
+    assert "User does not exist" in data["message"]
