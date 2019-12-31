@@ -154,3 +154,71 @@ def test_delete_user_not_found(test_app, test_db):
     assert res.status_code == 404
     assert not data["status"]
     assert "Resource not found" in data["message"]
+
+
+def test_update_user(test_app, test_db):
+    recreate_db()
+    user = add_user("test@test.com")
+    client = test_app.test_client()
+    res_one = client.put(
+        f"{prefix}/users/{user.id}",
+        data=json.dumps({"email": "test_updated@test.com"}),
+        content_type="application/json",
+    )
+
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 200
+    assert data["status"]
+    assert "User successfully updated." in data["message"]
+    assert data["user"]
+
+    res_two = client.get(f"{prefix}/users/{user.id}")
+    data = json.loads(res_two.data.decode())
+    assert res_two.status_code == 200
+    assert "test_updated@test.com" in data["email"]
+
+
+def test_update_user_not_found(test_app, test_db):
+    recreate_db()
+    client = test_app.test_client()
+    res = client.put(
+        f"{prefix}/users/999",
+        data=json.dumps({"email": "test_updated@test.com"}),
+        content_type="application/json",
+    )
+    data = json.loads(res.data.decode())
+    assert res.status_code == 404
+    assert not data["status"]
+    assert "Resource not found" in data["message"]
+
+
+def test_update_user_invalid_json(test_app, test_db):
+    recreate_db()
+    user = add_user("test@test.com")
+    client = test_app.test_client()
+    res = client.put(
+        f"{prefix}/users/{user.id}",
+        data=json.dumps({}),
+        content_type="application/json",
+    )
+
+    data = json.loads(res.data.decode())
+    assert res.status_code == 400
+    assert not data["status"]
+    assert "Invalid payload" in data["message"]
+
+
+def test_update_user_invalid_json_keys(test_app, test_db):
+    recreate_db()
+    user = add_user("test@test.com")
+    client = test_app.test_client()
+    res = client.put(
+        f"{prefix}/users/{user.id}",
+        data=json.dumps({"blah": "test_updated@test.com"}),
+        content_type="application/json",
+    )
+
+    data = json.loads(res.data.decode())
+    assert res.status_code == 400
+    assert not data["status"]
+    assert "Invalid payload" in data["message"]
