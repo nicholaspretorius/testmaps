@@ -51,6 +51,7 @@ class UserList(Resource):
         """List all users"""
         return get_users(), 200
 
+    # TODO: Refactor validation
     @api.expect(USER, validate=False)
     @api.response(201, "<user_email> was added!")
     @api.response(400, "invalid payload")
@@ -111,6 +112,8 @@ class Users(Resource):
                 "user": user.to_json(),
             }
 
+    # TODO: Refactor validation
+    @api.expect(USER, validate=False)
     @api.response(200, "Success")
     @api.response(400, "Invalid payload")
     @api.response(404, "Resource not found")
