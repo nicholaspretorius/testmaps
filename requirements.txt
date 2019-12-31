@@ -1,5 +1,6 @@
 black==19.3b0
 flake8===3.7.8
+Flask-Admin==1.5.3
 flask-restplus==0.13.0
 Flask-SQLAlchemy==2.4.0
 gunicorn==19.9.0
