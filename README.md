@@ -35,6 +35,7 @@ Remove <none> Docker images:
 
 * `docker-compose exec api pytest "project/tests"`
 * `docker-compose exec api pytest "project/tests" --disable-warnings`
+* `docker-compose exec api pytest "project/tests" -p no:warnings`
 
 ### Run the shell
 
@@ -51,3 +52,16 @@ Remove <none> Docker images:
 ### View Swagger
 
 * `http://localhost:5001/api/1/docs`
+
+
+### Run production Dockerfile
+
+* `docker build -f Dockerfile.prod -t registry.heroku.com/waketestmaps/web .`
+* `docker run --name waketestmaps -e "PORT=8765" -p 5002:8765 registry.heroku.com/waketestmaps/web:latest`
+* Visit `http://localhost:5002/api/1/hello`
+* `docker stop waketestmaps`
+* `docker rm waketestmaps`
+* `docker push registry.heroku.com/waketestmaps/web:latest`
+* `heroku container:release web`
+* Visit `https://waketestmaps.herokuapp.com/api/1/hello`
+* `heroku run python manage.py reset_db`
