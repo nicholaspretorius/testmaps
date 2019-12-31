@@ -1,5 +1,4 @@
 import logging.config
-
 import os
 
 logging_conf_path = os.path.normpath(

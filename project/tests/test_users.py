@@ -22,7 +22,7 @@ def test_add_user(test_app, test_db):
 def test_add_user_no_post_data(test_app, test_db):
     client = test_app.test_client()
     res = client.post(
-        f"{prefix}/users/", data=json.dumps({}), content_type="application/json",
+        f"{prefix}/users/", data=json.dumps({}), content_type="application/json"
     )
 
     data = json.loads(res.data.decode())

@@ -1,12 +1,10 @@
 import re
+
 from flask import request
-from flask_restplus import fields, Namespace, Resource
-from project.apis.services import (
-    get_users,
-    create_user,
-    get_user_by_email,
-    get_user_by_id,
-)
+from flask_restplus import Namespace, Resource, fields
+
+from project.apis.services import (create_user, get_user_by_email,
+                                   get_user_by_id, get_users)
 
 api = Namespace("users", description="Users resource")
 
