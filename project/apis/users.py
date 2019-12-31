@@ -54,7 +54,7 @@ class UserList(Resource):
         """Create user"""
         post_data = request.get_json()
         email = post_data.get("email")
-        res = {"status": "fail", "message": "Invalid payload"}
+        res = {"status": False, "message": "Invalid payload"}
 
         if email is None:
             return res, 400
@@ -71,7 +71,7 @@ class UserList(Resource):
             return res, 400
 
         new_user = create_user(email)
-        res["status"] = "success"
+        res["status"] = True
         res["message"] = f"{email} was added!"
         res["user"] = new_user.to_json()
         return res, 201
@@ -81,12 +81,12 @@ class UserList(Resource):
 class Users(Resource):
     @api.marshal_with(USER)
     @api.response(200, "Success")
-    @api.response(404, "User <user_id> does not exist")
+    @api.response(404, "Resource not found")
     def get(self, user_id):
         """Returns a single user"""
         user = get_user_by_id(user_id)
 
         if user is None:
-            api.abort(404, "User does not exist", status="fail")
+            api.abort(404, "Resource not found", status=False)
         else:
             return user, 200
