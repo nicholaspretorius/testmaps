@@ -81,3 +81,7 @@ Flake8 is for linting, black for formatting and isort for ordering of imports.
 * `heroku container:release web`
 * Visit `https://waketestmaps.herokuapp.com/api/1/hello`
 * `heroku run python manage.py reset_db`
+
+### Flask Admin
+
+* Visit `http://localhost:5001/admin/user/`
