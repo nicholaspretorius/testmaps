@@ -50,6 +50,7 @@ deploy:
     HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
   script:
     - apk add --no-cache curl
+    - chmod +x ./release.sh
     - docker build
       --tag $HEROKU_REGISTRY_IMAGE
       --file ./Dockerfile.prod
