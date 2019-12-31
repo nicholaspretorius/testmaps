@@ -11,7 +11,7 @@ def get_user_by_email(email):
 
 
 def get_user_by_id(id):
-    user = User.query.filter_by(id=id).first()
+    user = User.query.filter_by(id=int(id)).first()
     return user
 
 
