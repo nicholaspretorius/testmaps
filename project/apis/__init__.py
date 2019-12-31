@@ -15,18 +15,3 @@ api = Api(
 
 api.add_namespace(hello_api)
 api.add_namespace(users_api)
-
-
-# @api.errorhandler
-# def default_error_handler(err):
-#     message = "An unhandled error occurred."
-#     log.error(message)
-
-#     return {"message": message}, 500
-
-
-# @api.errorhandler(BadRequest)
-# def invalid_payload(err):
-#     """Invalid payload provided"""
-#     log("Error: ", err)
-#     return jsonify({"status": "fail", "error": 400, "message": "Invalid payload"}), 400
