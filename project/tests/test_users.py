@@ -124,3 +124,33 @@ def test_get_all_users(test_app, test_db):
     assert len(data) == 2
     assert "test4@test.com" in data[0]["email"]
     assert "test5@test.com" in data[1]["email"]
+
+
+def test_delete_user(test_app, test_db):
+    recreate_db()
+    add_user("test@test.com")
+    client = test_app.test_client()
+    res_one = client.get(f"{prefix}/users/")
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 200
+    assert len(data) == 1
+
+    res_two = client.delete(f"{prefix}/users/1")
+    data = json.loads(res_two.data.decode())
+    assert res_two.status_code == 200
+    assert data["status"]
+    assert "User was deleted." in data["message"]
+
+    res_three = client.get(f"{prefix}/users/")
+    data = json.loads(res_three.data.decode())
+    assert res_three.status_code == 200
+    assert len(data) == 0
+
+
+def test_delete_user_not_found(test_app, test_db):
+    client = test_app.test_client()
+    res = client.delete(f"{prefix}/users/999")
+    data = json.loads(res.data.decode())
+    assert res.status_code == 404
+    assert not data["status"]
+    assert "Resource not found" in data["message"]
