@@ -5,6 +5,7 @@ from flask_restplus import Namespace, Resource, fields
 
 from project.apis.services import (
     create_user,
+    delete_user,
     get_user_by_email,
     get_user_by_id,
     get_users,
@@ -92,3 +93,19 @@ class Users(Resource):
             api.abort(404, "Resource not found", status=False)
         else:
             return user, 200
+
+    @api.response(200, "Success")
+    @api.response(404, "Resource not found")
+    def delete(self, user_id):
+        """Deletes a single user"""
+        user = get_user_by_id(user_id)
+
+        if user is None:
+            api.abort(404, "Resource not found", status=False)
+        else:
+            delete_user(user)
+            return {
+                "status": True,
+                "message": "User was deleted.",
+                "user": user.to_json(),
+            }
