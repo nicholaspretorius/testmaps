@@ -1,0 +1,29 @@
+FROM python:3.7.4-alpine
+
+# install deps
+RUN apk update && \
+    apk add --virtual build-deps gcc python-dev musl-dev && \
+    apk add postgresql-dev && \
+    apk add netcat-openbsd
+
+# set working directory
+WORKDIR /usr/src/app
+
+# set env vars
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV FLASK_ENV production
+ENV APP_SETTINGS project.config.ProductionConfig
+
+# add and install requirements
+COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . /usr/src/app
+
+# add and run as non-root user
+RUN adduser -D myuser
+USER myuser
+
+# run g(reen)unicorn
+CMD gunicorn --bind 0.0.0.0:$PORT manage:app
