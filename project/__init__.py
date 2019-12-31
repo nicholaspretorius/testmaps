@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 # import sys
@@ -25,5 +25,9 @@ def create_app(script_info=None):
     @app.shell_context_processor
     def ctx():
         return {"app": app, "db": db}
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({"success": False, "message": "resource not found"}), 404
 
     return app
