@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.com/nicholaspretorius/testmaps/badges/master/pipeline.svg)](https://gitlab.com/https://gitlab.com/nicholaspretorius/testmaps/commits/master)
+
 ## Instructions
 
 * `python3.7 -m venv env`
@@ -36,6 +38,20 @@ Remove <none> Docker images:
 * `docker-compose exec api pytest "project/tests"`
 * `docker-compose exec api pytest "project/tests" --disable-warnings`
 * `docker-compose exec api pytest "project/tests" -p no:warnings`
+* `dc exec api pytest "project/tests" -p no:warnings --cov="project"`
+* `dc exec api pytest "project/tests" -p no:warnings --cov="project" --cov-report html`
+
+### Flake8, black, isort
+
+Flake8 is for linting, black for formatting and isort for ordering of imports.
+
+* `dc exec api flake8 project`
+* `dc exec api black project --check`
+* `dc exec api black project --diff`
+* `dc exec api black project`
+* `dc exec api /bin/sh -c "isort project/*/*.py --check-only"`
+* `dc exec api /bin/sh -c "isort project/*/*.py --diff"`
+* `dc exec api /bin/sh -c "isort project/*/*.py"`
 
 ### Run the shell
 
