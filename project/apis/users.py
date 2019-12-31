@@ -9,6 +9,7 @@ from project.apis.services import (
     get_user_by_email,
     get_user_by_id,
     get_users,
+    update_user,
 )
 
 api = Namespace("users", description="Users resource")
@@ -109,3 +110,32 @@ class Users(Resource):
                 "message": "User was deleted.",
                 "user": user.to_json(),
             }
+
+    @api.response(200, "Success")
+    @api.response(400, "Invalid payload")
+    @api.response(404, "Resource not found")
+    def put(self, user_id):
+        """Updates a single user"""
+        post_data = request.get_json()
+        email = post_data.get("email")
+        res = {"status": False, "message": "Invalid payload"}
+
+        user = get_user_by_id(user_id)
+
+        if user is None:
+            api.abort(404, "Resource not found", status=False)
+
+        if email is None:
+            return res, 400
+
+        valid_email = EMAIL_REGEX.match(email)
+
+        if valid_email is None:
+            res["message"] = "Please provide a valid email address"
+            return res, 400
+        else:
+            updated_user = update_user(user, email)
+            res["status"] = True
+            res["message"] = "User successfully updated."
+            res["user"] = updated_user.to_json()
+            return res, 200

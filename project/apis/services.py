@@ -21,6 +21,12 @@ def delete_user(user):
     return user
 
 
+def update_user(user, email):
+    user.email = email
+    db.session.commit()
+    return user
+
+
 def create_user(email):
     new_user = User(email=email)
     db.session.add(new_user)
