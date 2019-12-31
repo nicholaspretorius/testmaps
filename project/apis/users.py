@@ -1,7 +1,12 @@
 import re
 from flask import request
 from flask_restplus import fields, Namespace, Resource
-from project.apis.services import get_users, create_user, get_user_by_email
+from project.apis.services import (
+    get_users,
+    create_user,
+    get_user_by_email,
+    get_user_by_id,
+)
 
 api = Namespace("users", description="Users resource")
 
@@ -49,10 +54,9 @@ class UserList(Resource):
         """Create user"""
         post_data = request.get_json()
         email = post_data.get("email")
-        res = {"status": "fail"}
+        res = {"status": "fail", "message": "Invalid payload"}
 
         if email is None:
-            res["message"] = "Invalid payload"
             return res, 400
 
         valid_email = EMAIL_REGEX.match(email)
@@ -71,3 +75,18 @@ class UserList(Resource):
         res["message"] = f"{email} was added!"
         res["user"] = new_user.to_json()
         return res, 201
+
+
+@api.route("/<int:user_id>")
+class Users(Resource):
+    @api.marshal_with(USER)
+    @api.response(200, "Success")
+    @api.response(404, "User <user_id> does not exist")
+    def get(self, user_id):
+        """Returns a single user"""
+        user = get_user_by_id(user_id)
+
+        if user is None:
+            api.abort(404, "User does not exist", status="fail")
+        else:
+            return user, 200
