@@ -28,6 +28,6 @@ def create_app(script_info=None):
 
     @app.errorhandler(404)
     def not_found(error):
-        return jsonify({"success": False, "message": "resource not found"}), 404
+        return jsonify({"status": False, "message": "Resource not found"}), 404
 
     return app
