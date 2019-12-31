@@ -3,7 +3,7 @@ import re
 from flask import request
 from flask_restplus import Namespace, Resource, fields
 
-from project.apis.services import (
+from project.apis.users.services import (
     create_user,
     delete_user,
     get_user_by_email,

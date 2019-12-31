@@ -1,3 +1,4 @@
+import os
 from sqlalchemy.sql import func
 
 from project import db
@@ -20,3 +21,10 @@ class User(db.Model):
 
     def to_json(self):
         return {"id": self.id, "email": self.email, "active": self.active}
+
+
+if os.getenv("FLASK_ENV") == "development":
+    from project import admin
+    from project.apis.users.admin import UsersAdminView
+
+    admin.add_view(UsersAdminView(User, db.session))

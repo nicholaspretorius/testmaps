@@ -1,5 +1,5 @@
 from project import db
-from project.apis.models import User
+from project.apis.users.models import User
 
 
 def get_users():

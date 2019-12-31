@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask_restplus import Api
 
-from .hello import api as hello_api
-from .users import api as users_api
+from project.apis.hello import api as hello_api
+from project.apis.users.views import api as users_api
 
 blueprint = Blueprint("api", __name__)
 api = Api(

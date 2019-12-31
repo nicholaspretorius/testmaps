@@ -2,7 +2,7 @@ from flask.cli import FlaskGroup
 
 from project import create_app, db
 
-from project.apis.models import User
+from project.apis.users.models import User
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
