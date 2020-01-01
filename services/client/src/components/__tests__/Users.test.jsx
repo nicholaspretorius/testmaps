@@ -21,3 +21,8 @@ it("renders an email", () => {
   expect(getByText("test1@test.com")).toHaveClass("user-email");
   expect(getByText("test2@test.com")).toHaveClass("user-email");
 });
+
+it("renders", () => {
+  const { asFragment } = render(<Users users={users} />);
+  expect(asFragment()).toMatchSnapshot();
+});
