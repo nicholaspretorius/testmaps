@@ -63,7 +63,7 @@ class App extends React.Component {
               <AddUser
                 addUser={this.addUser}
                 email={this.state.email}
-                handleChange={this.handleChange}
+                onHandleChange={this.handleChange}
               />
               <hr />
               <br />

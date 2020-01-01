@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const AddUser = props => {
-  const { addUser, email, handleChange } = props;
+  const { addUser, email, onHandleChange } = props;
 
   return (
     <form onSubmit={e => addUser(e)}>
@@ -17,9 +17,9 @@ const AddUser = props => {
           className="input is-large"
           placeholder="Enter your email address"
           value={email}
-          onChange={handleChange}
+          onChange={onHandleChange}
           required
-        ></input>
+        />
       </div>
       <input type="submit" className="button is-primary is-large is-fullwidth" value="Submit" />
     </form>
@@ -28,7 +28,7 @@ const AddUser = props => {
 
 AddUser.propTypes = {
   email: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
+  onHandleChange: PropTypes.func.isRequired,
   addUser: PropTypes.func.isRequired
 };
 

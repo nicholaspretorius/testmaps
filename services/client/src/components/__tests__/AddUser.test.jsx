@@ -7,7 +7,7 @@ afterEach(cleanup);
 
 const props = {
   email: "",
-  handleChange: () => true,
+  onHandleChange: () => true,
   addUser: () => true
 };
 
