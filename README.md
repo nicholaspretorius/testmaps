@@ -20,6 +20,7 @@
 
 * `docker-compose up --build`
 * Check for api at: http://localhost:5001/hello
+* See logs `dc logs -f` (Ctrl + c to quit)
 
 Remove <none> Docker images: 
 
@@ -98,6 +99,13 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 * From /services/client run: `npm start`
 * Visit `http://localhost:3000`
 * `export REACT_APP_USERS_SERVICE_URL=http://localhost:5001/api/1`
+
+
+### Run on Docker
+
+* `export REACT_APP_USERS_SERVICE_URL=http://localhost:5001/api/1`
+* From project root run: `dc up --build`
+* Visit `http://localhost:3007`
 
 ### Tests
 
