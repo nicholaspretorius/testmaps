@@ -85,3 +85,22 @@ Flake8 is for linting, black for formatting and isort for ordering of imports.
 ### Flask Admin
 
 * Visit `http://localhost:5001/admin/user/`
+
+
+## Client
+
+Install dependencies with Yarn: `yarn install`
+
+Note: For some reason *create-react-app* running after an `npm install` has problems using *fsevents* with `npm test` and the client tests will not run. Using `yarn install` fixes this and `npm test` and `npm start` will work as expected.
+
+### Run on local
+
+* From /services/client run: `npm start`
+* Visit `http://localhost:3000`
+* `export REACT_APP_USERS_SERVICE_URL=http://localhost:5001/api/1`
+
+### Tests
+
+* From the /services/client folder run: `npm test`
+* Runs all tests in --watch mode 
+* Run with coverage: `./node_modules/.bin/react-scripts test --coverage`
