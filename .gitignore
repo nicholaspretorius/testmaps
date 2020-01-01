@@ -4,3 +4,4 @@ env
 *.log
 .coverage
 htmlcov/
+node_modules/
