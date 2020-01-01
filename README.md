@@ -117,3 +117,8 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 
 * `npm run lint`
 * `dc exec client npm run lint`
+
+### Formatting
+
+* `npm run prettier:check`
+* `npm run prettier:write`
