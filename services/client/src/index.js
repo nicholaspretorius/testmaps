@@ -3,15 +3,17 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 
 import Users from "./components/Users";
+import AddUser from "./components/AddUser";
 
 class App extends React.Component {
   state = {
-    users: []
+    users: [],
+    email: ""
   };
 
   getUsers() {
     axios
-      .get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
+      .get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/`)
       .then(res => {
         this.setState({ users: res.data });
       })
@@ -19,6 +21,30 @@ class App extends React.Component {
         console.log(err);
       });
   }
+
+  addUser = event => {
+    event.preventDefault();
+
+    const data = {
+      email: this.state.email
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/`, data)
+      .then(res => {
+        this.getUsers();
+        this.setState({ email: "" });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  handleChange = event => {
+    const obj = {};
+    obj[event.target.name] = event.target.value;
+    this.setState(obj);
+  };
 
   componentDidMount() {
     this.getUsers();
@@ -32,6 +58,13 @@ class App extends React.Component {
             <div className="column is-one-third">
               <br />
               <h1 className="title is-1 is-1">Users</h1>
+              <hr />
+              <br />
+              <AddUser
+                addUser={this.addUser}
+                email={this.state.email}
+                handleChange={this.handleChange}
+              />
               <hr />
               <br />
               <Users users={this.state.users} />
