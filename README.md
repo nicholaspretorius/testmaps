@@ -122,3 +122,5 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 
 * `npm run prettier:check`
 * `npm run prettier:write`
+* `dc exec client npm run prettier:check`
+* `dc exec client npm run prettier:write`
