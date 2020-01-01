@@ -6,7 +6,7 @@ const Users = props => {
   return (
     <div>
       {users.map(user => (
-        <p key={user.id} className="box title is-4 username">
+        <p key={user.id} className="box title is-4 user-email">
           {user.email}
         </p>
       ))}
