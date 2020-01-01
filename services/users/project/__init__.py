@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify
 from flask_admin import Admin
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
 # import sys
@@ -8,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 db = SQLAlchemy()
+cors = CORS()
 admin = Admin(template_mode="bootstrap3")
 
 
@@ -19,6 +21,7 @@ def create_app(script_info=None):
     app.config.from_object(app_settings)
 
     db.init_app(app)
+    cors.init_app(app, resources={r"*": {"origins": "*"}})
 
     if os.getenv("FLASK_ENV") == "development":
         admin.init_app(app)
