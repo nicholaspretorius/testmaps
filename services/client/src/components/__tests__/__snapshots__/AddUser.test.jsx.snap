@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <form>
+    <div
+      class="field"
+    >
+      <label
+        class="label is-large"
+        for="input-email"
+      >
+        Email
+      </label>
+      <input
+        class="input is-large"
+        id="input-email"
+        name="email"
+        placeholder="Enter your email address"
+        required=""
+        type="email"
+        value=""
+      />
+    </div>
+    <input
+      class="button is-primary is-large is-fullwidth"
+      type="submit"
+      value="Submit"
+    />
+  </form>
+</DocumentFragment>
+`;
