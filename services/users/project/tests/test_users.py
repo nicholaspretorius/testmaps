@@ -92,6 +92,7 @@ def test_single_user(test_app, test_db, add_user):
     assert res.status_code == 200
     assert str(user.id) in data["id"]
     assert "test3@test.com" in data["email"]
+    assert "password" not in data
 
 
 def test_single_user_not_found(test_app, test_db):
@@ -124,6 +125,8 @@ def test_get_all_users(test_app, test_db, add_user):
     assert len(data) == 2
     assert "test4@test.com" in data[0]["email"]
     assert "test5@test.com" in data[1]["email"]
+    assert "password" not in data[0]
+    assert "password" not in data[1]
 
 
 def test_delete_user(test_app, test_db, add_user):

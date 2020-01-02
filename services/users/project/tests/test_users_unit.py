@@ -1,9 +1,12 @@
 import json
 from datetime import datetime
 
-import pytest
+# import pytest
 
 import project.apis.users.views
+
+from project import bcrypt
+from project.apis.users.services import get_user_by_id
 
 prefix = "/api/1"
 
@@ -123,6 +126,7 @@ def test_single_user(test_app, monkeypatch):
     assert res.status_code == 200
     assert "1" in data["id"]
     assert "test@test.com" in data["email"]
+    assert "password" not in data
 
 
 def test_single_user_not_found(test_app, monkeypatch):
@@ -153,8 +157,27 @@ def test_single_user_no_id(test_app, monkeypatch):
     assert "Resource not found" in data["message"]
 
 
-def test_get_all_users(test_app, monkeypatch):
-    pass
+def test_get_all_users(test_app, test_db, monkeypatch, add_user):
+    def mock_get_users():
+        return [
+            {"id": "1", "email": "test@test.com"},
+            {"id": "2", "email": "test1@test.com"},
+        ]
+
+    monkeypatch.setattr(project.apis.users.views, "get_users", mock_get_users)
+
+    client = test_app.test_client()
+    add_user("test@test.com", "password")
+    add_user("test1@test.com", "password")
+
+    res = client.get(f"{prefix}/users/")
+    data = json.loads(res.data.decode())
+    assert res.status_code == 200
+    assert len(data) == 2
+    assert "test@test.com" in data[0]["email"]
+    assert "test1@test.com" in data[1]["email"]
+    assert "password" not in data[0]
+    assert "password" not in data[1]
 
 
 def test_delete_user(test_app, monkeypatch):
@@ -166,18 +189,74 @@ def test_delete_user_not_found(test_app, monkeypatch):
 
 
 def test_update_user(test_app, monkeypatch):
-    pass
+    class AttrDict(dict):
+        def __init__(self, *args, **kwargs):
+            super(AttrDict, self).__init__(*args, **kwargs)
+            self.__dict__ = self
+
+    def mock_get_user_by_id(user_id):
+        d = AttrDict()
+        d.update({
+            "id": 1,
+            "email": "test@test.com"
+        })
+        return d
+
+    def mock_update_user(user, email):
+        return True
+
+    monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
+    monkeypatch.setattr(project.apis.users.views, "update_user", mock_update_user)
+
+    client = test_app.test_client()
+    res_one = client.put(
+        "/users/1",
+        data=json.dumps({"email": "test@test.com"}),
+        content_type="application/json",
+    )
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 200
+    assert data["status"]
+    assert "User successfully updated." in data["message"]
+    assert data["user"]
+
+    res_two = client.get(f"{prefix}/users/1")
+    data = json.loads(res_two.data.decode())
+    assert res_two.status_code == 200
+    assert "test_updated@test.com" in data["email"]
 
 
-@pytest.mark.parametrize(
-    "user_id, payload, status_code, message",
-    [
-        [1, {}, 400, "Invalid payload"],
-        [1, {"blah": "test@test.com"}, 400, "Invalid payload"],
-        [999, {"email": "test_updated@test.com"}, 404, "Resource not found"],
-    ],
-)
-def test_update_user_invalid(
-    test_app, monkeypatch, user_id, payload, status_code, message
-):
-    pass
+def test_update_user_with_password(test_app, test_db, add_user):
+    # check password is NOT updated when updating user
+    password_one = "password"
+    password_two = "something"
+
+    user = add_user("test@test.com", password_one)
+    assert bcrypt.check_password_hash(user.password, password_one)
+
+    client = test_app.test_client()
+    res = client.put(
+        f"/users/{user.id}",
+        data=json.dumps({"email": "update@test.com", "password": password_two}),
+        content_type="application/json",
+    )
+
+    assert res.status_code == 200
+
+    user = get_user_by_id(user.id)
+    assert bcrypt.check_password_hash(user.password, password_one)
+    assert not bcrypt.check_password_hash(user.password, password_two)
+
+
+# @pytest.mark.parametrize(
+#     "user_id, payload, status_code, message",
+#     [
+#         [1, {}, 400, "Invalid payload"],
+#         [1, {"blah": "test@test.com"}, 400, "Invalid payload"],
+#         [999, {"email": "test_updated@test.com"}, 404, "Resource not found"],
+#     ],
+# )
+# def test_update_user_invalid(
+#     test_app, monkeypatch, user_id, payload, status_code, message
+# ):
+#     pass
