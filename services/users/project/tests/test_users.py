@@ -1,6 +1,6 @@
 import json
 
-from project.tests.utils import add_user, recreate_db
+from project.tests.utils import recreate_db
 
 prefix = "/api/1"
 
@@ -9,7 +9,7 @@ def test_add_user(test_app, test_db):
     client = test_app.test_client()
     res = client.post(
         f"{prefix}/users/",
-        data=json.dumps({"email": "test1@test.com"}),
+        data=json.dumps({"email": "test1@test.com", "password": "password"}),
         content_type="application/json",
     )
 
@@ -51,13 +51,13 @@ def test_add_user_duplicate_email(test_app, test_db):
 
     client.post(
         f"{prefix}/users/",
-        data=json.dumps({"email": "test2@test.com"}),
+        data=json.dumps({"email": "test2@test.com", "password": "password"}),
         content_type="application/json",
     )
 
     res = client.post(
         f"{prefix}/users/",
-        data=json.dumps({"email": "test2@test.com"}),
+        data=json.dumps({"email": "test2@test.com", "password": "password"}),
         content_type="application/json",
     )
 
@@ -72,7 +72,7 @@ def test_add_user_invalid_email(test_app, test_db):
 
     res = client.post(
         f"{prefix}/users/",
-        data=json.dumps({"email": "test"}),
+        data=json.dumps({"email": "test", "password": "password"}),
         content_type="application/json",
     )
 
@@ -82,9 +82,9 @@ def test_add_user_invalid_email(test_app, test_db):
     assert "Please provide a valid email address" in data["message"]
 
 
-def test_single_user(test_app, test_db):
+def test_single_user(test_app, test_db, add_user):
     recreate_db()
-    user = add_user("test3@test.com")
+    user = add_user("test3@test.com", "password")
 
     client = test_app.test_client()
     res = client.get(f"{prefix}/users/{user.id}")
@@ -112,11 +112,11 @@ def test_single_user_no_id(test_app, test_db):
     assert "Resource not found" in data["message"]
 
 
-def test_get_all_users(test_app, test_db):
+def test_get_all_users(test_app, test_db, add_user):
     recreate_db()
     client = test_app.test_client()
-    add_user("test4@test.com")
-    add_user("test5@test.com")
+    add_user("test4@test.com", "password")
+    add_user("test5@test.com", "password")
 
     res = client.get(f"{prefix}/users/")
     data = json.loads(res.data.decode())
@@ -126,9 +126,9 @@ def test_get_all_users(test_app, test_db):
     assert "test5@test.com" in data[1]["email"]
 
 
-def test_delete_user(test_app, test_db):
+def test_delete_user(test_app, test_db, add_user):
     recreate_db()
-    add_user("test@test.com")
+    add_user("test@test.com", "password")
     client = test_app.test_client()
     res_one = client.get(f"{prefix}/users/")
     data = json.loads(res_one.data.decode())
@@ -156,9 +156,9 @@ def test_delete_user_not_found(test_app, test_db):
     assert "Resource not found" in data["message"]
 
 
-def test_update_user(test_app, test_db):
+def test_update_user(test_app, test_db, add_user):
     recreate_db()
-    user = add_user("test@test.com")
+    user = add_user("test@test.com", "password")
     client = test_app.test_client()
     res_one = client.put(
         f"{prefix}/users/{user.id}",
@@ -192,9 +192,9 @@ def test_update_user_not_found(test_app, test_db):
     assert "Resource not found" in data["message"]
 
 
-def test_update_user_invalid_json(test_app, test_db):
+def test_update_user_invalid_json(test_app, test_db, add_user):
     recreate_db()
-    user = add_user("test@test.com")
+    user = add_user("test@test.com", "password")
     client = test_app.test_client()
     res = client.put(
         f"{prefix}/users/{user.id}",
@@ -208,9 +208,9 @@ def test_update_user_invalid_json(test_app, test_db):
     assert "Invalid payload" in data["message"]
 
 
-def test_update_user_invalid_json_keys(test_app, test_db):
+def test_update_user_invalid_json_keys(test_app, test_db, add_user):
     recreate_db()
-    user = add_user("test@test.com")
+    user = add_user("test@test.com", "password")
     client = test_app.test_client()
     res = client.put(
         f"{prefix}/users/{user.id}",
