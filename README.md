@@ -29,6 +29,8 @@ Remove <none> Docker images:
 ### Database
 
 * `docker-compose exec users python manage.py recreate_db`
+* `docker-compose exec users python manage.py seed_db`
+* `dc exec users python manage.py reset_db`
 * `docker-compose exec db psql -U postgres`
 * `\l` list the databases
 * `\c users_dev` connect to the 'users_dev' db
@@ -44,6 +46,12 @@ Remove <none> Docker images:
 * Rerun tests that failed in last run: `docker-compose exec users pytest "project/tests" --lf`
 * Run tests with only "config" in the name: `docker-compose exec users pytest "project/tests" -k config`
 * Run tests with only "production" in the name: `docker-compose exec users pytest "project/tests" -k production`
+* Stop tests after first failure: `docker-compose exec users pytest "project/tests" -x`
+* Enter PBD after first failure and end the test session: `docker-compose exec users pytest "project/tests" -x --pdb`
+* Stop after two failures: `docker-compose exec users pytest "project/tests" --maxfail=2`
+* Show local variables in traceback: `docker-compose exec users pytest "project/tests" -l`
+* List the two slowest tests: `docker-compose exec users pytest "project/tests"  --durations=2`
+
 
 ### Flake8, black, isort
 

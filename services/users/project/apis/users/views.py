@@ -59,9 +59,10 @@ class UserList(Resource):
         """Create user"""
         post_data = request.get_json()
         email = post_data.get("email")
+        password = post_data.get("password")
         res = {"status": False, "message": "Invalid payload"}
 
-        if email is None:
+        if email is None or password is None:
             return res, 400
 
         valid_email = EMAIL_REGEX.match(email)
@@ -75,7 +76,7 @@ class UserList(Resource):
             res["message"] = "Sorry, that email already exists."
             return res, 400
 
-        new_user = create_user(email)
+        new_user = create_user(email, password)
         res["status"] = True
         res["message"] = f"{email} was added!"
         res["user"] = new_user.to_json()

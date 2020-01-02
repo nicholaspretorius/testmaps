@@ -27,8 +27,8 @@ def update_user(user, email):
     return user
 
 
-def create_user(email):
-    new_user = User(email=email)
+def create_user(email, password):
+    new_user = User(email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
     return new_user
