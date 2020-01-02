@@ -2,7 +2,7 @@ FROM python:3.7.4-alpine
 
 # install dependencies
 RUN apk update && \
-    apk add __no-cache --virtual build-deps \
+    apk add --no-cache --virtual build-deps \
     openssl-dev libffi-dev gcc python3-dev musl-dev \
     postgresql-dev netcat-openbsd
 
