@@ -1,3 +1,4 @@
+from flask import current_app
 import os
 from sqlalchemy.sql import func
 
@@ -16,7 +17,9 @@ class User(db.Model):
 
     def __init__(self, email="", password=""):
         self.email = email
-        self.password = bcrypt.generate_password_hash(password).decode()
+        self.password = bcrypt.generate_password_hash(
+            password, current_app.config.get("BCRYPT_LOG_ROUNDS")
+        ).decode()
 
     def __repr__(self):
         return f"<User id: {self.id}, email: {self.email}>"

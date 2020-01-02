@@ -31,6 +31,10 @@ USER = api.model(
     },
 )
 
+USER_POST = api.inherit("User post", USER, {
+    "password": fields.String(required=True, description="A strong password, min of 8 chars, containing 1 upper, 1 lower, 1 alpha, 1 numeric, 1 special char", example="Xy67!abc")
+})
+
 # Not used at present
 error = api.model(
     "Error",
@@ -52,7 +56,7 @@ class UserList(Resource):
         return get_users(), 200
 
     # TODO: Refactor validation
-    @api.expect(USER, validate=False)
+    @api.expect(USER_POST, validate=False)
     @api.response(201, "<user_email> was added!")
     @api.response(400, "invalid payload")
     def post(self):
