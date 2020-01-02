@@ -28,7 +28,7 @@ Remove <none> Docker images:
 
 ### Database
 
-* `docker-compose exec api python manage.py recreate_db`
+* `docker-compose exec users python manage.py recreate_db`
 * `docker-compose exec db psql -U postgres`
 * `\l` list the databases
 * `\c users_dev` connect to the 'users_dev' db
@@ -36,27 +36,30 @@ Remove <none> Docker images:
 
 ### Run tests
 
-* `docker-compose exec api pytest "project/tests"`
-* `docker-compose exec api pytest "project/tests" --disable-warnings`
-* `docker-compose exec api pytest "project/tests" -p no:warnings`
-* `dc exec api pytest "project/tests" -p no:warnings --cov="project"`
-* `dc exec api pytest "project/tests" -p no:warnings --cov="project" --cov-report html`
+* `docker-compose exec users pytest "project/tests"`
+* `docker-compose exec users pytest "project/tests" --disable-warnings`
+* `docker-compose exec users pytest "project/tests" -p no:warnings`
+* `dc exec users pytest "project/tests" -p no:warnings --cov="project"`
+* `dc exec users pytest "project/tests" -p no:warnings --cov="project" --cov-report html`
+* Rerun tests that failed in last run: `docker-compose exec users pytest "project/tests" --lf`
+* Run tests with only "config" in the name: `docker-compose exec users pytest "project/tests" -k config`
+* Run tests with only "production" in the name: `docker-compose exec users pytest "project/tests" -k production`
 
 ### Flake8, black, isort
 
 Flake8 is for linting, black for formatting and isort for ordering of imports.
 
-* `dc exec api flake8 project`
-* `dc exec api black project --check`
-* `dc exec api black project --diff`
-* `dc exec api black project`
-* `dc exec api /bin/sh -c "isort project/*/*.py --check-only"`
-* `dc exec api /bin/sh -c "isort project/*/*.py --diff"`
-* `dc exec api /bin/sh -c "isort project/*/*.py"`
+* `dc exec users flake8 project`
+* `dc exec users black project --check`
+* `dc exec users black project --diff`
+* `dc exec users black project`
+* `dc exec users /bin/sh -c "isort project/*/*.py --check-only"`
+* `dc exec users /bin/sh -c "isort project/*/*.py --diff"`
+* `dc exec users /bin/sh -c "isort project/*/*.py"`
 
 ### Run the shell
 
-* `docker-compose exec api flask shell`
+* `docker-compose exec users flask shell`
 
 
 ### Logging
