@@ -1,9 +1,10 @@
 FROM python:3.7.4-alpine
 
+# install dependencies
 RUN apk update && \
-    apk add --virtual build-deps gcc python-dev musl-dev && \
-    apk add postgresql-dev && \
-    apk add netcat-openbsd
+    apk add __no-cache --virtual build-deps \
+    openssl-dev libffi-dev gcc python3-dev musl-dev \
+    postgresql-dev netcat-openbsd
 
 # set environment vars
 ENV PYTHONDONTWRITEBYTECODE 1
