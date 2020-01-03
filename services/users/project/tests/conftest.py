@@ -3,6 +3,7 @@ import pytest
 from project import create_app, db
 from project.apis.users.models import User
 
+
 # everything before yield is 'setup' and after yield is 'teardown'
 @pytest.fixture(scope="module")
 def test_app():
