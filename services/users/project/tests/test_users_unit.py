@@ -1,12 +1,13 @@
 import json
 from datetime import datetime
 
-# import pytest
-
 import project.apis.users.views
-
 from project import bcrypt
 from project.apis.users.services import get_user_by_id
+
+# import pytest
+
+
 
 prefix = "/api/1"
 
@@ -209,10 +210,7 @@ def test_update_user(test_app, monkeypatch):
     def mock_get_user_by_id(user_id):
         d = AttrDict()
         # TODO: Need to check whether this is *really* testing update...
-        d.update({
-            "id": 1,
-            "email": "update@test.com"
-        })
+        d.update({"id": 1, "email": "update@test.com"})
         return d
 
     def mock_update_user(user, email):
