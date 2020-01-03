@@ -12,7 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 cors = CORS()
 bcrypt = Bcrypt()
-admin = Admin(template_mode="bootstrap3")
+admin = Admin(name="Testmaps", template_mode="bootstrap3")
 
 
 def create_app(script_info=None):
