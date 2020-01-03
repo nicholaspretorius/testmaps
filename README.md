@@ -114,7 +114,7 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 
 ### Run on Docker
 
-* `export REACT_APP_USERS_SERVICE_URL=http://localhost:5001/api/1`
+* `export REACT_APP_USERS_SERVICE_URL=http://localhost:5001/api/1 && dc up --build`
 * From project root run: `dc up --build`
 * Visit `http://localhost:3007`
 
