@@ -1,5 +1,5 @@
-from flask import current_app
 import os
+from flask import current_app
 from sqlalchemy.sql import func
 
 from project import db, bcrypt
@@ -16,10 +16,13 @@ class User(db.Model):
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
 
     def __init__(self, email="", password=""):
+        print("Email: ", email)
+        print("Password: ", password)
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
+        # bcrypt.generate_password_hash(password).decode()
 
     def __repr__(self):
         return f"<User id: {self.id}, email: {self.email}>"
