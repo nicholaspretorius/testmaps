@@ -11,12 +11,18 @@ from project.apis.users.services import get_user_by_id
 prefix = "/api/1"
 
 
+class MockResponse:
+    @staticmethod
+    def to_json():
+        return {"id": 1, "email": "test@test.com"}
+
+
 def test_add_user(test_app, monkeypatch):
     def mock_get_user_by_email(email):
         return None
 
     def mock_create_user(email, password):
-        return True
+        return MockResponse()
 
     monkeypatch.setattr(
         project.apis.users.views, "get_user_by_email", mock_get_user_by_email
