@@ -5,10 +5,6 @@ import project.apis.users.views
 from project import bcrypt
 from project.apis.users.services import get_user_by_id
 
-# import pytest
-
-
-
 prefix = "/api/1"
 
 
