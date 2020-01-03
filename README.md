@@ -31,7 +31,7 @@ Remove <none> Docker images:
 * `docker-compose exec users python manage.py recreate_db`
 * `docker-compose exec users python manage.py seed_db`
 * `dc exec users python manage.py reset_db`
-* `docker-compose exec db psql -U postgres`
+* `docker-compose exec users-db psql -U postgres`
 * `\l` list the databases
 * `\c users_dev` connect to the 'users_dev' db
 * `\dt` list relations for that db
