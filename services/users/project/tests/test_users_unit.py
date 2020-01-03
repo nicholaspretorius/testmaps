@@ -11,10 +11,16 @@ from project.apis.users.services import get_user_by_id
 prefix = "/api/1"
 
 
-class MockResponse:
+class MockResponsePost:
     @staticmethod
     def to_json():
         return {"id": 1, "email": "test@test.com"}
+
+
+class MockResponsePut:
+    @staticmethod
+    def to_json():
+        return {"id": 1, "email": "update@test.com"}
 
 
 def test_add_user(test_app, monkeypatch):
@@ -22,7 +28,7 @@ def test_add_user(test_app, monkeypatch):
         return None
 
     def mock_create_user(email, password):
-        return MockResponse()
+        return MockResponsePost()
 
     monkeypatch.setattr(
         project.apis.users.views, "get_user_by_email", mock_get_user_by_email
@@ -202,22 +208,23 @@ def test_update_user(test_app, monkeypatch):
 
     def mock_get_user_by_id(user_id):
         d = AttrDict()
+        # TODO: Need to check whether this is *really* testing update...
         d.update({
             "id": 1,
-            "email": "test@test.com"
+            "email": "update@test.com"
         })
         return d
 
     def mock_update_user(user, email):
-        return True
+        return MockResponsePut()
 
     monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
     monkeypatch.setattr(project.apis.users.views, "update_user", mock_update_user)
 
     client = test_app.test_client()
     res_one = client.put(
-        "/users/1",
-        data=json.dumps({"email": "test@test.com"}),
+        f"{prefix}/users/1",
+        data=json.dumps({"email": "update@test.com"}),
         content_type="application/json",
     )
     data = json.loads(res_one.data.decode())
@@ -229,7 +236,7 @@ def test_update_user(test_app, monkeypatch):
     res_two = client.get(f"{prefix}/users/1")
     data = json.loads(res_two.data.decode())
     assert res_two.status_code == 200
-    assert "test_updated@test.com" in data["email"]
+    assert "update@test.com" in data["email"]
 
 
 def test_update_user_with_password(test_app, test_db, add_user):
@@ -242,7 +249,7 @@ def test_update_user_with_password(test_app, test_db, add_user):
 
     client = test_app.test_client()
     res = client.put(
-        f"/users/{user.id}",
+        f"{prefix}/users/{user.id}",
         data=json.dumps({"email": "update@test.com", "password": password_two}),
         content_type="application/json",
     )
