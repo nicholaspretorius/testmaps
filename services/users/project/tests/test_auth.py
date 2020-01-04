@@ -236,6 +236,23 @@ def test_user_status_invalid(test_app, test_db):
     assert not data["status"]
 
 
+def test_user_status_invalid_no_bearer(test_app, test_db):
+    recreate_db()
+    client = test_app.test_client()
+
+    res = client.get(
+        f"{prefix}/auth/status",
+        headers={"Authorization": f"invalid"},
+        content_type="application/json",
+    )
+
+    data = json.loads(res.data.decode())
+    assert res.status_code == 401
+    assert res.content_type == "application/json"
+    assert "Invalid header." in data["message"]
+    assert not data["status"]
+
+
 def test_user_status_no_token(test_app, test_db):
     recreate_db()
     client = test_app.test_client()
