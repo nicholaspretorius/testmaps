@@ -18,7 +18,7 @@ EMAIL_REGEX = re.compile(r"\S+@\S+\.\S+")
 
 # flask_resplus models
 USER = api.model(
-    "User",
+    "USER",
     {
         "id": fields.String(
             readOnly=True, description="The user identifier", example="1"
@@ -31,8 +31,8 @@ USER = api.model(
     },
 )
 
-USER_POST = api.inherit(
-    "User post",
+USER_FULL = api.inherit(
+    "USER_FULL",
     USER,
     {
         "password": fields.String(
@@ -62,7 +62,7 @@ class UserList(Resource):
         return get_users(), 200
 
     # TODO: Refactor validation
-    @api.expect(USER_POST, validate=False)
+    @api.expect(USER_FULL, validate=False)
     @api.response(201, "<user_email> was added!")
     @api.response(400, "invalid payload")
     def post(self):
