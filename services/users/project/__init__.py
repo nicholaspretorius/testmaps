@@ -46,4 +46,8 @@ def create_app(script_info=None):
     def not_found(error):
         return jsonify({"status": False, "message": "Resource not found"}), 404
 
+    @app.errorhandler(500)
+    def internal_error(error):
+        return jsonify({"status": False, "message": f"Internal error: {error}"}), 500
+
     return app
