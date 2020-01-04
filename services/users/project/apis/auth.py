@@ -1,17 +1,19 @@
+import jwt
 import re
 
 from flask import request
 from flask_restplus import Namespace, Resource, fields
 
 from project import bcrypt
-from project.apis.users.services import create_user, get_user_by_email
+from project.apis.users.models import User
+from project.apis.users.services import create_user, get_user_by_email, get_user_by_id
 
 api = Namespace("auth", description="Authorisation resource")
 
 EMAIL_REGEX = re.compile(r"\S+@\S+\.\S+")
 
-USER = api.model(
-    "User",
+REGISTER = api.model(
+    "REGISTER",
     {
         "id": fields.String(
             readOnly=True, description="The user identifier", example="1"
@@ -24,9 +26,9 @@ USER = api.model(
     },
 )
 
-USER_POST = api.inherit(
-    "User Post",
-    USER,
+LOGIN = api.inherit(
+    "LOGIN",
+    REGISTER,
     {
         "password": fields.String(
             required=True, description="A strong password", example="Xy67!abc"
@@ -35,12 +37,12 @@ USER_POST = api.inherit(
 )
 
 REFRESH = api.model(
-    "Refresh",
+    "REFRESH",
     {"refresh_token": fields.String(required=True, description="JWT Refresh token")},
 )
 
 TOKENS = api.inherit(
-    "Refresh",
+    "TOKENS",
     REFRESH,
     {"access_token": fields.String(required=True, description="JWT Access token")},
 )
@@ -49,7 +51,7 @@ TOKENS = api.inherit(
 @api.route("/register")
 class Register(Resource):
     # @api.marshal_with(USER)
-    @api.expect(USER_POST, validate=False)
+    @api.expect(LOGIN, validate=False)
     @api.response(201, "Success")
     # @api.response(400, "Sorry, that email already exists.")
     @api.response(400, "Invalid payload")
@@ -86,7 +88,7 @@ class Register(Resource):
 @api.route("/login")
 class Login(Resource):
     # @api.marshal_with(TOKENS)
-    @api.expect(USER_POST, validate=False)
+    @api.expect(LOGIN, validate=False)
     @api.response(200, "Success")
     @api.response(400, "Invalid payload")
     # @api.response(400, "Please provide a valid email address")
@@ -109,18 +111,18 @@ class Login(Resource):
             return res, 400
 
         current_user = get_user_by_email(email)
-        if current_user is None or bcrypt.check_password_hash(
+        if current_user is None or not bcrypt.check_password_hash(
             current_user.password, password
         ):
             res["message"] = "User does not exist."
-            return res, 400
+            return res, 404
 
         access_token = current_user.encode_token(current_user.id, "access")
         refresh_token = current_user.encode_token(current_user.id, "refresh")
 
         res = {
-            "access_token": access_token,
-            "refresh_token": refresh_token,
+            "access_token": access_token.decode(),
+            "refresh_token": refresh_token.decode(),
         }
 
         return res, 200
@@ -128,8 +130,42 @@ class Login(Resource):
 
 @api.route("/refresh")
 class Refresh(Resource):
+    @api.expect(REFRESH, validate=False)
+    @api.response(200, "Success")
+    @api.response(400, "Invalid payload")
+    @api.response(401, "Invalid (token)")
     def post(self):
-        pass
+        post_data = request.get_json()
+        refresh_token = post_data.get("refresh_token")
+        res = {"status": False, "message": "Invalid payload."}
+
+        if refresh_token is None:
+            return res, 400
+
+        try:
+            resp = User.decode_token(refresh_token)
+            user = get_user_by_id(resp)
+
+            if not user:
+                res["message"] = "Invalid token."
+                return res, 400
+
+            access_token = user.encode_token(user.id, "access")
+            refresh_token = user.encode_token(user.id, "refresh")
+
+            res = {
+                "access_token": access_token.decode(),
+                "refresh_token": refresh_token.decode(),
+            }
+
+            return res, 200
+
+        except jwt.ExpiredSignatureError:
+            res["message"] = "Signature expired. Please login again."
+            return res, 401
+        except jwt.InvalidTokenError:
+            res["message"] = "Invalid token. Please login again."
+            return res, 401
 
 
 @api.route("/status")
