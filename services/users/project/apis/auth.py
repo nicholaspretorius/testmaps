@@ -1,6 +1,6 @@
-import jwt
 import re
 
+import jwt
 from flask import request
 from flask_restplus import Namespace, Resource, fields
 

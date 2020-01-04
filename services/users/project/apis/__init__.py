@@ -1,9 +1,9 @@
 from flask import Blueprint
 from flask_restplus import Api
 
+from project.apis.auth import api as auth_api
 from project.apis.hello import api as hello_api
 from project.apis.users.views import api as users_api
-from project.apis.auth import api as auth_api
 
 blueprint = Blueprint("api", __name__)
 api = Api(

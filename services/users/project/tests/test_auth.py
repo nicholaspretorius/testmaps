@@ -1,9 +1,11 @@
 import json
-import pytest
-# import time
 
+import pytest
 from flask import current_app
+
 from project.tests.utils import recreate_db
+
+# import time
 
 prefix = "/api/1"
 
@@ -182,7 +184,7 @@ def test_invalid_refresh_invalid_payload(test_app, test_db, add_user):
     client = test_app.test_client()
 
     res_refresh = client.post(
-        f"{prefix}/auth/refresh", data=json.dumps({}), content_type="application/json",
+        f"{prefix}/auth/refresh", data=json.dumps({}), content_type="application/json"
     )
 
     data = json.loads(res_refresh.data.decode())
@@ -197,9 +199,7 @@ def test_user_status_valid(test_app, test_db, add_user):
     client = test_app.test_client()
     res_login = client.post(
         f"{prefix}/auth/login",
-        data=json.dumps({
-            "email": "test@test.com", "password": "password"
-        }),
+        data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
 
@@ -257,10 +257,7 @@ def test_user_status_no_token(test_app, test_db):
     recreate_db()
     client = test_app.test_client()
 
-    res = client.get(
-        f"{prefix}/auth/status",
-        content_type="application/json",
-    )
+    res = client.get(f"{prefix}/auth/status", content_type="application/json")
 
     data = json.loads(res.data.decode())
     assert res.status_code == 403
