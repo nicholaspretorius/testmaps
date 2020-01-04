@@ -1,6 +1,8 @@
 import json
 import pytest
+# import time
 
+from flask import current_app
 from project.tests.utils import recreate_db
 
 prefix = "/api/1"
@@ -93,7 +95,7 @@ def test_user_login_not_registered(test_app, test_db):
     client = test_app.test_client()
     res = client.post(
         f"{prefix}/auth/login",
-        data=json.dumps({"email": "test@test.com", "password": "password"}),
+        data=json.dumps({"email": "whaddayaknow@test.com", "password": "password"}),
         content_type="application/json",
     )
 
@@ -102,3 +104,88 @@ def test_user_login_not_registered(test_app, test_db):
     assert res.content_type == "application/json"
     assert "User does not exist." in data["message"]
     assert not data["status"]
+
+
+def test_valid_refresh(test_app, test_db, add_user):
+    recreate_db()
+    add_user("test@test.com", "password")
+    client = test_app.test_client()
+
+    res_login = client.post(
+        f"{prefix}/auth/login",
+        data=json.dumps({"email": "test@test.com", "password": "password"}),
+        content_type="application/json",
+    )
+
+    data = json.loads(res_login.data.decode())
+    refresh_token = json.loads(res_login.data.decode())["refresh_token"]
+
+    res = client.post(
+        f"{prefix}/auth/refresh",
+        data=json.dumps({"refresh_token": refresh_token}),
+        content_type="application/json",
+    )
+
+    data = json.loads(res.data.decode())
+    assert res.status_code == 200
+    assert res.content_type == "application/json"
+    assert data["access_token"]
+    assert data["refresh_token"]
+
+
+def test_invalid_refresh_expired_token(test_app, test_db, add_user):
+    recreate_db()
+    add_user("test@test.com", "password")
+    current_app.config["REFRESH_TOKEN_EXPIRATION"] = -1
+    client = test_app.test_client()
+
+    res_login = client.post(
+        f"{prefix}/auth/login",
+        data=json.dumps({"email": "test@test.com", "password": "password"}),
+        content_type="application/json",
+    )
+
+    # time.sleep(4)
+    data = json.loads(res_login.data.decode())
+    refresh_token = json.loads(res_login.data.decode())["refresh_token"]
+
+    res_refresh = client.post(
+        f"{prefix}/auth/refresh",
+        data=json.dumps({"refresh_token": refresh_token}),
+        content_type="application/json",
+    )
+
+    data = json.loads(res_refresh.data.decode())
+    assert res_refresh.status_code == 401
+    assert res_refresh.content_type == "application/json"
+    assert "Signature expired. Please login again." in data["message"]
+
+
+def test_invalid_refresh_invalid_token(test_app, test_db, add_user):
+    recreate_db()
+    client = test_app.test_client()
+
+    res_refresh = client.post(
+        f"{prefix}/auth/refresh",
+        data=json.dumps({"refresh_token": "invalid"}),
+        content_type="application/json",
+    )
+
+    data = json.loads(res_refresh.data.decode())
+    assert res_refresh.status_code == 401
+    assert res_refresh.content_type == "application/json"
+    assert "Invalid token. Please login again." in data["message"]
+
+
+def test_invalid_refresh_invalid_payload(test_app, test_db, add_user):
+    recreate_db()
+    client = test_app.test_client()
+
+    res_refresh = client.post(
+        f"{prefix}/auth/refresh", data=json.dumps({}), content_type="application/json",
+    )
+
+    data = json.loads(res_refresh.data.decode())
+    assert res_refresh.status_code == 400
+    assert res_refresh.content_type == "application/json"
+    assert "Invalid payload." in data["message"]
