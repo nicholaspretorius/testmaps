@@ -135,6 +135,7 @@ class Refresh(Resource):
     @api.response(400, "Invalid payload")
     @api.response(401, "Invalid (token)")
     def post(self):
+        """Refresh token"""
         post_data = request.get_json()
         refresh_token = post_data.get("refresh_token")
         res = {"status": False, "message": "Invalid payload."}
@@ -170,8 +171,35 @@ class Refresh(Resource):
 
 @api.route("/status")
 class Status(Resource):
+    # @api.marshal_with(REGISTER)
+    @api.response(200, "Success")
+    @api.response(401, "Invalid token")
+    @api.response(401, "Access token required")
     def get(self):
-        pass
+        """Get user status"""
+        auth_header = request.headers.get("Authorization")
+        res = {"status": False, "message": "Invalid payload."}
+
+        if auth_header:
+            try:
+                access_token = auth_header.split(" ")[1]
+                resp = User.decode_token(access_token)
+                user = get_user_by_id(resp)
+
+                if not user:
+                    res["message"] = "Invalid token. Please login."
+                    return res, 401
+
+                return user.to_json(), 200
+            except jwt.ExpiredSignatureError:
+                res["message"] = "Signature expired. Please login again."
+                return res, 401
+            except jwt.InvalidTokenError:
+                res["message"] = "Invalid token. Please login again."
+                return res, 401
+        else:
+            res["message"] = "Access token required."
+            return res, 403
 
 
 api.add_resource(Register)
