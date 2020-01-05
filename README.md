@@ -5,15 +5,26 @@
 * `python3.7 -m venv env`
 * `source env/bin/activate`
 * `pip list`
-* `pip install flask-restplus`
+* `pip install -r requirements.txt`
 
 ### Swagger
 
-* See Swagger docs at: http://localhost:5001/swagger
+* See Swagger docs at: http://localhost:5001/api/1/docs
+
+### Setup Local DB
+
+If you are not using Docker, you can run the app locally as follows:
+
+* `dropdb users_dev -p 5433`
+* `createdb users_dev -p 5433`
+* `python manage.py recreate_db`
+* `python manage.py seed_db`
+* Comment line #22 and uncomment line #23 of config.py
 
 ### Run Local
 
 * `export FLASK_APP=project/__init__.py`
+* `export APP_SETTINGS=project.config.DevelopmentConfig`
 * `python manage.py run`
 
 ### Run docker-compose
