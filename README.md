@@ -25,6 +25,7 @@ If you are not using Docker, you can run the app locally as follows:
 
 * `export FLASK_APP=project/__init__.py`
 * `export APP_SETTINGS=project.config.DevelopmentConfig`
+* `export FLASK_ENV=development`
 * `python manage.py run`
 
 ### Run docker-compose
@@ -88,10 +89,6 @@ Flake8 is for linting, black for formatting and isort for ordering of imports.
 * Levels: info, debug, error
 * Check the logging.conf file for how `console` and `file` are setup as handlers. 
 
-### View Swagger
-
-* `http://localhost:5001/api/1/docs`
-
 
 ### Run production Dockerfile
 
@@ -118,9 +115,9 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 
 ### Run on local
 
+* `export REACT_APP_USERS_SERVICE_URL=http://localhost:5000/api/1`
 * From /services/client run: `npm start`
 * Visit `http://localhost:3000`
-* `export REACT_APP_USERS_SERVICE_URL=http://localhost:5001/api/1`
 
 
 ### Run on Docker
