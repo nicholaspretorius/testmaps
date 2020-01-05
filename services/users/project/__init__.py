@@ -8,7 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 # import sys
 # print(app.config, file=sys.stderr)
 
-
 db = SQLAlchemy()
 cors = CORS()
 bcrypt = Bcrypt()
