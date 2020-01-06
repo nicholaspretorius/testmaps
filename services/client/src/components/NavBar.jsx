@@ -40,7 +40,11 @@ const NavBar = props => {
           </Link>
         </div>
         <div className="navbar-end">
-          <span onClick={logoutUser} className="navbar-item link" data-testid="nav-logout">
+          <span
+            onClick={logoutUser}
+            className="navbar-item link"
+            data-testid="nav-logout"
+          >
             Logout
           </span>
         </div>
@@ -49,7 +53,11 @@ const NavBar = props => {
   }
 
   return (
-    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
+    <nav
+      className="navbar is-dark"
+      role="navigation"
+      aria-label="main navigation"
+    >
       <section className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item nav-title" style={titleStyle}>

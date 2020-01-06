@@ -51,7 +51,8 @@ class UserStatus extends Component {
             <strong>Id:</strong> <span data-testid="user-id">{id}</span>
           </li>
           <li>
-            <strong>Email:</strong> <span data-testid="user-email">{email}</span>
+            <strong>Email:</strong>{" "}
+            <span data-testid="user-email">{email}</span>
           </li>
         </ul>
       </div>

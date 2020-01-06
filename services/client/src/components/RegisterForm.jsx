@@ -56,7 +56,9 @@ const RegisterForm = props => {
                   type="email"
                   name="email"
                   id="input-email"
-                  className={errors.email && touched.email ? "input error" : "input"}
+                  className={
+                    errors.email && touched.email ? "input error" : "input"
+                  }
                   placeholder="Enter your email address"
                   value={values.email}
                   onChange={handleChange}
@@ -76,7 +78,11 @@ const RegisterForm = props => {
                   type="password"
                   name="password"
                   id="input-password"
-                  className={errors.password && touched.password ? "input error" : "input"}
+                  className={
+                    errors.password && touched.password
+                      ? "input error"
+                      : "input"
+                  }
                   placeholder="Enter your password"
                   value={values.password}
                   onChange={handleChange}

@@ -21,7 +21,9 @@ describe("renders", () => {
   });
 
   it("with default props", () => {
-    const { getByLabelText, getByText } = renderWithRouter(<LoginForm {...props} />);
+    const { getByLabelText, getByText } = renderWithRouter(
+      <LoginForm {...props} />
+    );
 
     const emailInput = getByLabelText("Email");
     expect(emailInput).toHaveAttribute("type", "email");
@@ -61,8 +63,12 @@ describe("handles form validation correctly", () => {
     fireEvent.blur(emailInput);
     fireEvent.blur(passwordInput);
 
-    expect((await findByTestId("errors-email")).innerHTML).toBe("Email is required.");
-    expect((await findByTestId("errors-password")).innerHTML).toBe("Password is required.");
+    expect((await findByTestId("errors-email")).innerHTML).toBe(
+      "Email is required."
+    );
+    expect((await findByTestId("errors-password")).innerHTML).toBe(
+      "Password is required."
+    );
 
     fireEvent.submit(form);
 
@@ -84,7 +90,9 @@ describe("handles form validation correctly", () => {
     fireEvent.change(emailInput, { target: { value: "invalid" } });
     fireEvent.blur(emailInput);
 
-    expect((await findByTestId("errors-email")).innerHTML).toBe("Please enter a valid email.");
+    expect((await findByTestId("errors-email")).innerHTML).toBe(
+      "Please enter a valid email."
+    );
 
     fireEvent.submit(form);
 
@@ -124,7 +132,9 @@ describe("handles form validation correctly", () => {
   });
 
   it("when fields are valid", async () => {
-    const { getByLabelText, container } = renderWithRouter(<LoginForm {...mockProps} />);
+    const { getByLabelText, container } = renderWithRouter(
+      <LoginForm {...mockProps} />
+    );
 
     const form = container.querySelector("form");
     const emailInput = getByLabelText("Email");

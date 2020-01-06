@@ -110,7 +110,11 @@ class App extends React.Component {
 
     return (
       <div>
-        <NavBar title={title} logoutUser={this.logoutUser} isAuthenticated={this.isAuthenticated} />
+        <NavBar
+          title={title}
+          logoutUser={this.logoutUser}
+          isAuthenticated={this.isAuthenticated}
+        />
         <section className="section">
           <div className="container">
             <div className="columns">
@@ -130,7 +134,9 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                        onHandleRegisterFormSubmit={
+                          this.handleRegisterFormSubmit
+                        }
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
