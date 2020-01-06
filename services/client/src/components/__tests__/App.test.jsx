@@ -6,6 +6,6 @@ import App from "./../App";
 afterEach(cleanup);
 
 it("renders", () => {
-  const { asFragment } = render(<App />);
+  const { asFragment } = renderWithRouter(<App />);
   expect(asFragment()).toMatchSnapshot();
 });
