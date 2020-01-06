@@ -124,9 +124,7 @@ describe("handles form validation correctly", () => {
   });
 
   it("when fields are valid", async () => {
-    const { getByLabelText, container, findByTestId } = renderWithRouter(
-      <RegisterForm {...mockProps} />
-    );
+    const { getByLabelText, container } = renderWithRouter(<RegisterForm {...mockProps} />);
 
     const form = container.querySelector("form");
     const emailInput = getByLabelText("Email");

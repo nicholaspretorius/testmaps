@@ -32,7 +32,7 @@ const LoginForm = props => {
             .required("Email is required.")
             .min(6, "Email must be 6 or more characters."),
           password: Yup.string()
-            .required("Password is required")
+            .required("Password is required.")
             .min(8, "Password must be 8 or more characters.")
         })}
       >
@@ -56,16 +56,16 @@ const LoginForm = props => {
                   type="email"
                   name="email"
                   id="input-email"
-                  className={
-                    errors.email && touched.email ? "input error" : "input"
-                  }
+                  className={errors.email && touched.email ? "input error" : "input"}
                   placeholder="Enter your email address"
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
                 {errors.email && touched.email && (
-                  <div className="input-feedback">{errors.email}</div>
+                  <div className="input-feedback" data-testid="errors-email">
+                    {errors.email}
+                  </div>
                 )}
               </div>
               <div className="field">
@@ -76,18 +76,16 @@ const LoginForm = props => {
                   type="password"
                   name="password"
                   id="input-password"
-                  className={
-                    errors.password && touched.password
-                      ? "input error"
-                      : "input"
-                  }
+                  className={errors.password && touched.password ? "input error" : "input"}
                   placeholder="Enter your password"
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
                 {errors.password && touched.password && (
-                  <div className="input-feedback">{errors.password}</div>
+                  <div className="input-feedback" data-testid="errors-password">
+                    {errors.password}
+                  </div>
                 )}
               </div>
 
