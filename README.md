@@ -34,9 +34,13 @@ If you are not using Docker, you can run the app locally as follows:
 * Check for api at: http://localhost:5001/hello
 * See logs `dc logs -f` (Ctrl + c to quit)
 
-Remove <none> Docker images: 
 
-* `docker rmi $(docker images -f "dangling=true" -q)`
+#### Docker Housekeeping
+
+* Show Docker disk usage: `docker system df`
+* Remove <none> Docker images: `docker rmi $(docker images -f "dangling=true" -q)`
+* Removed unused volumes: `docker volume prune`
+* Removed unused Docker resource: `docker system prune`
 
 ### Database
 
