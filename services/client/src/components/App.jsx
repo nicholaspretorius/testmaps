@@ -1,8 +1,10 @@
 import React from "react";
+import { Switch, Route } from "react-router-dom";
 import axios from "axios";
 
 import Users from "./Users";
 import AddUser from "./AddUser";
+import About from "./About";
 
 class App extends React.Component {
   state = {
@@ -17,7 +19,7 @@ class App extends React.Component {
         this.setState({ users: res.data });
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -35,7 +37,7 @@ class App extends React.Component {
         this.setState({ email: "" });
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -56,17 +58,28 @@ class App extends React.Component {
           <div className="columns">
             <div className="column is-one-third">
               <br />
-              <h1 className="title is-1 is-1">Users</h1>
-              <hr />
-              <br />
-              <AddUser
-                addUser={this.addUser}
-                email={this.state.email}
-                onHandleChange={this.handleChange}
-              />
-              <hr />
-              <br />
-              <Users users={this.state.users} />
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => (
+                    <div>
+                      <h1 className="title is-1 is-1">Users</h1>
+                      <hr />
+                      <br />
+                      <AddUser
+                        addUser={this.addUser}
+                        email={this.state.email}
+                        onHandleChange={this.handleChange}
+                      />
+                      <hr />
+                      <br />
+                      <Users users={this.state.users} />
+                    </div>
+                  )}
+                />
+                <Route exact path="/about" component={About} />
+              </Switch>
             </div>
           </div>
         </div>
