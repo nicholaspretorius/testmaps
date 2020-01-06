@@ -9,12 +9,15 @@ import About from "./About";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import UserStatus from "./UserStatus";
+import Message from "./Message";
 
 class App extends React.Component {
   state = {
     users: [],
     title: "Testmaps",
-    accessToken: null
+    accessToken: null,
+    messageType: null,
+    messageText: null
   };
 
   getUsers() {
@@ -33,9 +36,11 @@ class App extends React.Component {
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/`, data)
       .then(res => {
         this.getUsers();
+        this.createMessage("success", "User added.");
       })
       .catch(err => {
         // console.log(err);
+        this.createMessage("danger", "That user already exists.");
       });
   };
 
@@ -44,11 +49,13 @@ class App extends React.Component {
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/register`, data)
       .then(res => {
         console.log("Register: ", res.data);
+        this.createMessage("success", "You have successfully registered.");
         this.setState({ accessToken: res.data.access_token });
         this.getUsers();
       })
       .catch(err => {
         console.log(err);
+        this.createMessage("danger", "That user already exists.");
       });
   };
 
@@ -58,11 +65,13 @@ class App extends React.Component {
       .then(res => {
         console.log("Login: ", res.data);
         this.setState({ accessToken: res.data.access_token });
+        this.createMessage("success", "You have logged in successfully.");
         this.getUsers();
         window.localStorage.setItem("refreshToken", res.data.refresh_token);
       })
       .catch(err => {
         console.log(err);
+        this.createMessage("danger", "Incorrect email and/or password.");
       });
   };
 
@@ -99,6 +108,26 @@ class App extends React.Component {
     window.localStorage.removeItem("refreshToken");
     this.setState({ accessToken: null });
     console.log("Logout...");
+    this.createMessage("success", "You have logged out.");
+  };
+
+  createMessage = (type, text) => {
+    this.setState({
+      messageType: type,
+      messageText: text
+    });
+
+    // removeMessage after 3 seconds
+    setTimeout(() => {
+      this.removeMessage();
+    }, 3000);
+  };
+
+  removeMessage = () => {
+    this.setState({
+      messageType: null,
+      messageText: null
+    });
   };
 
   componentDidMount() {
@@ -117,6 +146,13 @@ class App extends React.Component {
         />
         <section className="section">
           <div className="container">
+            {this.state.messageType && this.state.messageText && (
+              <Message
+                messageType={this.state.messageType}
+                messageText={this.state.messageText}
+                removeMessage={this.removeMessage}
+              />
+            )}
             <div className="columns">
               <div className="column is-one-third">
                 <br />

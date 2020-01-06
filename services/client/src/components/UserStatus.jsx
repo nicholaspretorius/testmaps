@@ -25,7 +25,6 @@ class UserStatus extends Component {
 
     return axios(options)
       .then(res => {
-        console.log("User status: ", res.data);
         this.setState({
           id: res.data.id,
           email: res.data.email
