@@ -42,6 +42,7 @@ class App extends React.Component {
     axios
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/register`, data)
       .then(res => {
+        console.log("Register: ", res.data);
         this.setState({ accessToken: res.data.access_token });
         this.getUsers();
       })
@@ -57,17 +58,46 @@ class App extends React.Component {
         console.log("Login: ", res.data);
         this.setState({ accessToken: res.data.access_token });
         this.getUsers();
+        window.localStorage.setItem("refreshToken", res.data.refresh_token);
       })
       .catch(err => {
         console.log(err);
       });
   };
 
+  validRefresh = () => {
+    const token = window.localStorage.getItem("refreshToken");
+
+    if (token) {
+      axios
+        .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/refresh`, {
+          refresh_token: token
+        })
+        .then(res => {
+          this.setState({ accessToken: res.data.access_token });
+          this.getUsers();
+          window.localStorage.setItem("refreshToken", res.data.refresh_token);
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          return false;
+        });
+    }
+    return false;
+  };
+
   isAuthenticated = () => {
-    if (this.state.accessToken) {
+    if (this.state.accessToken || this.validRefresh()) {
       return true;
     }
     return false;
+  };
+
+  logoutUser = () => {
+    window.localStorage.removeItem("refreshToken");
+    this.setState({ accessToken: null });
+    console.log("Logout...");
   };
 
   componentDidMount() {
@@ -79,7 +109,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <NavBar title={title} />
+        <NavBar title={title} logoutUser={this.logoutUser} />
         <section className="section">
           <div className="container">
             <div className="columns">
@@ -90,7 +120,7 @@ class App extends React.Component {
                     path="/login"
                     render={() => (
                       <LoginForm
-                        handleLoginFormSubmit={this.handleLoginFormSubmit}
+                        onHandleLoginFormSubmit={this.handleLoginFormSubmit}
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
@@ -99,7 +129,7 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        handleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}

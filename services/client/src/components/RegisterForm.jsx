@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 const RegisterForm = props => {
-  const { handleRegisterFormSubmit, isAuthenticated } = props;
+  const { onHandleRegisterFormSubmit, isAuthenticated } = props;
 
   if (isAuthenticated()) {
     return <Redirect to="/" />;
@@ -22,7 +22,7 @@ const RegisterForm = props => {
           password: ""
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          handleRegisterFormSubmit(values);
+          onHandleRegisterFormSubmit(values);
           resetForm();
           setSubmitting(false);
         }}
@@ -100,7 +100,7 @@ const RegisterForm = props => {
 };
 
 RegisterForm.propTypes = {
-  handleRegisterFormSubmit: PropTypes.func.isRequired,
+  onHandleRegisterFormSubmit: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.func.isRequired
 };
 
