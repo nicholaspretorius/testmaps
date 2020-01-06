@@ -12,7 +12,8 @@ import RegisterForm from "./RegisterForm";
 class App extends React.Component {
   state = {
     users: [],
-    title: "Testmaps"
+    title: "Testmaps",
+    accessToken: null
   };
 
   getUsers() {
@@ -41,7 +42,8 @@ class App extends React.Component {
     axios
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/register`, data)
       .then(res => {
-        console.log("Register: ", res.data);
+        this.setState({ accessToken: res.data.access_token });
+        this.getUsers();
       })
       .catch(err => {
         console.log(err);
@@ -53,10 +55,19 @@ class App extends React.Component {
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/login`, data)
       .then(res => {
         console.log("Login: ", res.data);
+        this.setState({ accessToken: res.data.access_token });
+        this.getUsers();
       })
       .catch(err => {
         console.log(err);
       });
+  };
+
+  isAuthenticated = () => {
+    if (this.state.accessToken) {
+      return true;
+    }
+    return false;
   };
 
   componentDidMount() {
@@ -77,12 +88,20 @@ class App extends React.Component {
                 <Switch>
                   <Route
                     path="/login"
-                    render={() => <LoginForm handleLoginFormSubmit={this.handleLoginFormSubmit} />}
+                    render={() => (
+                      <LoginForm
+                        handleLoginFormSubmit={this.handleLoginFormSubmit}
+                        isAuthenticated={this.isAuthenticated}
+                      />
+                    )}
                   />
                   <Route
                     path="/register"
                     render={() => (
-                      <RegisterForm handleRegisterFormSubmit={this.handleRegisterFormSubmit} />
+                      <RegisterForm
+                        handleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                        isAuthenticated={this.isAuthenticated}
+                      />
                     )}
                   />
                   <Route

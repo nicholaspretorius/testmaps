@@ -1,10 +1,16 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 const RegisterForm = props => {
-  const { handleRegisterFormSubmit } = props;
+  const { handleRegisterFormSubmit, isAuthenticated } = props;
+
+  if (isAuthenticated()) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <div>
       <h1 className="title is-1">Register</h1>
@@ -94,7 +100,8 @@ const RegisterForm = props => {
 };
 
 RegisterForm.propTypes = {
-  handleRegisterFormSubmit: PropTypes.func.isRequired
+  handleRegisterFormSubmit: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.func.isRequired
 };
 
 export default RegisterForm;
