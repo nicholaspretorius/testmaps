@@ -6,7 +6,7 @@ import LoginForm from "./../LoginForm";
 afterEach(cleanup);
 
 const props = {
-  handleLoginFormSubmit: () => {
+  onHandleLoginFormSubmit: () => {
     return true;
   },
   isAuthenticated: () => {

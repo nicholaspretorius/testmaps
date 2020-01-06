@@ -6,7 +6,7 @@ import RegisterForm from "./../RegisterForm";
 afterEach(cleanup);
 
 const props = {
-  handleRegisterFormSubmit: () => {
+  onHandleRegisterFormSubmit: () => {
     return true;
   },
   isAuthenticated: () => {
