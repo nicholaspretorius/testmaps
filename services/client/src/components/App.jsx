@@ -37,10 +37,26 @@ class App extends React.Component {
       });
   };
 
-  handleChange = event => {
-    const obj = {};
-    obj[event.target.name] = event.target.value;
-    this.setState(obj);
+  handleRegisterFormSubmit = data => {
+    axios
+      .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/register`, data)
+      .then(res => {
+        console.log("Register: ", res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  handleLoginFormSubmit = data => {
+    axios
+      .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/login`, data)
+      .then(res => {
+        console.log("Login: ", res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   componentDidMount() {
@@ -59,8 +75,16 @@ class App extends React.Component {
               <div className="column is-one-third">
                 <br />
                 <Switch>
-                  <Route path="/login" component={LoginForm} />
-                  <Route path="/register" component={RegisterForm} />
+                  <Route
+                    path="/login"
+                    render={() => <LoginForm handleLoginFormSubmit={this.handleLoginFormSubmit} />}
+                  />
+                  <Route
+                    path="/register"
+                    render={() => (
+                      <RegisterForm handleRegisterFormSubmit={this.handleRegisterFormSubmit} />
+                    )}
+                  />
                   <Route
                     exact
                     path="/"
