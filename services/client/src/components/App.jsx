@@ -129,7 +129,9 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                        onHandleRegisterFormSubmit={
+                          this.handleRegisterFormSubmit
+                        }
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}

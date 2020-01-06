@@ -20,7 +20,9 @@ it("renders properly", () => {
 });
 
 it("renders with default props", () => {
-  const { getByLabelText, getByText } = renderWithRouter(<RegisterForm {...props} />);
+  const { getByLabelText, getByText } = renderWithRouter(
+    <RegisterForm {...props} />
+  );
 
   const emailInput = getByLabelText("Email");
   expect(emailInput).toHaveAttribute("type", "email");
