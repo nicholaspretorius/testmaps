@@ -1,8 +1,10 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import axios from "axios";
+import Modal from "react-modal";
 
 import NavBar from "./NavBar";
+import AddUser from "./AddUser";
 import Users from "./Users";
 import About from "./About";
 import LoginForm from "./LoginForm";
@@ -10,13 +12,27 @@ import RegisterForm from "./RegisterForm";
 import UserStatus from "./UserStatus";
 import Message from "./Message";
 
+Modal.setAppElement(document.getElementById("root"));
+
+const modalStyles = {
+  content: {
+    top: "0",
+    left: "0",
+    right: "0",
+    bottom: "0",
+    border: 0,
+    background: "transparent"
+  }
+};
+
 class App extends React.Component {
   state = {
     users: [],
     title: "Testmaps",
     accessToken: null,
     messageType: null,
-    messageText: null
+    messageText: null,
+    showModal: false
   };
 
   getUsers() {
@@ -35,11 +51,26 @@ class App extends React.Component {
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/`, data)
       .then(res => {
         this.getUsers();
+        this.handleCloseModal();
         this.createMessage("success", "User added.");
       })
       .catch(err => {
         // console.log(err);
+        this.handleCloseModal();
         this.createMessage("danger", "That user already exists.");
+      });
+  };
+
+  removeUser = user_id => {
+    axios
+      .delete(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/${user_id}`)
+      .then(res => {
+        this.getUsers();
+        this.createMessage("success", "User removed.");
+      })
+      .catch(err => {
+        console.log(err);
+        this.createMessage("danger", "Something went wrong.");
       });
   };
 
@@ -129,6 +160,14 @@ class App extends React.Component {
     });
   };
 
+  handleOpenModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  };
+
   componentDidMount() {
     this.getUsers();
   }
@@ -188,7 +227,36 @@ class App extends React.Component {
                         <h1 className="title is-1 is-1">Users</h1>
                         <hr />
                         <br />
-                        <Users users={this.state.users} />
+                        {this.isAuthenticated() && (
+                          <button onClick={this.handleOpenModal} className="button is-primary">
+                            Add User
+                          </button>
+                        )}
+                        <br />
+                        <br />
+                        <Modal isOpen={this.state.showModal} style={modalStyles}>
+                          <div className="modal is-active">
+                            <div className="modal-background" />
+                            <div className="modal-card">
+                              <header className="modal-card-head">
+                                <p className="modal-card-title">Add User</p>
+                                <button
+                                  className="delete"
+                                  aria-label="close"
+                                  onClick={this.handleCloseModal}
+                                />
+                              </header>
+                              <section className="modal-card-body">
+                                <AddUser addUser={this.addUser} />
+                              </section>
+                            </div>
+                          </div>
+                        </Modal>
+                        <Users
+                          users={this.state.users}
+                          removeUser={this.removeUser}
+                          isAuthenticated={this.isAuthenticated}
+                        />
                       </div>
                     )}
                   />

@@ -85,6 +85,8 @@ exports[`renders a snapshot 1`] = `
               </h1>
               <hr />
               <br />
+              <br />
+              <br />
               <div>
                 <table
                   class="table is-hoverable is-fullwidth"
@@ -97,7 +99,6 @@ exports[`renders a snapshot 1`] = `
                       <th>
                         Email
                       </th>
-                      <th />
                     </tr>
                   </thead>
                   <tbody />

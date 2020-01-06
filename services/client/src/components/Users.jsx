@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Users = props => {
-  const { users } = props;
+  const { users, removeUser, isAuthenticated } = props;
 
   return (
     <div>
@@ -11,7 +11,7 @@ const Users = props => {
           <tr>
             <th>Id</th>
             <th>Email</th>
-            <th />
+            {isAuthenticated() && <th />}
           </tr>
         </thead>
         <tbody>
@@ -20,9 +20,16 @@ const Users = props => {
               <tr key={user.email}>
                 <td>{user.id}</td>
                 <td className="user-email">{user.email}</td>
-                <td>
-                  <button className="button is-danger is-small">Delete</button>
-                </td>
+                {isAuthenticated() && (
+                  <td>
+                    <button
+                      className="button is-danger is-small"
+                      onClick={() => removeUser(user.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
               </tr>
             );
           })}
@@ -33,7 +40,9 @@ const Users = props => {
 };
 
 Users.propTypes = {
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  removeUser: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.func.isRequired
 };
 
 export default Users;
