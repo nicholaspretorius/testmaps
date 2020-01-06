@@ -147,3 +147,23 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 * `npm run prettier:write`
 * `dc exec client npm run prettier:check`
 * `dc exec client npm run prettier:write`
+
+
+### Run Dockerfile.deploy locally
+
+* `export REACT_APP_USERS_SERVICE_URL=http://localhost:8007/api/1`
+* `export DATABASE_URL=db_name_goes_here`
+* `docker build -f Dockerfile.deploy -t registry.heroku.com/waketestmaps/web .`
+* `docker run --name waketestmaps -e PORT=8765 -e DATABASE_URL="$(echo $DATABASE_URL)" -e REACT_APP_USERS_SERVICE_URL="$(echo $REACT_APP_USERS_SERVICE_URL)" -e "SECRET_KEY=secret_key_here" -p 8007:8765 registry.heroku.com/waketestmaps/web:latest`
+* `docker exec -it waketestmaps python manage.py reset_db`
+* For client visit: `http://localhost:8007/api/1/`
+* For api visit: `http://localhost:8007/api/1/users/`
+* For Swagger visit: `http://localhost:8007/api/1/docs`
+* `docker stop waketestmaps`
+* `docker rm waketestmaps`
+
+### Deploy
+
+* `docker push registry.heroku.com/waketestmaps/web:latest`
+* `heroku container:release --app waketestmaps web`
+* `heroku run python manage.py reset_db`
