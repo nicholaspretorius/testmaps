@@ -26,7 +26,11 @@ it("renders an email", () => {
 
 it("renders when not authenticated", () => {
   const { asFragment } = render(
-    <Users users={users} removeUser={() => true} isAuthenticated={() => false} />
+    <Users
+      users={users}
+      removeUser={() => true}
+      isAuthenticated={() => false}
+    />
   );
   expect(asFragment()).toMatchSnapshot();
 });
