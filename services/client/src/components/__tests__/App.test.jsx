@@ -1,11 +1,11 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { cleanup } from "@testing-library/react";
 
 import App from "./../App";
 
 afterEach(cleanup);
 
-it("renders", () => {
+it("renders a snapshot", () => {
   const { asFragment } = renderWithRouter(<App />);
   expect(asFragment()).toMatchSnapshot();
 });
