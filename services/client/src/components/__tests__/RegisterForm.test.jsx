@@ -11,6 +11,6 @@ it("renders properly", () => {
 });
 
 it("renders", () => {
-    const { asFragment } = renderWithRouter(<RegisterForm />);
-    expect(asFragment()).toMatchSnapshot();
+  const { asFragment } = renderWithRouter(<RegisterForm />);
+  expect(asFragment()).toMatchSnapshot();
 });
