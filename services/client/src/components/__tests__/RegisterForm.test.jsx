@@ -8,16 +8,19 @@ afterEach(cleanup);
 const props = {
   handleRegisterFormSubmit: () => {
     return true;
+  },
+  isAuthenticated: () => {
+    return false;
   }
 };
 
 it("renders properly", () => {
-  const { getByText } = render(<RegisterForm {...props} />);
+  const { getByText } = renderWithRouter(<RegisterForm {...props} />);
   expect(getByText("Register")).toHaveClass("title");
 });
 
 it("renders with default props", () => {
-  const { getByLabelText, getByText } = render(<RegisterForm {...props} />);
+  const { getByLabelText, getByText } = renderWithRouter(<RegisterForm {...props} />);
 
   const emailInput = getByLabelText("Email");
   expect(emailInput).toHaveAttribute("type", "email");

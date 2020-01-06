@@ -8,16 +8,19 @@ afterEach(cleanup);
 const props = {
   handleLoginFormSubmit: () => {
     return true;
+  },
+  isAuthenticated: () => {
+    return false;
   }
 };
 
 it("renders properly", () => {
-  const { getByText } = render(<LoginForm {...props} />);
+  const { getByText } = renderWithRouter(<LoginForm {...props} />);
   expect(getByText("Login")).toHaveClass("title");
 });
 
 it("renders with default props", () => {
-  const { getByLabelText, getByText } = render(<LoginForm {...props} />);
+  const { getByLabelText, getByText } = renderWithRouter(<LoginForm {...props} />);
 
   const emailInput = getByLabelText("Email");
   expect(emailInput).toHaveAttribute("type", "email");
