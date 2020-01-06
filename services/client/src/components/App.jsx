@@ -8,6 +8,7 @@ import AddUser from "./AddUser";
 import About from "./About";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import UserStatus from "./UserStatus";
 
 class App extends React.Component {
   state = {
@@ -105,7 +106,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { title } = this.state;
+    const { title, accessToken } = this.state;
 
     return (
       <div>
@@ -129,9 +130,17 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={
-                          this.handleRegisterFormSubmit
-                        }
+                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                        isAuthenticated={this.isAuthenticated}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/status"
+                    render={() => (
+                      <UserStatus
+                        accessToken={accessToken}
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
