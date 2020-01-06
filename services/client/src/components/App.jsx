@@ -4,7 +4,6 @@ import axios from "axios";
 
 import NavBar from "./NavBar";
 import Users from "./Users";
-import AddUser from "./AddUser";
 import About from "./About";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -139,11 +138,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <NavBar
-          title={title}
-          logoutUser={this.logoutUser}
-          isAuthenticated={this.isAuthenticated}
-        />
+        <NavBar title={title} logoutUser={this.logoutUser} isAuthenticated={this.isAuthenticated} />
         <section className="section">
           <div className="container">
             {this.state.messageType && this.state.messageText && (
@@ -170,9 +165,7 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={
-                          this.handleRegisterFormSubmit
-                        }
+                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
@@ -193,9 +186,6 @@ class App extends React.Component {
                     render={() => (
                       <div>
                         <h1 className="title is-1 is-1">Users</h1>
-                        <hr />
-                        <br />
-                        <AddUser addUser={this.addUser} />
                         <hr />
                         <br />
                         <Users users={this.state.users} />

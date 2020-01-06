@@ -85,52 +85,24 @@ exports[`renders a snapshot 1`] = `
               </h1>
               <hr />
               <br />
-              <form>
-                <div
-                  class="field"
+              <div>
+                <table
+                  class="table is-hoverable is-fullwidth"
                 >
-                  <label
-                    class="label"
-                    for="input-email"
-                  >
-                    Email
-                  </label>
-                  <input
-                    class="input"
-                    id="input-email"
-                    name="email"
-                    placeholder="Enter your email address"
-                    type="email"
-                    value=""
-                  />
-                </div>
-                <div
-                  class="field"
-                >
-                  <label
-                    class="label"
-                    for="input-password"
-                  >
-                    Password
-                  </label>
-                  <input
-                    class="input"
-                    id="input-password"
-                    name="password"
-                    placeholder="Enter your password"
-                    type="password"
-                    value=""
-                  />
-                </div>
-                <input
-                  class="button is-primary"
-                  type="submit"
-                  value="Submit"
-                />
-              </form>
-              <hr />
-              <br />
-              <div />
+                  <thead>
+                    <tr>
+                      <th>
+                        Id
+                      </th>
+                      <th>
+                        Email
+                      </th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody />
+                </table>
+              </div>
             </div>
           </div>
         </div>

@@ -6,11 +6,28 @@ const Users = props => {
 
   return (
     <div>
-      {users.map(user => (
-        <p key={user.id} className="box title is-4 user-email">
-          {user.email}
-        </p>
-      ))}
+      <table className="table is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {users.map(user => {
+            return (
+              <tr key={user.email}>
+                <td>{user.id}</td>
+                <td className="user-email">{user.email}</td>
+                <td>
+                  <button className="button is-danger is-small">Delete</button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
