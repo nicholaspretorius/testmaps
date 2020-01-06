@@ -9,4 +9,4 @@ def test_hello(test_app):
     data = json.loads(res.data.decode())
     assert res.status_code == 200
     assert "success" in data["status"]
-    assert "world!!" in data["hello"]
+    assert "wonderful world!" in data["hello"]
