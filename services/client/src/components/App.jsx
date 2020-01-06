@@ -12,7 +12,6 @@ import RegisterForm from "./RegisterForm";
 class App extends React.Component {
   state = {
     users: [],
-    email: "",
     title: "Testmaps"
   };
 
@@ -27,18 +26,11 @@ class App extends React.Component {
       });
   }
 
-  addUser = event => {
-    event.preventDefault();
-
-    const data = {
-      email: this.state.email
-    };
-
+  addUser = data => {
     axios
       .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/`, data)
       .then(res => {
         this.getUsers();
-        this.setState({ email: "" });
       })
       .catch(err => {
         // console.log(err);
@@ -67,8 +59,8 @@ class App extends React.Component {
               <div className="column is-one-third">
                 <br />
                 <Switch>
-                  <Route component={LoginForm} />
-                  <Route component={RegisterForm} />
+                  <Route path="/login" component={LoginForm} />
+                  <Route path="/register" component={RegisterForm} />
                   <Route
                     exact
                     path="/"
@@ -77,11 +69,7 @@ class App extends React.Component {
                         <h1 className="title is-1 is-1">Users</h1>
                         <hr />
                         <br />
-                        <AddUser
-                          addUser={this.addUser}
-                          email={this.state.email}
-                          onHandleChange={this.handleChange}
-                        />
+                        <AddUser addUser={this.addUser} />
                         <hr />
                         <br />
                         <Users users={this.state.users} />
