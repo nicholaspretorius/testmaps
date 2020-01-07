@@ -32,22 +32,24 @@ const NavBar = props => {
           Login
         </Link>
         {!auth0Client.isAuthenticated() && (
+          // eslint-disable-next-line react/jsx-handler-names
           <span className="navbar-item link" onClick={auth0Client.signIn}>
             Auth0 Sign In
           </span>
         )}
         {auth0Client.isAuthenticated() && (
-          <div>
-            <span>{auth0Client.getProfile().name}</span>
-            <span
+          <>
+            <div className="navbar-item">{auth0Client.getProfile().name}</div>
+
+            <div
               className="navbar-item link"
               onClick={() => {
                 signOutAuth0();
               }}
             >
               Auth0 Sign Out
-            </span>
-          </div>
+            </div>
+          </>
         )}
       </div>
     </div>
