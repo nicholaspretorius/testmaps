@@ -62,9 +62,7 @@ def test_user_registration_invalid_payload(test_app, test_db, payload, message):
     py = payload
     print("Payload: ", py)
     res = client.post(
-        f"/auth/register",
-        data=json.dumps(payload),
-        content_type="application/json",
+        f"/auth/register", data=json.dumps(payload), content_type="application/json"
     )
     data = json.loads(res.data.decode())
     assert res.status_code == 400
