@@ -51,6 +51,9 @@ build-client:
   variables:
     DOCKER_DRIVER: overlay2
     REACT_APP_USERS_SERVICE_URL: http://localhost:5001
+    REACT_APP_AUTH0_DOMAIN: nicholaspre.eu.auth0.com
+    REACT_APP_API_AUDIENCE: testmaps
+    REACT_APP_AUTH0_CLIENT_ID: Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $IMAGE:client || true
