@@ -7,4 +7,4 @@ api = Namespace("hello", description="Hello world sanity check!")
 class HelloWorld(Resource):
     def get(self):
         """Hello world!"""
-        return {"status": "success", "hello": "wonderful world!"}
+        return {"status": "success", "hello": "world!"}
