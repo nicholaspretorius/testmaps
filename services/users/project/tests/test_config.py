@@ -9,6 +9,9 @@ def test_development_config(test_app):
     assert test_app.config["BCRYPT_LOG_ROUNDS"] == 4
     assert test_app.config["ACCESS_TOKEN_EXPIRATION"] == 900
     assert test_app.config["REFRESH_TOKEN_EXPIRATION"] == 2592000
+    assert test_app.config["AUTH0_DOMAIN"] == os.environ.get("AUTH0_DOMAIN")
+    assert test_app.config["API_AUDIENCE"] == os.environ.get("API_AUDIENCE")
+    assert test_app.config["ALGORITHMS"] == ["RS256"]
 
 
 def test_testing_config(test_app):
@@ -21,6 +24,9 @@ def test_testing_config(test_app):
     assert test_app.config["BCRYPT_LOG_ROUNDS"] == 4
     assert test_app.config["ACCESS_TOKEN_EXPIRATION"] == 3
     assert test_app.config["REFRESH_TOKEN_EXPIRATION"] == 3
+    assert test_app.config["AUTH0_DOMAIN"] == os.environ.get("AUTH0_DOMAIN")
+    assert test_app.config["API_AUDIENCE"] == os.environ.get("API_AUDIENCE")
+    assert test_app.config["ALGORITHMS"] == ["RS256"]
 
 
 def test_production_config(test_app):
@@ -31,3 +37,6 @@ def test_production_config(test_app):
     assert test_app.config["BCRYPT_LOG_ROUNDS"] == 13
     assert test_app.config["ACCESS_TOKEN_EXPIRATION"] == 900
     assert test_app.config["REFRESH_TOKEN_EXPIRATION"] == 2592000
+    assert test_app.config["AUTH0_DOMAIN"] == os.environ.get("AUTH0_DOMAIN")
+    assert test_app.config["API_AUDIENCE"] == os.environ.get("API_AUDIENCE")
+    assert test_app.config["ALGORITHMS"] == ["RS256"]

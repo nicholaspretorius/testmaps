@@ -16,6 +16,8 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@users-db:5432/users_dev
       - DATABASE_TEST_URL=postgresql://postgres:postgres@users-db:5432/users_test
       - SECRET_KEY=test
+      - AUTH0_DOMAIN=nicholaspre.eu.auth0.com
+      - API_AUDIENCE=testmaps
     depends_on:
       - users-db
   users-db:

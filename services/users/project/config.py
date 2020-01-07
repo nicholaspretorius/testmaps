@@ -12,6 +12,10 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     ACCESS_TOKEN_EXPIRATION = 900  # 15 minutes
     REFRESH_TOKEN_EXPIRATION = 2592000  # 30 days
+    # set Auth0
+    AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
+    API_AUDIENCE = os.environ.get("API_AUDIENCE")
+    ALGORITHMS = ["RS256"]
 
 
 class DevelopmentConfig(BaseConfig):
