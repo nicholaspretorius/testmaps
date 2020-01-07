@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import auth0Client from "./Auth0";
 import "./NavBar.css";
 
 const titleStyle = {
@@ -10,6 +11,11 @@ const titleStyle = {
 
 const NavBar = props => {
   const { title, logoutUser, isAuthenticated } = props;
+
+  const signOutAuth0 = () => {
+    auth0Client.signOut();
+    props.history.replace("/");
+  };
 
   let menu = (
     <div className="navbar-menu">
@@ -25,6 +31,24 @@ const NavBar = props => {
         <Link to="/login" className="navbar-item" data-testid="nav-login">
           Login
         </Link>
+        {!auth0Client.isAuthenticated() && (
+          <span className="navbar-item link" onClick={auth0Client.signIn}>
+            Auth0 Sign In
+          </span>
+        )}
+        {auth0Client.isAuthenticated() && (
+          <div>
+            <span>{auth0Client.getProfile().name}</span>
+            <span
+              className="navbar-item link"
+              onClick={() => {
+                signOutAuth0();
+              }}
+            >
+              Auth0 Sign Out
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -40,11 +64,7 @@ const NavBar = props => {
           </Link>
         </div>
         <div className="navbar-end">
-          <span
-            onClick={logoutUser}
-            className="navbar-item link"
-            data-testid="nav-logout"
-          >
+          <span onClick={logoutUser} className="navbar-item link" data-testid="nav-logout">
             Logout
           </span>
         </div>
@@ -53,11 +73,7 @@ const NavBar = props => {
   }
 
   return (
-    <nav
-      className="navbar is-dark"
-      role="navigation"
-      aria-label="main navigation"
-    >
+    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
       <section className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item nav-title" style={titleStyle}>
@@ -89,4 +105,4 @@ NavBar.propTypes = {
   isAuthenticated: PropTypes.func.isRequired
 };
 
-export default NavBar;
+export default withRouter(NavBar);

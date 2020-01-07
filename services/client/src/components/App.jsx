@@ -11,6 +11,7 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import UserStatus from "./UserStatus";
 import Message from "./Message";
+import Callback from "./Callback";
 
 Modal.setAppElement(document.getElementById("root"));
 
@@ -177,11 +178,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <NavBar
-          title={title}
-          logoutUser={this.logoutUser}
-          isAuthenticated={this.isAuthenticated}
-        />
+        <NavBar title={title} logoutUser={this.logoutUser} isAuthenticated={this.isAuthenticated} />
         <section className="section">
           <div className="container">
             {this.state.messageType && this.state.messageText && (
@@ -208,9 +205,7 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={
-                          this.handleRegisterFormSubmit
-                        }
+                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
@@ -234,19 +229,13 @@ class App extends React.Component {
                         <hr />
                         <br />
                         {this.isAuthenticated() && (
-                          <button
-                            onClick={this.handleOpenModal}
-                            className="button is-primary"
-                          >
+                          <button onClick={this.handleOpenModal} className="button is-primary">
                             Add User
                           </button>
                         )}
                         <br />
                         <br />
-                        <Modal
-                          isOpen={this.state.showModal}
-                          style={modalStyles}
-                        >
+                        <Modal isOpen={this.state.showModal} style={modalStyles}>
                           <div className="modal is-active">
                             <div className="modal-background" />
                             <div className="modal-card">
@@ -273,6 +262,7 @@ class App extends React.Component {
                     )}
                   />
                   <Route exact path="/about" component={About} />
+                  <Route exact path="/callback" component={Callback} />
                 </Switch>
               </div>
             </div>
