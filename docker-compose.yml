@@ -41,5 +41,8 @@ services:
     environment:
       - NODE_ENV=development
       - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+      - REACT_APP_AUTH0_DOMAIN=nicholaspre.eu.auth0.com
+      - REACT_APP_API_AUDIENCE=testmaps
+      - REACT_APP_AUTH0_CLIENT_ID=Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j
     depends_on:
       - users
