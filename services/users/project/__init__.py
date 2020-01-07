@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
+
 # import sys
 # print(app.config, file=sys.stderr)
 
@@ -41,6 +42,18 @@ def create_app(script_info=None):
         return {"app": app, "db": db}
 
     # error handlers
+    from project.apis.auth0 import AuthError
+
+    @app.errorhandler(AuthError)
+    def handle_auth_error(ex):
+        response = jsonify(ex.error)
+        response.status_code = ex.status_code
+        return response
+
+    @app.errorhandler(401)
+    def unauthorized(error):
+        return jsonify({"status": False, "message": "Unauthorized"}), 401
+
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({"status": False, "message": "Resource not found"}), 404
