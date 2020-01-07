@@ -33,7 +33,7 @@ def create_app(script_info=None):
     # register api
     from project.apis import blueprint as api
 
-    app.register_blueprint(api, url_prefix=app.config["API_PREFIX"])
+    app.register_blueprint(api)
 
     # shell context for flask cli
     @app.shell_context_processor

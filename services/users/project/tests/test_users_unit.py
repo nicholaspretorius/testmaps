@@ -5,8 +5,6 @@ import project.apis.users.views
 from project import bcrypt
 from project.apis.users.services import get_user_by_id
 
-prefix = "/api/1"
-
 
 class MockResponsePost:
     @staticmethod
@@ -34,7 +32,7 @@ def test_add_user(test_app, monkeypatch):
 
     client = test_app.test_client()
     res = client.post(
-        f"{prefix}/users/",
+        f"/users/",
         data=json.dumps({"email": "test1@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -47,9 +45,7 @@ def test_add_user(test_app, monkeypatch):
 
 def test_add_user_no_post_data(test_app, monkeypatch):
     client = test_app.test_client()
-    res = client.post(
-        f"{prefix}/users/", data=json.dumps({}), content_type="application/json"
-    )
+    res = client.post(f"/users/", data=json.dumps({}), content_type="application/json")
 
     data = json.loads(res.data.decode())
     assert res.status_code == 400
@@ -60,7 +56,7 @@ def test_add_user_no_post_data(test_app, monkeypatch):
 def test_add_user_no_email(test_app, monkeypatch):
     client = test_app.test_client()
     res = client.post(
-        f"{prefix}/users/",
+        f"/users/",
         data=json.dumps({"website": "website@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -86,13 +82,13 @@ def test_add_user_duplicate_email(test_app, monkeypatch):
     client = test_app.test_client()
 
     client.post(
-        f"{prefix}/users/",
+        f"/users/",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
 
     res = client.post(
-        f"{prefix}/users/",
+        f"/users/",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -107,7 +103,7 @@ def test_add_user_invalid_email(test_app, monkeypatch):
     client = test_app.test_client()
 
     res = client.post(
-        f"{prefix}/users/",
+        f"/users/",
         data=json.dumps({"email": "test", "password": "password"}),
         content_type="application/json",
     )
@@ -130,7 +126,7 @@ def test_single_user(test_app, monkeypatch):
     monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
 
     client = test_app.test_client()
-    res = client.get(f"{prefix}/users/1")
+    res = client.get(f"/users/1")
     data = json.loads(res.data.decode())
     assert res.status_code == 200
     assert "1" in data["id"]
@@ -145,7 +141,7 @@ def test_single_user_not_found(test_app, monkeypatch):
     monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
 
     client = test_app.test_client()
-    res = client.get(f"{prefix}/users/999")
+    res = client.get(f"/users/999")
     data = json.loads(res.data.decode())
     assert res.status_code == 404
     assert not data["status"]
@@ -159,7 +155,7 @@ def test_single_user_no_id(test_app, monkeypatch):
     monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
 
     client = test_app.test_client()
-    res = client.get(f"{prefix}/users/test")
+    res = client.get(f"/users/test")
     data = json.loads(res.data.decode())
     assert res.status_code == 404
     assert not data["status"]
@@ -179,7 +175,7 @@ def test_get_all_users(test_app, test_db, monkeypatch, add_user):
     add_user("test@test.com", "password")
     add_user("test1@test.com", "password")
 
-    res = client.get(f"{prefix}/users/")
+    res = client.get(f"/users/")
     data = json.loads(res.data.decode())
     assert res.status_code == 200
     assert len(data) == 2
@@ -217,7 +213,7 @@ def test_update_user(test_app, monkeypatch):
 
     client = test_app.test_client()
     res_one = client.put(
-        f"{prefix}/users/1",
+        f"/users/1",
         data=json.dumps({"email": "update@test.com"}),
         content_type="application/json",
     )
@@ -227,7 +223,7 @@ def test_update_user(test_app, monkeypatch):
     assert "User successfully updated." in data["message"]
     assert data["user"]
 
-    res_two = client.get(f"{prefix}/users/1")
+    res_two = client.get(f"/users/1")
     data = json.loads(res_two.data.decode())
     assert res_two.status_code == 200
     assert "update@test.com" in data["email"]
@@ -243,7 +239,7 @@ def test_update_user_with_password(test_app, test_db, add_user):
 
     client = test_app.test_client()
     res = client.put(
-        f"{prefix}/users/{user.id}",
+        f"/users/{user.id}",
         data=json.dumps({"email": "update@test.com", "password": password_two}),
         content_type="application/json",
     )

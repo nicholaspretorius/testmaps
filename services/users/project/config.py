@@ -8,7 +8,6 @@ class BaseConfig:
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    API_PREFIX = "/api/1"
     ERROR_404_HELP = False  # remove auto extra wording at end of abort() response
     BCRYPT_LOG_ROUNDS = 13
     ACCESS_TOKEN_EXPIRATION = 900  # 15 minutes

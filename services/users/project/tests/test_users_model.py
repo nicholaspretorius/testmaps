@@ -1,7 +1,5 @@
 from project.apis.users.models import User
 
-prefix = "/api/1"
-
 
 def test_repr(test_app, test_db, add_user):
     user = add_user(email="test@test.com", password="password")

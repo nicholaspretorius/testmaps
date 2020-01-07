@@ -7,14 +7,12 @@ from project.tests.utils import recreate_db
 
 # import time
 
-prefix = "/api/1"
-
 
 def test_user_registration(test_app, test_db, add_user):
     client = test_app.test_client()
 
     res = client.post(
-        f"{prefix}/auth/register",
+        f"/auth/register",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -32,7 +30,7 @@ def test_user_registration_duplicate_email(test_app, test_db, add_user):
 
     client = test_app.test_client()
     res = client.post(
-        f"{prefix}/auth/register",
+        f"/auth/register",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -64,7 +62,7 @@ def test_user_registration_invalid_payload(test_app, test_db, payload, message):
     py = payload
     print("Payload: ", py)
     res = client.post(
-        f"{prefix}/auth/register",
+        f"/auth/register",
         data=json.dumps(payload),
         content_type="application/json",
     )
@@ -81,7 +79,7 @@ def test_user_login(test_app, test_db, add_user):
 
     client = test_app.test_client()
     res = client.post(
-        f"{prefix}/auth/login",
+        f"/auth/login",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -96,7 +94,7 @@ def test_user_login(test_app, test_db, add_user):
 def test_user_login_not_registered(test_app, test_db):
     client = test_app.test_client()
     res = client.post(
-        f"{prefix}/auth/login",
+        f"/auth/login",
         data=json.dumps({"email": "whaddayaknow@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -114,7 +112,7 @@ def test_valid_refresh(test_app, test_db, add_user):
     client = test_app.test_client()
 
     res_login = client.post(
-        f"{prefix}/auth/login",
+        f"/auth/login",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -123,7 +121,7 @@ def test_valid_refresh(test_app, test_db, add_user):
     refresh_token = json.loads(res_login.data.decode())["refresh_token"]
 
     res = client.post(
-        f"{prefix}/auth/refresh",
+        f"/auth/refresh",
         data=json.dumps({"refresh_token": refresh_token}),
         content_type="application/json",
     )
@@ -142,7 +140,7 @@ def test_invalid_refresh_expired_token(test_app, test_db, add_user):
     client = test_app.test_client()
 
     res_login = client.post(
-        f"{prefix}/auth/login",
+        f"/auth/login",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -152,7 +150,7 @@ def test_invalid_refresh_expired_token(test_app, test_db, add_user):
     refresh_token = json.loads(res_login.data.decode())["refresh_token"]
 
     res_refresh = client.post(
-        f"{prefix}/auth/refresh",
+        f"/auth/refresh",
         data=json.dumps({"refresh_token": refresh_token}),
         content_type="application/json",
     )
@@ -168,7 +166,7 @@ def test_invalid_refresh_invalid_token(test_app, test_db, add_user):
     client = test_app.test_client()
 
     res_refresh = client.post(
-        f"{prefix}/auth/refresh",
+        f"/auth/refresh",
         data=json.dumps({"refresh_token": "invalid"}),
         content_type="application/json",
     )
@@ -184,7 +182,7 @@ def test_invalid_refresh_invalid_payload(test_app, test_db, add_user):
     client = test_app.test_client()
 
     res_refresh = client.post(
-        f"{prefix}/auth/refresh", data=json.dumps({}), content_type="application/json"
+        f"/auth/refresh", data=json.dumps({}), content_type="application/json"
     )
 
     data = json.loads(res_refresh.data.decode())
@@ -198,7 +196,7 @@ def test_user_status_valid(test_app, test_db, add_user):
     add_user("test@test.com", "password")
     client = test_app.test_client()
     res_login = client.post(
-        f"{prefix}/auth/login",
+        f"/auth/login",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -207,7 +205,7 @@ def test_user_status_valid(test_app, test_db, add_user):
     access_token = json.loads(res_login.data.decode())["access_token"]
 
     res_status = client.get(
-        f"{prefix}/auth/status",
+        f"/auth/status",
         headers={"Authorization": f"Bearer {access_token}"},
         content_type="application/json",
     )
@@ -224,7 +222,7 @@ def test_user_status_invalid(test_app, test_db):
     client = test_app.test_client()
 
     res = client.get(
-        f"{prefix}/auth/status",
+        f"/auth/status",
         headers={"Authorization": f"Bearer invalid"},
         content_type="application/json",
     )
@@ -241,7 +239,7 @@ def test_user_status_invalid_no_bearer(test_app, test_db):
     client = test_app.test_client()
 
     res = client.get(
-        f"{prefix}/auth/status",
+        f"/auth/status",
         headers={"Authorization": f"invalid"},
         content_type="application/json",
     )
@@ -257,7 +255,7 @@ def test_user_status_no_token(test_app, test_db):
     recreate_db()
     client = test_app.test_client()
 
-    res = client.get(f"{prefix}/auth/status", content_type="application/json")
+    res = client.get(f"/auth/status", content_type="application/json")
 
     data = json.loads(res.data.decode())
     assert res.status_code == 403
@@ -273,7 +271,7 @@ def test_user_status_expired_token(test_app, test_db, add_user):
     client = test_app.test_client()
 
     res_login = client.post(
-        f"{prefix}/auth/login",
+        f"/auth/login",
         data=json.dumps({"email": "test@test.com", "password": "password"}),
         content_type="application/json",
     )
@@ -282,7 +280,7 @@ def test_user_status_expired_token(test_app, test_db, add_user):
     access_token = json.loads(res_login.data.decode())["access_token"]
 
     res = client.get(
-        f"{prefix}/auth/status",
+        f"/auth/status",
         headers={"Authorization": f"Bearer {access_token}"},
         content_type="application/json",
     )
