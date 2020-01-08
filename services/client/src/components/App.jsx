@@ -12,6 +12,7 @@ import RegisterForm from "./RegisterForm";
 import UserStatus from "./UserStatus";
 import Message from "./Message";
 import Callback from "./Callback";
+import SanityCheck from './SanityCheck';
 
 Modal.setAppElement(document.getElementById("root"));
 
@@ -263,6 +264,7 @@ class App extends React.Component {
                   />
                   <Route exact path="/about" component={About} />
                   <Route exact path="/callback" component={Callback} />
+                  <Route exact path="/sanity" component={SanityCheck} />
                 </Switch>
               </div>
             </div>
