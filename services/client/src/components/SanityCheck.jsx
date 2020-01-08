@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import auth0Client from "./Auth0";
+import auth from "./../services/auth";
 
 class SanityCheck extends Component {
   state = {
@@ -11,7 +11,7 @@ class SanityCheck extends Component {
 
   componentDidMount() {
     this.getSanityCheck();
-    const profile = auth0Client.getProfile();
+    const profile = auth.getProfile();
     console.log("Profile: ", profile);
     this.setState({ profile });
   }
@@ -22,7 +22,7 @@ class SanityCheck extends Component {
       methods: "get",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${auth0Client.getAccessToken()}`
+        Authorization: `Bearer ${auth.getAccessToken()}`
       }
     };
 

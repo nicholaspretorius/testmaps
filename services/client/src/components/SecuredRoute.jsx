@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import auth0Client from "../Auth0";
+import auth from "./../services/auth";
 
 function SecuredRoute(props) {
   const { component: Component, path } = props;
@@ -8,8 +8,8 @@ function SecuredRoute(props) {
     <Route
       path={path}
       render={() => {
-        if (!auth0Client.isAuthenticated()) {
-          auth0Client.signIn();
+        if (!auth.isAuthenticated()) {
+          auth.signIn();
           return <div></div>;
         }
         return <Component />;

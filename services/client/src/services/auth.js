@@ -1,4 +1,5 @@
 import auth0 from "auth0-js";
+import localStorage from "./../services/localStorage";
 
 class Auth {
   constructor() {
@@ -45,7 +46,7 @@ class Auth {
         if (!authResult || !authResult.accessToken) {
           return reject(err);
         }
-        window.localStorage.setItem("access_token", authResult.accessToken);
+        localStorage.setItem("access_token", authResult.accessToken);
         resolve(authResult);
       });
     }).then(authResult => {
@@ -71,10 +72,10 @@ class Auth {
     this.idToken = null;
     this.profile = null;
     this.expiresAt = null;
-    window.localStorage.removeItem("access_token");
+    localStorage.removeItem("access_token");
   }
 }
 
-const auth0Client = new Auth();
+const auth = new Auth();
 
-export default auth0Client;
+export default auth;

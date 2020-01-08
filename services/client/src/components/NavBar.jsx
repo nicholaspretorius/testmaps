@@ -2,7 +2,7 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import auth0Client from "./Auth0";
+import auth from "./../services/auth";
 import "./NavBar.css";
 
 const titleStyle = {
@@ -13,7 +13,7 @@ const NavBar = props => {
   const { title, logoutUser, isAuthenticated } = props;
 
   const signOutAuth0 = () => {
-    auth0Client.signOut();
+    auth.signOut();
     props.history.replace("/");
   };
 
@@ -31,15 +31,15 @@ const NavBar = props => {
         <Link to="/login" className="navbar-item" data-testid="nav-login">
           Login
         </Link>
-        {!auth0Client.isAuthenticated() && (
+        {!auth.isAuthenticated() && (
           // eslint-disable-next-line react/jsx-handler-names
-          <span className="navbar-item link" onClick={auth0Client.signIn}>
+          <span className="navbar-item link" onClick={auth.signIn}>
             Auth0 Sign In
           </span>
         )}
-        {auth0Client.isAuthenticated() && (
+        {auth.isAuthenticated() && (
           <>
-            <div className="navbar-item">{auth0Client.getProfile().name}</div>
+            <div className="navbar-item">{auth.getProfile().name}</div>
 
             <div
               className="navbar-item link"

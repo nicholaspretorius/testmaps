@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import auth0Client from "./Auth0";
+import auth from "./../services/auth";
 
 class Callback extends Component {
   componentDidMount() {
-    auth0Client
+    auth
       .handleAuthentication()
-      .then(res => {
-        console.log("Auth0ing...");
+      .then(() => {
         this.props.history.replace("/");
       })
       .catch(err => {
-        console.log("Auth0", err);
+        console.log(err);
       });
   }
 
