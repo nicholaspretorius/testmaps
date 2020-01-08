@@ -1,7 +1,9 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
+
+import auth from "./../services/auth";
 
 import NavBar from "./NavBar";
 import AddUser from "./AddUser";
@@ -12,7 +14,7 @@ import RegisterForm from "./RegisterForm";
 import UserStatus from "./UserStatus";
 import Message from "./Message";
 import Callback from "./Callback";
-import SanityCheck from './SanityCheck';
+import SanityCheck from "./SanityCheck";
 
 Modal.setAppElement(document.getElementById("root"));
 
@@ -170,8 +172,15 @@ class App extends React.Component {
     this.setState({ showModal: false });
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getUsers();
+    if (this.props.location.pathname === "/callback") return;
+    try {
+      await auth.silentAuth();
+      this.forceUpdate();
+    } catch (err) {
+      if (err.error !== "login_required") console.log(err.error);
+    }
   }
 
   render() {
@@ -275,4 +284,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

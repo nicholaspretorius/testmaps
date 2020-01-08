@@ -1,5 +1,4 @@
 import auth0 from "auth0-js";
-import localStorage from "./../services/localStorage";
 
 class Auth {
   constructor() {
@@ -46,7 +45,7 @@ class Auth {
         if (!authResult || !authResult.accessToken) {
           return reject(err);
         }
-        localStorage.setItem("access_token", authResult.accessToken);
+        // localStorage.setItem("access_token", authResult.accessToken);
         resolve(authResult);
       });
     }).then(authResult => {
@@ -57,12 +56,33 @@ class Auth {
           resolve({ user, authResult });
         });
       }).then(data => {
-        console.log("Data: ", data);
-        const { user, authResult } = data;
-        this.profile = user;
-        this.accessToken = authResult.accessToken;
-        this.idToken = authResult.idToken;
-        this.expiresAt = new Date().getTime() + authResult.expiresIn;
+        this.setSession(data);
+      });
+    });
+  }
+
+  setSession(data) {
+    const { user, authResult } = data;
+    this.profile = user;
+    this.accessToken = authResult.accessToken;
+    this.expiresAt = new Date().getTime() + authResult.expiresIn;
+  }
+
+  silentAuth() {
+    return new Promise((resolve, reject) => {
+      this.auth0.checkSession({}, (err, authResult) => {
+        if (err) return reject(err);
+        resolve(authResult);
+      });
+    }).then(authResult => {
+      return new Promise((resolve, reject) => {
+        this.auth0.client.userInfo(authResult.accessToken, function(err, user) {
+          // Now you have the user's information
+          if (err) return reject(err);
+          resolve({ user, authResult });
+        });
+      }).then(data => {
+        this.setSession(data);
       });
     });
   }
@@ -72,7 +92,10 @@ class Auth {
     this.idToken = null;
     this.profile = null;
     this.expiresAt = null;
-    localStorage.removeItem("access_token");
+    this.auth0.logout({
+      returnTo: "http://localhost:3007",
+      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID
+    });
   }
 }
 
