@@ -6,7 +6,7 @@ from jose import jwt
 from urllib.request import urlopen
 
 AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
-API_AUDIENCE = os.environ.get("API_AUDIENCE")
+AUTH0_AUDIENCE = os.environ.get("AUTH0_AUDIENCE")
 ALGORITHMS = os.environ.get("ALGORITHMS")
 
 # AuthError Exception
@@ -85,7 +85,7 @@ def verify_decode_jwt(token):
                 token,
                 rsa_key,
                 algorithms=ALGORITHMS,
-                audience=API_AUDIENCE,
+                audience=AUTH0_AUDIENCE,
                 issuer="https://" + AUTH0_DOMAIN + "/",
             )
 
