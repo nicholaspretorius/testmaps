@@ -7,7 +7,7 @@ api = Namespace("sanity", description="Auth sanity check routes")
 
 @api.route("/")
 class SanityAll(Resource):
-    @requires_auth("get:auth-rider-sanity")
+    @requires_auth("get:cableparks")
     def get(self, payload):
         """Hello all!"""
         try:
@@ -18,7 +18,7 @@ class SanityAll(Resource):
 
 @api.route("/park")
 class SanitySuperPark(Resource):
-    @requires_auth("get:auth-park-sanity")
+    @requires_auth("post:cableparks")
     def get(self, payload):
         """Hello parkadmin!"""
         try:
@@ -29,7 +29,7 @@ class SanitySuperPark(Resource):
 
 @api.route("/super")
 class SanitySuper(Resource):
-    @requires_auth("get:auth-super-sanity")
+    @requires_auth("delete:cableparks")
     def get(self, payload):
         """Hello superadmin!"""
         try:
