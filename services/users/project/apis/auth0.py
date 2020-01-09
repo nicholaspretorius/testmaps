@@ -1,3 +1,4 @@
+import time
 import os
 import json
 from flask import request, abort
@@ -61,7 +62,14 @@ def check_permissions(permission, payload):
 def verify_decode_jwt(token):
     jsonurl = urlopen(f"https://{AUTH0_DOMAIN}/.well-known/jwks.json")
     jwks = json.loads(jsonurl.read())
-    unverified_header = jwt.get_unverified_header(token)
+
+    try:
+        unverified_header = jwt.get_unverified_header(token)
+    except jwt.JWTError:
+        raise AuthError(
+            {"code": "invalid_token", "description": "Token is invalid."}, 401
+        )
+
     rsa_key = {}
     # check for kid (Auth0 key id)
     if "kid" not in unverified_header:
@@ -88,6 +96,12 @@ def verify_decode_jwt(token):
                 audience=AUTH0_AUDIENCE,
                 issuer="https://" + AUTH0_DOMAIN + "/",
             )
+
+            # determine if expired
+            diff = payload["exp"] - int(time.time())
+
+            if diff < 0:
+                raise jwt.ExpiredSignatureError
 
             return payload
         # if not valid
