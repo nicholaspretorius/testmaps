@@ -14,7 +14,7 @@ class BaseConfig:
     REFRESH_TOKEN_EXPIRATION = 2592000  # 30 days
     # set Auth0
     AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
-    API_AUDIENCE = os.environ.get("API_AUDIENCE")
+    AUTH0_AUDIENCE = os.environ.get("AUTH0_AUDIENCE")
     ALGORITHMS = ["RS256"]
 
 
@@ -34,6 +34,8 @@ class TestingConfig(BaseConfig):
     BCRYPT_LOG_ROUNDS = 4
     ACCESS_TOKEN_EXPIRATION = 3
     REFRESH_TOKEN_EXPIRATION = 3
+    AUTH0_SECRET = os.environ.get("AUTH0_SECRET")
+    AUTH0_CLIENT_TEST_ID = os.environ.get("AUTH0_CLIENT_TEST_ID")
 
 
 class ProductionConfig(BaseConfig):
