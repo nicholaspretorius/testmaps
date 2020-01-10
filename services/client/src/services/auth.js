@@ -10,28 +10,6 @@ class Auth {
       responseType: "token",
       scope: "openid profile email"
     });
-
-    // this.handleAuthentication = this.handleAuthentication.bind(this);
-    // this.getProfile = this.getProfile.bind(this);
-    // this.isAuthenticated = this.isAuthenticated.bind(this);
-    // this.signIn = this.signIn.bind(this);
-    // this.signOut = this.signOut.bind(this);
-  }
-
-  getProfile() {
-    return this.profile;
-  }
-
-  getIdToken() {
-    return this.idToken;
-  }
-
-  getAccessToken() {
-    return this.accessToken;
-  }
-
-  isAuthenticated() {
-    return new Date().getTime() < this.expiresAt;
   }
 
   signIn() {
@@ -45,7 +23,6 @@ class Auth {
         if (!authResult || !authResult.accessToken) {
           return reject(err);
         }
-        // localStorage.setItem("access_token", authResult.accessToken);
         resolve(authResult);
       });
     }).then(authResult => {
@@ -56,27 +33,16 @@ class Auth {
           resolve({ user, authResult });
         });
       });
-      // .then(data => {
-      //   this.setSession(data);
-      // });
     });
-  }
-
-  setSession(data) {
-    const { user, authResult } = data;
-    this.profile = user;
-    this.accessToken = authResult.accessToken;
-    this.expiresAt = new Date().getTime() + authResult.expiresIn;
   }
 
   silentAuth() {
     return new Promise((resolve, reject) => {
       this.auth0.checkSession({}, (err, authResult) => {
         if (err) {
-          console.log("checkSession:Err ", err);
+          console.log(err);
           return reject(err);
         }
-        console.log("checkSession:Auth ", authResult);
         resolve(authResult);
       });
     }).then(authResult => {
@@ -84,24 +50,16 @@ class Auth {
         this.auth0.client.userInfo(authResult.accessToken, function(err, user) {
           // Now you have the user's information
           if (err) {
-            console.log("userInfo:Err ", err);
+            console.log(err);
             return reject(err);
           }
-          console.log("checkSession:Auth ", authResult);
           resolve({ user, authResult });
         });
       });
-      // .then(data => {
-      //   this.setSession(data);
-      // });
     });
   }
 
   signOut() {
-    // clear id token, profile, and expiration
-    // this.idToken = null;
-    // this.profile = null;
-    // this.expiresAt = null;
     this.auth0.logout({
       returnTo: "http://localhost:3007",
       clientID: process.env.REACT_APP_AUTH0_CLIENT_ID
