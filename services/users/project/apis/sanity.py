@@ -7,7 +7,7 @@ api = Namespace("sanity", description="Auth sanity check routes")
 
 @api.route("/")
 class SanityAll(Resource):
-    @requires_auth("get:cableparks")
+    @requires_auth()
     def get(self, payload):
         """Hello all!"""
         try:
