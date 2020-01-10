@@ -4,6 +4,7 @@ import axios from "axios";
 import Modal from "react-modal";
 
 import auth from "./../services/auth";
+import localStorage from "./../services/localStorage";
 
 import NavBar from "./NavBar";
 import AddUser from "./AddUser";
@@ -33,10 +34,32 @@ class App extends React.Component {
   state = {
     users: [],
     title: "Testmaps",
-    accessToken: null,
     messageType: null,
     messageText: null,
-    showModal: false
+    showModal: false,
+    profile: null,
+    accessToken: null,
+    expiresAt: null
+  };
+
+  // Refactor Auth0
+  onHandleAuth = async () => {
+    try {
+      const res = await auth.handleAuthentication();
+      this.setState({
+        profile: res.user,
+        accessToken: res.authResult.accessToken,
+        expiresAt: new Date().getTime() + res.authResult.expiresIn * 1000
+      });
+      localStorage.setItem("token", this.state.accessToken);
+      this.props.history.replace("/");
+    } catch (err) {
+      console.log("onHandleAuth: ", err);
+    }
+  };
+
+  isAuth = () => {
+    return new Date().getTime() < this.state.expiresAt;
   };
 
   getUsers() {
@@ -132,16 +155,26 @@ class App extends React.Component {
   };
 
   isAuthenticated = () => {
-    if (this.state.accessToken || this.validRefresh()) {
-      return true;
-    }
-    return false;
+    //   if (this.state.accessToken || this.validRefresh()) {
+    //     return true;
+    //   }
+    //   return false;
+  };
+
+  signOut = () => {
+    this.props.history.replace("/");
+    this.setState({ profile: null, expiresAt: null, accessToken: null });
+    localStorage.removeItem("token");
+    auth.signOut();
+  };
+
+  signIn = () => {
+    auth.signIn();
   };
 
   logoutUser = () => {
     window.localStorage.removeItem("refreshToken");
     this.setState({ accessToken: null });
-    console.log("Logout...");
     this.createMessage("success", "You have logged out.");
   };
 
@@ -176,19 +209,35 @@ class App extends React.Component {
     this.getUsers();
     if (this.props.location.pathname === "/callback") return;
     try {
-      await auth.silentAuth();
+      const res = await auth.silentAuth();
+      this.setState({
+        profile: res.user,
+        accessToken: res.authResult.accessToken,
+        expiresAt: new Date().getTime() + res.authResult.expiresIn * 1000
+      });
+      localStorage.setItem("token", this.state.accessToken);
       this.forceUpdate();
     } catch (err) {
-      if (err.error !== "login_required") console.log(err.error);
+      // Auth0 clientID required - check env vars
+      console.log(err);
+
+      // silent auth failed, user not logged in - no need to worry!
+      if (err.error !== "login_required") console.log("Err.error: ", err);
     }
   }
 
   render() {
-    const { title, accessToken } = this.state;
+    const { title, profile, accessToken } = this.state;
 
     return (
       <div>
-        <NavBar title={title} logoutUser={this.logoutUser} isAuthenticated={this.isAuthenticated} />
+        <NavBar
+          title={title}
+          signOut={this.signOut}
+          signIn={this.signIn}
+          isAuth={this.isAuth}
+          profile={profile}
+        />
         <section className="section">
           <div className="container">
             {this.state.messageType && this.state.messageText && (
@@ -238,7 +287,7 @@ class App extends React.Component {
                         <h1 className="title is-1 is-1">Users</h1>
                         <hr />
                         <br />
-                        {this.isAuthenticated() && (
+                        {this.isAuthenticated && (
                           <button onClick={this.handleOpenModal} className="button is-primary">
                             Add User
                           </button>
@@ -272,8 +321,18 @@ class App extends React.Component {
                     )}
                   />
                   <Route exact path="/about" component={About} />
-                  <Route exact path="/callback" component={Callback} />
-                  <Route exact path="/sanity" component={SanityCheck} />
+                  <Route
+                    exact
+                    path="/callback"
+                    render={() => <Callback onHandleAuth={this.onHandleAuth} />}
+                  />
+                  {this.isAuth() && (
+                    <Route
+                      exact
+                      path="/sanity"
+                      render={() => <SanityCheck accessToken={accessToken} />}
+                    />
+                  )}
                 </Switch>
               </div>
             </div>

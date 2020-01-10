@@ -1,44 +1,44 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import auth from "./../services/auth";
+import localStorage from "./../services/localStorage";
 
 class SanityCheck extends Component {
   state = {
     message: "",
-    profile: null
+    accessToken: this.props.accessToken || localStorage.getItem("accessToken") || null
   };
 
   componentDidMount() {
     this.getSanityCheck();
-    const profile = auth.getProfile();
-    console.log("Profile: ", profile);
-    this.setState({ profile });
   }
 
-  async getSanityCheck() {
+  getSanityCheck() {
     const options = {
       url: `${process.env.REACT_APP_USERS_SERVICE_URL}/sanity/`,
       methods: "get",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.getAccessToken()}`
+        Authorization: `Bearer ${this.state.accessToken}`
       }
     };
 
-    try {
-      const res = await axios(options);
-      console.log("Res: ", res);
-    } catch (err) {
-      console.log("Error: ", err);
-    }
+    return axios(options)
+      .then(res => {
+        this.setState({ message: res.data.hello });
+      })
+      .catch(err => {
+        console.log("Error: ", err);
+      });
   }
 
   render() {
+    const { message } = this.state;
+
     return (
       <div>
         <h3>Sanity Check</h3>
-        <div></div>
+        <div data-testid="message">{message}</div>
       </div>
     );
   }

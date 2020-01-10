@@ -11,11 +11,11 @@ class Auth {
       scope: "openid profile email"
     });
 
-    this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.getProfile = this.getProfile.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
-    this.signIn = this.signIn.bind(this);
-    this.signOut = this.signOut.bind(this);
+    // this.handleAuthentication = this.handleAuthentication.bind(this);
+    // this.getProfile = this.getProfile.bind(this);
+    // this.isAuthenticated = this.isAuthenticated.bind(this);
+    // this.signIn = this.signIn.bind(this);
+    // this.signOut = this.signOut.bind(this);
   }
 
   getProfile() {
@@ -55,9 +55,10 @@ class Auth {
           if (err) return reject(err);
           resolve({ user, authResult });
         });
-      }).then(data => {
-        this.setSession(data);
       });
+      // .then(data => {
+      //   this.setSession(data);
+      // });
     });
   }
 
@@ -71,27 +72,36 @@ class Auth {
   silentAuth() {
     return new Promise((resolve, reject) => {
       this.auth0.checkSession({}, (err, authResult) => {
-        if (err) return reject(err);
+        if (err) {
+          console.log("checkSession:Err ", err);
+          return reject(err);
+        }
+        console.log("checkSession:Auth ", authResult);
         resolve(authResult);
       });
     }).then(authResult => {
       return new Promise((resolve, reject) => {
         this.auth0.client.userInfo(authResult.accessToken, function(err, user) {
           // Now you have the user's information
-          if (err) return reject(err);
+          if (err) {
+            console.log("userInfo:Err ", err);
+            return reject(err);
+          }
+          console.log("checkSession:Auth ", authResult);
           resolve({ user, authResult });
         });
-      }).then(data => {
-        this.setSession(data);
       });
+      // .then(data => {
+      //   this.setSession(data);
+      // });
     });
   }
 
   signOut() {
     // clear id token, profile, and expiration
-    this.idToken = null;
-    this.profile = null;
-    this.expiresAt = null;
+    // this.idToken = null;
+    // this.profile = null;
+    // this.expiresAt = null;
     this.auth0.logout({
       returnTo: "http://localhost:3007",
       clientID: process.env.REACT_APP_AUTH0_CLIENT_ID

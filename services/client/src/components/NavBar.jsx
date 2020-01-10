@@ -2,7 +2,6 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import auth from "./../services/auth";
 import "./NavBar.css";
 
 const titleStyle = {
@@ -10,12 +9,8 @@ const titleStyle = {
 };
 
 const NavBar = props => {
-  const { title, logoutUser, isAuthenticated } = props;
-
-  const signOutAuth0 = () => {
-    auth.signOut();
-    props.history.replace("/");
-  };
+  // logoutUser, isAuthenticated
+  const { title, signIn, signOut, profile, isAuth } = props;
 
   let menu = (
     <div className="navbar-menu">
@@ -23,56 +18,56 @@ const NavBar = props => {
         <Link to="/about" className="navbar-item" data-testid="nav-about">
           About
         </Link>
+        {isAuth() && (
+          <Link to="/sanity" className="navbar-item" data-testid="nav-sanity">
+            Sanity
+          </Link>
+        )}
       </div>
       <div className="navbar-end">
-        <Link to="/register" className="navbar-item" data-testid="nav-register">
+        {/* <Link to="/register" className="navbar-item" data-testid="nav-register">
           Register
         </Link>
         <Link to="/login" className="navbar-item" data-testid="nav-login">
           Login
-        </Link>
-        {!auth.isAuthenticated() && (
-          // eslint-disable-next-line react/jsx-handler-names
-          <span className="navbar-item link" onClick={auth.signIn}>
-            Auth0 Sign In
-          </span>
-        )}
-        {auth.isAuthenticated() && (
+        </Link> */}
+        {isAuth() && (
           <>
-            <div className="navbar-item">{auth.getProfile().name}</div>
+            <div className="navbar-item">{profile.name}</div>
 
-            <div
-              className="navbar-item link"
-              onClick={() => {
-                signOutAuth0();
-              }}
-            >
-              Auth0 Sign Out
+            <div className="navbar-item link" onClick={signOut}>
+              SignOut
             </div>
           </>
+        )}
+
+        {!isAuth() && (
+          <span className="navbar-item link" onClick={signIn}>
+            SignIn
+          </span>
         )}
       </div>
     </div>
   );
-  if (isAuthenticated()) {
-    menu = (
-      <div className="navbar-menu">
-        <div className="navbar-start">
-          <Link to="/about" className="navbar-item" data-testid="nav-about">
-            About
-          </Link>
-          <Link to="/status" className="navbar-item" data-testid="nav-status">
-            User Status
-          </Link>
-        </div>
-        <div className="navbar-end">
-          <span onClick={logoutUser} className="navbar-item link" data-testid="nav-logout">
-            Logout
-          </span>
-        </div>
-      </div>
-    );
-  }
+  // if (isAuthenticated()) {
+  //   menu = (
+  //     <div className="navbar-menu">
+  //       <div className="navbar-start">
+  //         <Link to="/about" className="navbar-item" data-testid="nav-about">
+  //           About
+  //         </Link>
+  //         <Link to="/status" className="navbar-item" data-testid="nav-status">
+  //           User Status
+  //         </Link>
+  //       </div>
+  //       <div className="navbar-end">
+  //         <span onClick={logoutUser} className="navbar-item link" data-testid="nav-logout">
+  //           Logout
+  //         </span>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -102,9 +97,9 @@ const NavBar = props => {
 };
 
 NavBar.propTypes = {
-  title: PropTypes.string.isRequired,
-  logoutUser: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.func.isRequired
+  title: PropTypes.string.isRequired
+  // logoutUser: PropTypes.func.isRequired,
+  // isAuthenticated: PropTypes.func.isRequired
 };
 
 export default withRouter(NavBar);
