@@ -90,10 +90,10 @@ def test_add_wakepark(test_app, test_db):
 @pytest.mark.parametrize(
     "payload, message",
     [
-        ({}, "Invalid payload"),
+        ({}, "Input payload validation failed"),
         (
             {"description": "Cool wakepark!", "location": {"lat": 23, "lng": 99}},
-            "Invalid payload",
+            "Input payload validation failed",
         ),
     ],
 )
@@ -107,4 +107,4 @@ def test_create_wakepark_invalid_payload(test_app, test_db, payload, message):
     assert res.status_code == 400
     assert res.content_type == "application/json"
     assert message in data["message"]
-    assert not data["status"]
+    assert data["errors"]
