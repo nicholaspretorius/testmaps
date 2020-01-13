@@ -154,13 +154,7 @@ def test_delete_wakepark_not_found(test_app, test_db):
 def test_update_wakepark(test_app, test_db, add_wakepark):
     recreate_db()
 
-    wakepark = {
-        "name": "Stoke City Wakepark",
-        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
-        "location": {"lat": -25.952558, "lng": 28.185543},
-        "social": {"instagram": "stokecitywake"},
-    }
-
+    # initial wakepark
     new_wakepark = add_wakepark(
         "Stoke City Wakepark",
         "The only cablepark in Gauteng!",
@@ -168,6 +162,15 @@ def test_update_wakepark(test_app, test_db, add_wakepark):
         28.185543,
         "stokecitywake",
     )
+
+    # updated wakepark
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+        "location": {"lat": -25.952558, "lng": 28.185543},
+        "social": {"instagram": "stokecitywake"},
+    }
+
     client = test_app.test_client()
     res_one = client.put(
         f"/wakeparks/{new_wakepark.id}",
@@ -179,7 +182,7 @@ def test_update_wakepark(test_app, test_db, add_wakepark):
     assert res_one.status_code == 200
     assert res_one.content_type == "application/json"
     assert data["status"]
-    assert "Wakepark successfully updated." in data["message"]
+    assert "Wakepark successfully updated" in data["message"]
     assert data["wakepark"]
 
     res_two = client.get(f"/wakeparks/{new_wakepark.id}")
