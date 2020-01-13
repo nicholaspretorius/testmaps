@@ -1,4 +1,5 @@
 import json
+import pytest
 
 from project.tests.utils import recreate_db
 
@@ -65,3 +66,45 @@ def test_single_wakepark_no_id(test_app, test_db):
     assert res.status_code == 404
     assert not data["status"]
     assert "Resource not found" in data["message"]
+
+
+def test_add_wakepark(test_app, test_db):
+    client = test_app.test_client()
+
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only cablepark in Gauteng!",
+        "location": {"lat": -25.952558, "lng": 28.185543},
+        "social": {"instagram": "stokecitywake"},
+    }
+
+    res = client.post(
+        "/wakeparks/", data=json.dumps(wakepark), content_type="application/json"
+    )
+
+    data = json.loads(res.data.decode())
+    assert res.status_code == 201
+    assert wakepark["name"] in data["name"]
+
+
+@pytest.mark.parametrize(
+    "payload, message",
+    [
+        ({}, "Invalid payload"),
+        (
+            {"description": "Cool wakepark!", "location": {"lat": 23, "lng": 99}},
+            "Invalid payload",
+        ),
+    ],
+)
+def test_create_wakepark_invalid_payload(test_app, test_db, payload, message):
+    recreate_db()
+    client = test_app.test_client()
+    res = client.post(
+        "/wakeparks/", data=json.dumps(payload), content_type="application/json"
+    )
+    data = json.loads(res.data.decode())
+    assert res.status_code == 400
+    assert res.content_type == "application/json"
+    assert message in data["message"]
+    assert not data["status"]
