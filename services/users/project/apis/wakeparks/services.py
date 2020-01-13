@@ -25,3 +25,11 @@ def create_wakepark(name, description, lat, lng, instagram_handle):
     db.session.add(new_wakepark)
     db.session.commit()
     return new_wakepark
+
+
+def delete_wakepark(wakepark):
+    # We don't use "wakepark" directly since "wakepark" is augmented shape, del_wakepark is the Wakepark model shape
+    del_wakepark = Wakepark.query.filter_by(id=int(wakepark["id"])).first()
+    db.session.delete(del_wakepark)
+    db.session.commit()
+    return wakepark

@@ -5,6 +5,7 @@ from project.apis.wakeparks.services import (
     get_wakeparks,
     get_wakepark_by_id,
     create_wakepark,
+    delete_wakepark,
 )
 
 # from project.apis.auth0 import AuthError, requires_auth
@@ -106,3 +107,21 @@ class Wakeparks(Resource):
             api.abort(404, "Resource not found", status=False)
         else:
             return wakepark, 200
+
+    @api.response(200, "Success")
+    @api.response(404, "Resource not found")
+    def delete(self, wakepark_id):
+        """Deletes a single wakepark"""
+        wakepark = get_wakepark_by_id(wakepark_id)
+
+        if wakepark is None:
+            api.abort(404, "Resource not found", status=False)
+        else:
+            delete_wakepark(wakepark)
+            res = {
+                "status": True,
+                "message": "Wakepark was deleted",
+                "wakepark": wakepark,
+            }
+            print("Res: ", res)
+            return res, 200
