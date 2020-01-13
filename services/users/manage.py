@@ -3,7 +3,7 @@ from flask.cli import FlaskGroup
 from project import create_app, db
 
 from project.apis.users.models import User
-from project.apis.cableparks.models import Cablepark
+from project.apis.wakeparks.models import Wakepark
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -23,7 +23,7 @@ def seed_db():
     db.session.add(User(email="test@test.com", password="password"))
     db.session.add(User(email="another@test.com", password="password"))
     db.session.add(
-        Cablepark(
+        Wakepark(
             name="Stoke City Wakepark",
             description="The only cable wakepark in Gauteng!",
             lat=-25.952558,

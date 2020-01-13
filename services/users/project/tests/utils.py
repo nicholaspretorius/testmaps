@@ -1,6 +1,6 @@
 from project import db
 from project.apis.users.models import User
-from project.apis.cableparks.models import Cablepark
+from project.apis.wakeparks.models import Wakepark
 
 
 def add_user(email, password):
@@ -12,16 +12,16 @@ def add_user(email, password):
 
 
 def add_cablepark(name, description, lat, lng, instagram_handle):
-    cablepark = Cablepark(
+    wakepark = Wakepark(
         name=name,
         description=description,
         lat=lat,
         lng=lng,
         instagram_handle=instagram_handle,
     )
-    db.session.add(cablepark)
+    db.session.add(wakepark)
     db.session.commit()
-    return cablepark
+    return wakepark
 
 
 def recreate_db():

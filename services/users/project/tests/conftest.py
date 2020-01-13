@@ -2,7 +2,7 @@ import pytest
 
 from project import create_app, db
 from project.apis.users.models import User
-from project.apis.cableparks.models import Cablepark
+from project.apis.wakeparks.models import Wakepark
 
 
 # everything before yield is 'setup' and after yield is 'teardown'
@@ -34,17 +34,17 @@ def add_user():
 
 
 @pytest.fixture(scope="module")
-def add_cablepark():
-    def _add_cablepark(name, description, lat, lng, instagram_handle):
-        cablepark = Cablepark(
+def add_wakepark():
+    def _add_wakepark(name, description, lat, lng, instagram_handle):
+        wakepark = Wakepark(
             name=name,
             description=description,
             lat=lat,
             lng=lng,
             instagram_handle=instagram_handle,
         )
-        db.session.add(cablepark)
+        db.session.add(wakepark)
         db.session.commit()
-        return cablepark
+        return wakepark
 
-    return _add_cablepark
+    return _add_wakepark
