@@ -170,3 +170,9 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 * Visit (client)[https://waketestmaps.herokuapp.com/`]
 * Visit (api)[https://waketestmaps.herokuapp.com/users/`]
 * Visit (Swagger)[https://waketestmaps.herokuapp.com/docs`]
+
+
+### Notes on Auth0
+
+* When using Google (or social login), auth.checkSession will require login on refresh for localhost (see [here](https://community.auth0.com/t/checksession-always-return-login-required-on-localhost/22119/3)). 
+* When mocking Auth0, you can use this [approach](https://stackoverflow.com/questions/48552474/auth0-obtain-access-token-for-unit-tests-in-python/48554119#48554119). 
