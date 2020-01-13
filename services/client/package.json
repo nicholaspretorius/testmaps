@@ -25,6 +25,7 @@
     "prettier:write": "prettier --write 'src/**/*.{js,jsx,json}'",
     "cypress:open": "cypress open",
     "test": "react-scripts test",
+    "test-coverage": "react-scripts test --bail --coverage --no-cache --env=jsdom --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -47,5 +48,14 @@
     "cypress": "^3.8.1",
     "eslint-config-standard-jsx": "8.1.0",
     "prettier": "1.19.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/{!index,}.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
   }
 }
