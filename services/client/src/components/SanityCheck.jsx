@@ -27,7 +27,7 @@ class SanityCheck extends Component {
         this.setState({ message: res.data.hello });
       })
       .catch(err => {
-        console.log("Error: ", err);
+        // console.log("Error: ", err);
       });
   }
 
