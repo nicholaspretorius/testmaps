@@ -1,7 +1,7 @@
 # from flask import request
 from flask_restplus import Namespace, Resource, fields
 
-from project.apis.wakeparks.services import get_wakeparks
+from project.apis.wakeparks.services import get_wakeparks, get_wakepark_by_id
 
 # from project.apis.auth0 import AuthError, requires_auth
 
@@ -53,3 +53,18 @@ class WakeparkList(Resource):
     def get(self):
         """List all wakeparks"""
         return get_wakeparks(), 200
+
+
+@api.route("/<int:wakepark_id>")
+class Wakeparks(Resource):
+    @api.marshal_with(WAKEPARK)
+    @api.response(200, "Success")
+    @api.response(404, "Resource not found")
+    def get(self, wakepark_id):
+        """Returns a single wakepark"""
+        wakepark = get_wakepark_by_id(wakepark_id)
+
+        if wakepark is None:
+            api.abort(404, "Resource not found", status=False)
+        else:
+            return wakepark, 200

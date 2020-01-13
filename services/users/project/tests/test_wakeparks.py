@@ -39,6 +39,8 @@ def test_get_single_wakepark(test_app, test_db, add_wakepark):
         "stokecitywake",
     )
     client = test_app.test_client()
+    id = wakepark.id
+    print("Id: ", id)
     res = client.get(f"/wakeparks/{wakepark.id}")
     data = json.loads(res.data.decode())
     assert res.status_code == 200
