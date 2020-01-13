@@ -2,6 +2,7 @@ import pytest
 
 from project import create_app, db
 from project.apis.users.models import User
+from project.apis.cableparks.models import Cablepark
 
 
 # everything before yield is 'setup' and after yield is 'teardown'
@@ -30,3 +31,20 @@ def add_user():
         return user
 
     return _add_user
+
+
+@pytest.fixture(scope="module")
+def add_cablepark():
+    def _add_cablepark(name, description, lat, lng, instagram_handle):
+        cablepark = Cablepark(
+            name=name,
+            description=description,
+            lat=lat,
+            lng=lng,
+            instagram_handle=instagram_handle,
+        )
+        db.session.add(cablepark)
+        db.session.commit()
+        return cablepark
+
+    return _add_cablepark
