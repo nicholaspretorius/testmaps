@@ -108,3 +108,43 @@ def test_create_wakepark_invalid_payload(test_app, test_db, payload, message):
     assert res.content_type == "application/json"
     assert message in data["message"]
     assert data["errors"]
+
+
+def test_delete_wakepark(test_app, test_db, add_wakepark):
+    recreate_db()
+    add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+    )
+    client = test_app.test_client()
+    res_one = client.get("/wakeparks/")
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 200
+    assert res_one.content_type == "application/json"
+    assert len(data) == 1
+
+    res_two = client.delete(f"/wakeparks/1")
+    data = json.loads(res_two.data.decode())
+    assert res_two.status_code == 200
+    assert res_two.content_type == "application/json"
+    assert data["status"]
+    assert "Wakepark was deleted" in data["message"]
+    assert data["wakepark"]
+
+    res_three = client.get("/wakeparks/")
+    data = json.loads(res_three.data.decode())
+    assert res_three.status_code == 200
+    assert res_three.content_type == "application/json"
+    assert len(data) == 0
+
+
+def test_delete_wakepark_not_found(test_app, test_db):
+    client = test_app.test_client()
+    res = client.delete(f"/wakeparks/999")
+    data = json.loads(res.data.decode())
+    assert res.status_code == 404
+    assert not data["status"]
+    assert "Resource not found" in data["message"]
