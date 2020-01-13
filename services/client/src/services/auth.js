@@ -40,7 +40,8 @@ class Auth {
     return new Promise((resolve, reject) => {
       this.auth0.checkSession({}, (err, authResult) => {
         if (err) {
-          console.log(err);
+          // TODO: How to remove these from tests...?
+          // console.log(err);
           return reject(err);
         }
         resolve(authResult);
@@ -50,7 +51,7 @@ class Auth {
         this.auth0.client.userInfo(authResult.accessToken, function(err, user) {
           // Now you have the user's information
           if (err) {
-            console.log(err);
+            // console.log(err);
             return reject(err);
           }
           resolve({ user, authResult });
