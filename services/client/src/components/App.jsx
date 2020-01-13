@@ -51,7 +51,7 @@ class App extends React.Component {
         accessToken: res.authResult.accessToken,
         expiresAt: new Date().getTime() + res.authResult.expiresIn * 1000
       });
-      localStorage.setItem("token", this.state.accessToken);
+      localStorage.setItem("accessToken", this.state.accessToken);
       this.props.history.replace("/");
     } catch (err) {
       console.log("onHandleAuth: ", err);
@@ -218,11 +218,14 @@ class App extends React.Component {
       localStorage.setItem("token", this.state.accessToken);
       this.forceUpdate();
     } catch (err) {
-      // Auth0 clientID required - check env vars
-      console.log(err);
+      // TODO: Auth0 clientID required - check env vars, how to add for testing?
+      // console.log(err);
 
       // silent auth failed, user not logged in - no need to worry!
-      if (err.error !== "login_required") console.log("Err.error: ", err);
+      if (err.error !== "login_required") {
+        // TODO: How to handle in tests for Auth0?
+        // console.log("Err.error: ", err);
+      }
     }
   }
 
@@ -326,13 +329,7 @@ class App extends React.Component {
                     path="/callback"
                     render={() => <Callback onHandleAuth={this.onHandleAuth} />}
                   />
-                  {this.isAuth() && (
-                    <Route
-                      exact
-                      path="/sanity"
-                      render={() => <SanityCheck accessToken={accessToken} />}
-                    />
-                  )}
+                  {this.isAuth() && <Route exact path="/sanity" render={() => <SanityCheck />} />}
                 </Switch>
               </div>
             </div>

@@ -5,8 +5,7 @@ import localStorage from "./../services/localStorage";
 
 class SanityCheck extends Component {
   state = {
-    message: "",
-    accessToken: this.props.accessToken || localStorage.getItem("accessToken") || null
+    message: ""
   };
 
   componentDidMount() {
@@ -19,7 +18,7 @@ class SanityCheck extends Component {
       methods: "get",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.state.accessToken}`
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
       }
     };
 

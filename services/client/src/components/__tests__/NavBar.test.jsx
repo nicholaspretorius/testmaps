@@ -8,10 +8,10 @@ afterEach(cleanup);
 describe("when not authenticated", () => {
   const props = {
     title: "Hello, world!",
-    logoutUser: () => {
-      return true;
-    },
-    isAuthenticated: jest.fn().mockImplementation(() => false)
+    isAuth: jest.fn().mockImplementation(() => false),
+    profile: null,
+    signIn: () => true,
+    signOut: () => false
   };
 
   it("renders a title", () => {
@@ -22,12 +22,12 @@ describe("when not authenticated", () => {
   it("renders the default props", async () => {
     const { getByText, findByTestId } = renderWithRouter(<NavBar {...props} />);
     expect(getByText(props.title)).toHaveClass("nav-title");
-    // await wait(() => {
-    //   // TODO: Investigate why it is running twice... render/componentDidMount
-    //   expect(props.isAuthenticated).toHaveBeenCalledTimes(2);
-    // });
+    await wait(() => {
+      // TODO: Investigate why it is running twice... render/componentDidMount
+      expect(props.isAuth).toHaveBeenCalledTimes(6);
+    });
     expect((await findByTestId("nav-about")).innerHTML).toBe("About");
-    // expect((await findByTestId("nav-register")).innerHTML).toBe("Register");
+    expect((await findByTestId("nav-signin")).innerHTML).toBe("SignIn");
     // expect((await findByTestId("nav-login")).innerHTML).toBe("Login");
   });
 
@@ -39,11 +39,11 @@ describe("when not authenticated", () => {
 
 describe("when authenticated", () => {
   const props = {
-    title: "Hello, world!"
-    // logoutUser: () => {
-    //   return false;
-    // },
-    // isAuthenticated: jest.fn().mockImplementation(() => true)
+    title: "Hello, world!",
+    isAuth: jest.fn().mockImplementation(() => true),
+    profile: { name: "test@test.com" },
+    signIn: () => false,
+    signOut: () => true
   };
 
   it("renders a title", () => {
@@ -54,13 +54,13 @@ describe("when authenticated", () => {
   it("renders the default props", async () => {
     const { getByText, findByTestId } = renderWithRouter(<NavBar {...props} />);
     expect(getByText(props.title)).toHaveClass("nav-title");
-    // await wait(() => {
-    //   // TODO: Investigate why it is running twice... render/componentDidMount
-    //   expect(props.isAuthenticated).toHaveBeenCalledTimes(2);
-    // });
+    await wait(() => {
+      // TODO: Investigate why it is running twice... render/componentDidMount
+      expect(props.isAuth).toHaveBeenCalledTimes(6);
+    });
     expect((await findByTestId("nav-about")).innerHTML).toBe("About");
-    // expect((await findByTestId("nav-status")).innerHTML).toBe("User Status");
-    // expect((await findByTestId("nav-logout")).innerHTML).toBe("Logout");
+    expect((await findByTestId("nav-signout")).innerHTML).toBe("SignOut");
+    expect((await findByTestId("nav-sanity")).innerHTML).toBe("Sanity");
   });
 
   it("renders", () => {

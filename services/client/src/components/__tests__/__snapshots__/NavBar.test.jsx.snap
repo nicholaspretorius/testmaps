@@ -43,21 +43,26 @@ exports[`when authenticated renders 1`] = `
           </a>
           <a
             class="navbar-item"
-            data-testid="nav-status"
-            href="/status"
+            data-testid="nav-sanity"
+            href="/sanity"
           >
-            User Status
+            Sanity
           </a>
         </div>
         <div
           class="navbar-end"
         >
-          <span
-            class="navbar-item link"
-            data-testid="nav-logout"
+          <div
+            class="navbar-item"
           >
-            Logout
-          </span>
+            test@test.com
+          </div>
+          <div
+            class="navbar-item link"
+            data-testid="nav-signout"
+          >
+            SignOut
+          </div>
         </div>
       </div>
     </section>
@@ -110,20 +115,12 @@ exports[`when not authenticated renders 1`] = `
         <div
           class="navbar-end"
         >
-          <a
-            class="navbar-item"
-            data-testid="nav-register"
-            href="/register"
+          <span
+            class="navbar-item link"
+            data-testid="nav-signin"
           >
-            Register
-          </a>
-          <a
-            class="navbar-item"
-            data-testid="nav-login"
-            href="/login"
-          >
-            Login
-          </a>
+            SignIn
+          </span>
         </div>
       </div>
     </section>

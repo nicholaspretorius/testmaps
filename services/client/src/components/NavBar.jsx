@@ -35,14 +35,14 @@ const NavBar = props => {
           <>
             <div className="navbar-item">{profile.name}</div>
 
-            <div className="navbar-item link" onClick={signOut}>
+            <div className="navbar-item link" onClick={signOut} data-testid="nav-signout">
               SignOut
             </div>
           </>
         )}
 
         {!isAuth() && (
-          <span className="navbar-item link" onClick={signIn}>
+          <span className="navbar-item link" onClick={signIn} data-testid="nav-signin">
             SignIn
           </span>
         )}
@@ -97,7 +97,10 @@ const NavBar = props => {
 };
 
 NavBar.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  isAuth: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired
   // logoutUser: PropTypes.func.isRequired,
   // isAuthenticated: PropTypes.func.isRequired
 };

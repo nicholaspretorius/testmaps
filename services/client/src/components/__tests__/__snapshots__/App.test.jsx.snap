@@ -46,20 +46,12 @@ exports[`renders a snapshot 1`] = `
           <div
             class="navbar-end"
           >
-            <a
-              class="navbar-item"
-              data-testid="nav-register"
-              href="/register"
+            <span
+              class="navbar-item link"
+              data-testid="nav-signin"
             >
-              Register
-            </a>
-            <a
-              class="navbar-item"
-              data-testid="nav-login"
-              href="/login"
-            >
-              Login
-            </a>
+              SignIn
+            </span>
           </div>
         </div>
       </section>
@@ -85,6 +77,11 @@ exports[`renders a snapshot 1`] = `
               </h1>
               <hr />
               <br />
+              <button
+                class="button is-primary"
+              >
+                Add User
+              </button>
               <br />
               <br />
               <div>
