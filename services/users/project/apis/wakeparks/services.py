@@ -11,7 +11,7 @@ def get_wakepark_by_id(id):
     if wakepark is None:
         return None
 
-    return wakepark.to_json()
+    return wakepark
 
 
 def create_wakepark(name, description, lat, lng, instagram_handle):
@@ -28,8 +28,16 @@ def create_wakepark(name, description, lat, lng, instagram_handle):
 
 
 def delete_wakepark(wakepark):
-    # We don't use "wakepark" directly since "wakepark" is augmented shape, del_wakepark is the Wakepark model shape
-    del_wakepark = Wakepark.query.filter_by(id=int(wakepark["id"])).first()
-    db.session.delete(del_wakepark)
+    db.session.delete(wakepark)
+    db.session.commit()
+    return wakepark
+
+
+def update_wakepark(wakepark, name, description, lat, lng, instagram_handle):
+    wakepark.name = name
+    wakepark.description = description
+    wakepark.lat = lat
+    wakepark.lng = lng
+    wakepark.instagram_handle = instagram_handle
     db.session.commit()
     return wakepark

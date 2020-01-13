@@ -6,6 +6,7 @@ from project.apis.wakeparks.services import (
     get_wakepark_by_id,
     create_wakepark,
     delete_wakepark,
+    update_wakepark,
 )
 
 # from project.apis.auth0 import AuthError, requires_auth
@@ -106,7 +107,7 @@ class Wakeparks(Resource):
         if wakepark is None:
             api.abort(404, "Resource not found", status=False)
         else:
-            return wakepark, 200
+            return wakepark.to_json(), 200
 
     @api.response(200, "Success")
     @api.response(404, "Resource not found")
@@ -121,7 +122,39 @@ class Wakeparks(Resource):
             res = {
                 "status": True,
                 "message": "Wakepark was deleted",
-                "wakepark": wakepark,
+                "wakepark": wakepark.to_json(),
             }
-            print("Res: ", res)
             return res, 200
+
+    @api.expect(WAKEPARK, validate=True)
+    @api.response(200, "Success")
+    @api.response(400, "Invalid payload")
+    @api.response(404, "Resource not found")
+    def put(self, wakepark_id):
+        """Update a single wakepark"""
+        wakepark = get_wakepark_by_id(wakepark_id)
+
+        if wakepark is None:
+            api.abort(404, "Resource not found", status=False)
+
+        post_data = request.get_json()
+        name = post_data.get("name")
+        description = post_data.get("description")
+
+        if post_data.get("location"):
+            lat = post_data.get("location")["lat"]
+            lng = post_data.get("location")["lng"]
+
+        if post_data.get("social"):
+            instagram_handle = post_data.get("social")["instagram"]
+
+        updated_wakepark = update_wakepark(
+            wakepark, name, description, lat, lng, instagram_handle
+        )
+
+        res = {
+            "status": True,
+            "message": "Wakepark successfully updated",
+            "wakepark": updated_wakepark.to_json(),
+        }
+        return res, 200
