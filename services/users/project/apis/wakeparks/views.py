@@ -1,28 +1,41 @@
-# from flask import request
+from flask import request
 from flask_restplus import Namespace, Resource, fields
 
-from project.apis.wakeparks.services import get_wakeparks, get_wakepark_by_id
+from project.apis.wakeparks.services import (
+    get_wakeparks,
+    get_wakepark_by_id,
+    create_wakepark,
+)
 
 # from project.apis.auth0 import AuthError, requires_auth
 
 api = Namespace("wakeparks", description="Wakeparks resource")
 
-location_fields = {}
-location_fields["lat"] = fields.Float(
-    required=True,
-    description="The latitude co-ordinates of the wakepark location",
-    example="-25.952558",
-)
-location_fields["lng"] = fields.Float(
-    required=True,
-    description="The longitude co-ordinates of the wakepark location",
-    example="28.185543",
+LOCATION = api.model(
+    "LOCATION",
+    {
+        "lat": fields.Float(
+            required=True,
+            description="The latitude co-ordinates of the wakepark location",
+            example="-25.952558",
+        ),
+        "lng": fields.Float(
+            required=True,
+            description="The longitude co-ordinates of the wakepark location",
+            example="28.185543",
+        ),
+    },
 )
 
-social_fields = {}
-social_fields["instagram"] = fields.String(
-    required=False,
-    description="The official Instragram handle for the wakepark. ONLY the handle. (Do not include https://instagram.com)",
+
+SOCIAL = api.model(
+    "SOCIAL",
+    {
+        "instagram": fields.String(
+            required=False,
+            description="The official Instragram handle for the wakepark. ONLY the handle. (Do not include https://instagram.com)",
+        )
+    },
 )
 
 WAKEPARK = api.model(
@@ -41,8 +54,8 @@ WAKEPARK = api.model(
             description="A short (less than 255 characters) description of the wakepark",
             example="Stoke City Wakepark",
         ),
-        "location": fields.Nested(location_fields),
-        "social": fields.Nested(social_fields),
+        "location": fields.Nested(LOCATION),
+        "social": fields.Nested(SOCIAL),
     },
 )
 
@@ -53,6 +66,31 @@ class WakeparkList(Resource):
     def get(self):
         """List all wakeparks"""
         return get_wakeparks(), 200
+
+    @api.expect(WAKEPARK, validate=True)
+    @api.response(201, "Wakepark was added!")
+    @api.response(400, "invalid payload")
+    def post(self):
+        """Create Wakepark"""
+        post_data = request.get_json()
+        name = post_data.get("name")
+        description = post_data.get("description")
+
+        if post_data.get("location"):
+            lat = post_data.get("location")["lat"]
+            lng = post_data.get("location")["lng"]
+
+        if post_data.get("social"):
+            instagram_handle = post_data.get("social")["instagram"]
+
+        res = {"status": False, "message": "Invalid payload"}
+
+        if name is None or description is None:
+            return res, 400
+
+        new_wakepark = create_wakepark(name, description, lat, lng, instagram_handle)
+        res = new_wakepark.to_json()
+        return res, 201
 
 
 @api.route("/<int:wakepark_id>")
