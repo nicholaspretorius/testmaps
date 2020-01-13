@@ -146,5 +146,67 @@ def test_delete_wakepark_not_found(test_app, test_db):
     res = client.delete(f"/wakeparks/999")
     data = json.loads(res.data.decode())
     assert res.status_code == 404
+    assert res.content_type == "application/json"
+    assert not data["status"]
+    assert "Resource not found" in data["message"]
+
+
+def test_update_wakepark(test_app, test_db, add_wakepark):
+    recreate_db()
+
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+        "location": {"lat": -25.952558, "lng": 28.185543},
+        "social": {"instagram": "stokecitywake"},
+    }
+
+    new_wakepark = add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+    )
+    client = test_app.test_client()
+    res_one = client.put(
+        f"/wakeparks/{new_wakepark.id}",
+        data=json.dumps(wakepark),
+        content_type="application/json",
+    )
+
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 200
+    assert res_one.content_type == "application/json"
+    assert data["status"]
+    assert "Wakepark successfully updated." in data["message"]
+    assert data["wakepark"]
+
+    res_two = client.get(f"/wakeparks/{new_wakepark.id}")
+    data = json.loads(res_two.data.decode())
+    assert res_two.status_code == 200
+    assert res_two.content_type == "application/json"
+    assert "The only 5 Tower and 2 Tower cablepark in Gauteng!" in data["description"]
+
+
+def test_update_wakepark_not_found(test_app, test_db):
+
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+        "location": {"lat": -25.952558, "lng": 28.185543},
+        "social": {"instagram": "stokecitywake"},
+    }
+
+    recreate_db()
+    client = test_app.test_client()
+    res = client.put(
+        f"/wakeparks/999",
+        data=json.dumps(wakepark),
+        content_type="application/json",
+    )
+    data = json.loads(res.data.decode())
+    assert res.status_code == 404
+    assert res.content_type == "application/json"
     assert not data["status"]
     assert "Resource not found" in data["message"]
