@@ -43,26 +43,13 @@ def update_wakepark(wakepark, name, description, lat, lng, instagram_handle):
     return wakepark
 
 
-def flatten(wakepark):
-    flat = {
-        "name": wakepark["name"],
-        "description": wakepark["description"],
-        "lat": wakepark["location"]["lat"],
-        "lng": wakepark["location"]["lng"],
-        "instagram_handle": wakepark["social"]["instagram"],
-    }
-
-    return flat
-
-
 def patch_wakepark(wakepark, updated_wakepark):
-    updated = flatten(updated_wakepark)
     existing = wakepark.to_dict()
 
     for field in existing:
         if field != "id":
-            if updated[field]:
-                setattr(wakepark, field, updated[field])
+            if field in updated_wakepark:
+                setattr(wakepark, field, updated_wakepark[field])
 
     db.session.commit()
     return wakepark

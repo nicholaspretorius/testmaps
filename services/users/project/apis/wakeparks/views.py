@@ -7,7 +7,7 @@ from project.apis.wakeparks.services import (
     create_wakepark,
     delete_wakepark,
     update_wakepark,
-    patch_wakepark
+    patch_wakepark,
 )
 
 # from project.apis.auth0 import AuthError, requires_auth
@@ -59,6 +59,30 @@ WAKEPARK = api.model(
         ),
         "location": fields.Nested(LOCATION),
         "social": fields.Nested(SOCIAL),
+    },
+)
+
+UPDATE_WAKEPARK = api.model(
+    "UPDATE_WAKEPARK",
+    {
+        "name": fields.String(
+            description="The name of the wakepark", example="Stoke City Wakepark"
+        ),
+        "description": fields.String(
+            description="A short (less than 255 characters) description of the wakepark",
+            example="Stoke City Wakepark",
+        ),
+        "lat": fields.Float(
+            description="The latitude co-ordinates of the wakepark location",
+            example="-25.952558",
+        ),
+        "lng": fields.Float(
+            description="The longitude co-ordinates of the wakepark location",
+            example="28.185543",
+        ),
+        "instagram_handle": fields.String(
+            description="The official Instragram handle for the wakepark. ONLY the handle. (Do not include https://instagram.com)"
+        ),
     },
 )
 
@@ -161,12 +185,12 @@ class Wakeparks(Resource):
         }
         return res, 200
 
-    @api.expect(WAKEPARK, validate=True)
+    @api.expect(UPDATE_WAKEPARK, validate=True)
     @api.response(200, "Success")
     @api.response(400, "Invalid payload")
     @api.response(404, "Resource not found")
     def patch(self, wakepark_id):
-        """Update a single wakepark"""
+        """Update a single wakepark - check expected payload shape!"""
         wakepark = get_wakepark_by_id(wakepark_id)
 
         if wakepark is None:
@@ -174,9 +198,11 @@ class Wakeparks(Resource):
 
         post_data = request.get_json()
 
-        updated_wakepark = patch_wakepark(
-            wakepark, post_data
-        )
+        for field in post_data:
+            if field not in wakepark.to_dict():
+                api.abort(400, "Invalid payload", status=False)
+
+        updated_wakepark = patch_wakepark(wakepark, post_data)
 
         res = {
             "status": True,
