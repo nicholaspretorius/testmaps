@@ -105,6 +105,7 @@ class WakeparkList(Resource):
     @api.response(201, "Wakepark was added!")
     @api.response(400, "Invalid payload")
     @api.response(401, "Unauthorised")
+    @api.response(403, "Forbidden")
     @requires_auth("post:cableparks")
     def post(self, payload):
         """Create Wakepark"""
@@ -148,7 +149,10 @@ class Wakeparks(Resource):
         else:
             return wakepark.to_json(), 200
 
+    @api.expect(parser)
     @api.response(200, "Success")
+    @api.response(401, "Unauthorised")
+    @api.response(403, "Forbidden")
     @api.response(404, "Resource not found")
     @requires_auth("delete:cableparks")
     def delete(self, wakepark_id, payload):
@@ -170,9 +174,11 @@ class Wakeparks(Resource):
             return abort(401)
 
     # TODO: Need to refactor how this route selects what to update and what not to
-    @api.expect(WAKEPARK, validate=True)
+    @api.expect(parser, WAKEPARK, validate=True)
     @api.response(200, "Success")
     @api.response(400, "Invalid payload")
+    @api.response(401, "Unauthorised")
+    @api.response(403, "Forbidden")
     @api.response(404, "Resource not found")
     @requires_auth("put:cableparks")
     def put(self, wakepark_id):
@@ -207,9 +213,11 @@ class Wakeparks(Resource):
         except AuthError:
             return abort(401)
 
-    @api.expect(UPDATE_WAKEPARK, validate=True)
+    @api.expect(parser, UPDATE_WAKEPARK, validate=True)
     @api.response(200, "Success")
     @api.response(400, "Invalid payload")
+    @api.response(401, "Unauthorised")
+    @api.response(403, "Forbidden")
     @api.response(404, "Resource not found")
     @requires_auth("put:cableparks")
     def patch(self, wakepark_id):
