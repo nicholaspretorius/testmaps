@@ -203,6 +203,44 @@ def test_delete_wakepark_not_found(test_app, test_db):
     assert "Resource not found" in data["message"]
 
 
+@pytest.mark.parametrize(
+    "headers, code, description",
+    [
+        ({}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+    ],
+)
+def test_delete_wakepark_unauthorised(test_app, test_db, add_wakepark, headers, code, description):
+    recreate_db()
+
+    add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+    )
+    client = test_app.test_client()
+    res_one = client.get("/wakeparks/")
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 200
+    assert res_one.content_type == "application/json"
+    assert len(data) == 1
+
+    res_two = client.delete(
+        f"/wakeparks/1", headers=headers
+    )
+    data = json.loads(res_two.data.decode())
+    assert res_two.status_code == 401
+    assert res_two.content_type == "application/json"
+    assert description in data["description"]
+    assert code in data["code"]
+
+
 def test_update_wakepark(test_app, test_db, add_wakepark):
     recreate_db()
 
@@ -267,6 +305,52 @@ def test_update_wakepark_not_found(test_app, test_db):
     assert res.content_type == "application/json"
     assert not data["status"]
     assert "Resource not found" in data["message"]
+
+
+@pytest.mark.parametrize(
+    "headers, code, description",
+    [
+        ({}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+    ],
+)
+def test_update_wakepark_unauthorised(test_app, test_db, add_wakepark, headers, code, description):
+    recreate_db()
+
+    # initial wakepark
+    new_wakepark = add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+    )
+
+    # updated wakepark
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+        "location": {"lat": -25.952558, "lng": 28.185543},
+        "social": {"instagram": "stokecitywake"},
+    }
+
+    client = test_app.test_client()
+    res_one = client.put(
+        f"/wakeparks/{new_wakepark.id}",
+        data=json.dumps(wakepark),
+        headers=headers,
+        content_type="application/json",
+    )
+
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 401
+    assert res_one.content_type == "application/json"
+    assert description in data["description"]
+    assert code in data["code"]
 
 
 def test_patch_wakepark(test_app, test_db, add_wakepark):
@@ -334,3 +418,50 @@ def test_patch_wakepark_not_found(test_app, test_db):
     assert res.content_type == "application/json"
     assert not data["status"]
     assert "Resource not found" in data["message"]
+
+
+@pytest.mark.parametrize(
+    "headers, code, description",
+    [
+        ({}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+    ],
+)
+def test_patch_wakepark_unauthorised(test_app, test_db, add_wakepark, headers, code, description):
+    recreate_db()
+
+    # initial wakepark
+    new_wakepark = add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+    )
+
+    # updated wakepark
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+        "lat": -25.952558,
+        "lng": 28.185543,
+        "instagram_handle": "stokecitywake",
+    }
+
+    client = test_app.test_client()
+    res_one = client.patch(
+        f"/wakeparks/{new_wakepark.id}",
+        data=json.dumps(wakepark),
+        headers=headers,
+        content_type="application/json",
+    )
+
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 401
+    assert res_one.content_type == "application/json"
+    assert description in data["description"]
+    assert code in data["code"]
