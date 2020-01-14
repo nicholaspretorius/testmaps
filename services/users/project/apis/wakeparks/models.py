@@ -36,3 +36,13 @@ class Wakepark(db.Model):
                 "instagram": f"https://www.instagram.com/{self.instagram_handle}"
             },
         }
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "lat": self.lat,
+            "lng": self.lng,
+            "description": self.description,
+            "instagram_handle": self.instagram_handle,
+        }
