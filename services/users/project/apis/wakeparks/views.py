@@ -7,6 +7,7 @@ from project.apis.wakeparks.services import (
     create_wakepark,
     delete_wakepark,
     update_wakepark,
+    patch_wakepark
 )
 
 # from project.apis.auth0 import AuthError, requires_auth
@@ -126,6 +127,7 @@ class Wakeparks(Resource):
             }
             return res, 200
 
+    # TODO: Need to refactor how this route selects what to update and what not to
     @api.expect(WAKEPARK, validate=True)
     @api.response(200, "Success")
     @api.response(400, "Invalid payload")
@@ -150,6 +152,30 @@ class Wakeparks(Resource):
 
         updated_wakepark = update_wakepark(
             wakepark, name, description, lat, lng, instagram_handle
+        )
+
+        res = {
+            "status": True,
+            "message": "Wakepark successfully updated",
+            "wakepark": updated_wakepark.to_json(),
+        }
+        return res, 200
+
+    @api.expect(WAKEPARK, validate=True)
+    @api.response(200, "Success")
+    @api.response(400, "Invalid payload")
+    @api.response(404, "Resource not found")
+    def patch(self, wakepark_id):
+        """Update a single wakepark"""
+        wakepark = get_wakepark_by_id(wakepark_id)
+
+        if wakepark is None:
+            api.abort(404, "Resource not found", status=False)
+
+        post_data = request.get_json()
+
+        updated_wakepark = patch_wakepark(
+            wakepark, post_data
         )
 
         res = {
