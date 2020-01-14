@@ -1,5 +1,6 @@
 import json
 import os
+
 import requests
 
 from project import db

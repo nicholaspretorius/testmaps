@@ -1,4 +1,5 @@
 import json
+
 import pytest
 
 from project.tests.utils import get_auth0_access_token, recreate_db

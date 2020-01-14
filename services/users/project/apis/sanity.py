@@ -1,5 +1,6 @@
 from flask import abort
 from flask_restplus import Namespace, Resource
+
 from project.apis.auth0 import AuthError, requires_auth
 
 api = Namespace("sanity", description="Auth sanity check routes")
