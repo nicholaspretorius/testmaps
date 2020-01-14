@@ -231,8 +231,9 @@ def test_patch_wakepark(test_app, test_db, add_wakepark):
     wakepark = {
         "name": "Stoke City Wakepark",
         "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
-        "location": {"lat": -25.952558, "lng": 28.185543},
-        "social": {"instagram": "stokecitywake"},
+        "lat": -25.952558,
+        "lng": 28.185543,
+        "instagram_handle": "stokecitywake",
     }
 
     client = test_app.test_client()
