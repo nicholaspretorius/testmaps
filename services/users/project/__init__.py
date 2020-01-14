@@ -50,6 +50,10 @@ def create_app(script_info=None):
         response.status_code = ex.status_code
         return response
 
+    @app.errorhandler(400)
+    def invalid_payload(error):
+        return jsonify({"status": False, "message": "Invalid payload"}), 400
+
     @app.errorhandler(401)
     def unauthorized(error):
         return jsonify({"status": False, "message": "Unauthorized"}), 401
