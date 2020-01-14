@@ -164,7 +164,7 @@ class App extends React.Component {
   signOut = () => {
     this.props.history.replace("/");
     this.setState({ profile: null, expiresAt: null, accessToken: null });
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
     auth.signOut();
   };
 
@@ -215,7 +215,7 @@ class App extends React.Component {
         accessToken: res.authResult.accessToken,
         expiresAt: new Date().getTime() + res.authResult.expiresIn * 1000
       });
-      localStorage.setItem("token", this.state.accessToken);
+      localStorage.setItem("accessToken", this.state.accessToken);
       this.forceUpdate();
     } catch (err) {
       // TODO: Auth0 clientID required - check env vars, how to add for testing?
