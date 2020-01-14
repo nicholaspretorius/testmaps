@@ -155,7 +155,7 @@ class Wakeparks(Resource):
     @api.response(403, "Forbidden")
     @api.response(404, "Resource not found")
     @requires_auth("delete:cableparks")
-    def delete(self, wakepark_id, payload):
+    def delete(self, payload, wakepark_id):
         """Deletes a single wakepark"""
         try:
             wakepark = get_wakepark_by_id(wakepark_id)
@@ -181,7 +181,7 @@ class Wakeparks(Resource):
     @api.response(403, "Forbidden")
     @api.response(404, "Resource not found")
     @requires_auth("put:cableparks")
-    def put(self, wakepark_id):
+    def put(self, payload, wakepark_id):
         """Update a single wakepark"""
         try:
             wakepark = get_wakepark_by_id(wakepark_id)
@@ -220,7 +220,7 @@ class Wakeparks(Resource):
     @api.response(403, "Forbidden")
     @api.response(404, "Resource not found")
     @requires_auth("put:cableparks")
-    def patch(self, wakepark_id):
+    def patch(self, payload, wakepark_id):
         """Update a single wakepark - check expected payload shape!"""
         try:
             wakepark = get_wakepark_by_id(wakepark_id)
