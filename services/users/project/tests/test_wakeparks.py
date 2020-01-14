@@ -1,7 +1,7 @@
 import json
 import pytest
 
-from project.tests.utils import recreate_db
+from project.tests.utils import get_auth0_access_token, recreate_db
 
 
 def test_get_all_wakeparks(test_app, test_db, add_wakepark):
@@ -68,7 +68,11 @@ def test_single_wakepark_no_id(test_app, test_db):
     assert "Resource not found" in data["message"]
 
 
+access_token = get_auth0_access_token()  # get access_token for requires_auth routes
+
+
 def test_add_wakepark(test_app, test_db):
+
     client = test_app.test_client()
 
     wakepark = {
@@ -79,7 +83,10 @@ def test_add_wakepark(test_app, test_db):
     }
 
     res = client.post(
-        "/wakeparks/", data=json.dumps(wakepark), content_type="application/json"
+        "/wakeparks/",
+        data=json.dumps(wakepark),
+        headers={"Authorization": f"Bearer {access_token}"},
+        content_type="application/json",
     )
 
     data = json.loads(res.data.decode())
@@ -99,9 +106,13 @@ def test_add_wakepark(test_app, test_db):
 )
 def test_create_wakepark_invalid_payload(test_app, test_db, payload, message):
     recreate_db()
+
     client = test_app.test_client()
     res = client.post(
-        "/wakeparks/", data=json.dumps(payload), content_type="application/json"
+        "/wakeparks/",
+        data=json.dumps(payload),
+        headers={"Authorization": f"Bearer {access_token}"},
+        content_type="application/json",
     )
     data = json.loads(res.data.decode())
     assert res.status_code == 400
@@ -110,8 +121,45 @@ def test_create_wakepark_invalid_payload(test_app, test_db, payload, message):
     assert data["errors"]
 
 
+new_wakepark = {
+    "name": "Stoke City Wakepark",
+    "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+    "location": {"lat": -25.952558, "lng": 28.185543},
+    "social": {"instagram": "stokecitywake"},
+}
+
+
+@pytest.mark.parametrize(
+    "payload, headers, code, description",
+    [
+        (new_wakepark, {}, "authorisation_header_not_found", "Authorisation header not found."),
+        (new_wakepark, {"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        (new_wakepark, {"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        (new_wakepark, {"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
+        (new_wakepark, {"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
+        (new_wakepark, {"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+    ],
+)
+def test_create_wakepark_unauthorised(test_app, test_db, payload, headers, code, description):
+    recreate_db()
+
+    client = test_app.test_client()
+    res = client.post(
+        "/wakeparks/",
+        data=json.dumps(payload),
+        headers=headers,
+        content_type="application/json",
+    )
+    data = json.loads(res.data.decode())
+    assert res.status_code == 401
+    assert res.content_type == "application/json"
+    assert description in data["description"]
+    assert code in data["code"]
+
+
 def test_delete_wakepark(test_app, test_db, add_wakepark):
     recreate_db()
+
     add_wakepark(
         "Stoke City Wakepark",
         "The only cablepark in Gauteng!",
@@ -126,7 +174,9 @@ def test_delete_wakepark(test_app, test_db, add_wakepark):
     assert res_one.content_type == "application/json"
     assert len(data) == 1
 
-    res_two = client.delete(f"/wakeparks/1")
+    res_two = client.delete(
+        f"/wakeparks/1", headers={"Authorization": f"Bearer {access_token}"}
+    )
     data = json.loads(res_two.data.decode())
     assert res_two.status_code == 200
     assert res_two.content_type == "application/json"
@@ -143,7 +193,9 @@ def test_delete_wakepark(test_app, test_db, add_wakepark):
 
 def test_delete_wakepark_not_found(test_app, test_db):
     client = test_app.test_client()
-    res = client.delete(f"/wakeparks/999")
+    res = client.delete(
+        f"/wakeparks/999", headers={"Authorization": f"Bearer {access_token}"}
+    )
     data = json.loads(res.data.decode())
     assert res.status_code == 404
     assert res.content_type == "application/json"
@@ -175,6 +227,7 @@ def test_update_wakepark(test_app, test_db, add_wakepark):
     res_one = client.put(
         f"/wakeparks/{new_wakepark.id}",
         data=json.dumps(wakepark),
+        headers={"Authorization": f"Bearer {access_token}"},
         content_type="application/json",
     )
 
@@ -206,6 +259,7 @@ def test_update_wakepark_not_found(test_app, test_db):
     res = client.put(
         f"/wakeparks/999",
         data=json.dumps(wakepark),
+        headers={"Authorization": f"Bearer {access_token}"},
         content_type="application/json",
     )
     data = json.loads(res.data.decode())
@@ -240,6 +294,7 @@ def test_patch_wakepark(test_app, test_db, add_wakepark):
     res_one = client.patch(
         f"/wakeparks/{new_wakepark.id}",
         data=json.dumps(wakepark),
+        headers={"Authorization": f"Bearer {access_token}"},
         content_type="application/json",
     )
 
@@ -271,6 +326,7 @@ def test_patch_wakepark_not_found(test_app, test_db):
     res = client.patch(
         f"/wakeparks/999",
         data=json.dumps(wakepark),
+        headers={"Authorization": f"Bearer {access_token}"},
         content_type="application/json",
     )
     data = json.loads(res.data.decode())
