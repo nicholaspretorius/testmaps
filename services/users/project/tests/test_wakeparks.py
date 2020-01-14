@@ -132,15 +132,34 @@ new_wakepark = {
 @pytest.mark.parametrize(
     "payload, headers, code, description",
     [
-        (new_wakepark, {}, "authorisation_header_not_found", "Authorisation header not found."),
-        (new_wakepark, {"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        (new_wakepark, {"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        (new_wakepark, {"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
-        (new_wakepark, {"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
-        (new_wakepark, {"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        (new_wakepark,
+            {},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        (new_wakepark,
+            {"X-Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        (new_wakepark,
+            {"Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        (new_wakepark,
+            {"Authorisation": f"Bearer invalid"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        (new_wakepark,
+            {"Authorisation": f"Bearer"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        (new_wakepark,
+            {"Authorisation": f"Token {access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
     ],
 )
-def test_create_wakepark_unauthorised(test_app, test_db, payload, headers, code, description):
+def test_create_wakepark_unauthorised(test_app,
+                                      test_db, payload, headers, code, description):
     recreate_db()
 
     client = test_app.test_client()
@@ -206,15 +225,28 @@ def test_delete_wakepark_not_found(test_app, test_db):
 @pytest.mark.parametrize(
     "headers, code, description",
     [
-        ({}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"X-Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Bearer invalid"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Bearer"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Token {access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
     ],
 )
-def test_delete_wakepark_unauthorised(test_app, test_db, add_wakepark, headers, code, description):
+def test_delete_wakepark_unauthorised(test_app, test_db,
+                                      add_wakepark, headers, code, description):
     recreate_db()
 
     add_wakepark(
@@ -310,15 +342,28 @@ def test_update_wakepark_not_found(test_app, test_db):
 @pytest.mark.parametrize(
     "headers, code, description",
     [
-        ({}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"X-Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Bearer invalid"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Bearer"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Token {access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
     ],
 )
-def test_update_wakepark_unauthorised(test_app, test_db, add_wakepark, headers, code, description):
+def test_update_wakepark_unauthorised(test_app, test_db,
+                                      add_wakepark, headers, code, description):
     recreate_db()
 
     # initial wakepark
@@ -423,15 +468,28 @@ def test_patch_wakepark_not_found(test_app, test_db):
 @pytest.mark.parametrize(
     "headers, code, description",
     [
-        ({}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"X-Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"{access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Bearer invalid"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Bearer"}, "authorisation_header_not_found", "Authorisation header not found."),
-        ({"Authorisation": f"Token {access_token}"}, "authorisation_header_not_found", "Authorisation header not found."),
+        ({},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"X-Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"{access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Bearer invalid"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Bearer"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
+        ({"Authorisation": f"Token {access_token}"},
+            "authorisation_header_not_found",
+            "Authorisation header not found."),
     ],
 )
-def test_patch_wakepark_unauthorised(test_app, test_db, add_wakepark, headers, code, description):
+def test_patch_wakepark_unauthorised(test_app, test_db,
+                                     add_wakepark, headers, code, description):
     recreate_db()
 
     # initial wakepark

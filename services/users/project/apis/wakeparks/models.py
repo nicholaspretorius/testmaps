@@ -24,7 +24,7 @@ class Wakepark(db.Model):
         self.instagram_handle = instagram_handle
 
     def __repr__(self):
-        return f"<Wakepark id: {self.id}, name: {self.name} lat: {self.lat}, lng: {self.lng} >"
+        return f"<Wakepark id: {self.id}, name: {self.name} >"
 
     def to_json(self):
         return {

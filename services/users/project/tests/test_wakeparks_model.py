@@ -7,7 +7,4 @@ def test_repr(test_app, test_db, add_wakepark):
         instagram_handle="stokecitywake",
     )
     val = repr(wakepark)
-    assert (
-        val
-        == "<Wakepark id: 1, name: Stoke City Wakepark lat: -25.952558, lng: 28.185543 >"
-    )
+    assert val == "<Wakepark id: 1, name: Stoke City Wakepark >"

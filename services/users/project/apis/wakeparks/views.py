@@ -38,7 +38,7 @@ SOCIAL = api.model(
     {
         "instagram": fields.String(
             required=False,
-            description="The official Instragram handle for the wakepark. ONLY the handle. (Do not include https://instagram.com)",
+            description="The official Instragram handle for the wakepark.",
             example="stok-ed-wakepark",
         )
     },
@@ -57,7 +57,7 @@ WAKEPARK = api.model(
         ),
         "description": fields.String(
             required=True,
-            description="A short (less than 255 characters) description of the wakepark",
+            description="A less than 255 characters description of the wakepark",
             example="Some awesome wakepark description!",
         ),
         "location": fields.Nested(LOCATION),
@@ -72,7 +72,7 @@ UPDATE_WAKEPARK = api.model(
             description="The name of the wakepark", example="Stok-ed Wakepark"
         ),
         "description": fields.String(
-            description="A short (less than 255 characters) description of the wakepark",
+            description="A less than 255 characters description of the wakepark",
             example="Some awesome wakepark description!",
         ),
         "lat": fields.Float(
@@ -84,7 +84,7 @@ UPDATE_WAKEPARK = api.model(
             example=28.185543,
         ),
         "instagram_handle": fields.String(
-            description="The official Instragram handle for the wakepark. ONLY the handle. (Do not include https://instagram.com)",
+            description="The official Instragram handle for the wakepark.",
             example="stok-ed-wakepark",
         ),
     },
