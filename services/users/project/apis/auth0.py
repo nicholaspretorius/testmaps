@@ -28,15 +28,33 @@ class AuthError(Exception):
 
 def get_token_auth_header():
     if "Authorization" not in request.headers:
-        abort(401)
+        raise AuthError(
+            {
+                "code": "authorisation_header_not_found",
+                "description": "Authorisation header not found.",
+            },
+            401,
+        )
 
     auth_header = request.headers["Authorization"]
     header_parts = auth_header.split(" ")
 
     if len(header_parts) != 2:
-        abort(401)
+        raise AuthError(
+            {
+                "code": "authorisation_header_invalid",
+                "description": "Authorisation header invalid.",
+            },
+            401,
+        )
     elif header_parts[0].lower() != "bearer":
-        abort(401)
+        raise AuthError(
+            {
+                "code": "authorisation_header_invalid",
+                "description": "Authorisation header type invalid.",
+            },
+            401,
+        )
 
     return header_parts[1]
 
