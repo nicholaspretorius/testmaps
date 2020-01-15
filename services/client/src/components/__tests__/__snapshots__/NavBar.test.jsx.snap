@@ -43,6 +43,13 @@ exports[`when authenticated renders 1`] = `
           </a>
           <a
             class="navbar-item"
+            data-testid="nav-profile"
+            href="/profile"
+          >
+            Profile
+          </a>
+          <a
+            class="navbar-item"
             data-testid="nav-sanity"
             href="/sanity"
           >
