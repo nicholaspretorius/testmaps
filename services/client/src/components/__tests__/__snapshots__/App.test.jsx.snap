@@ -70,37 +70,11 @@ exports[`renders a snapshot 1`] = `
           >
             <br />
             <div>
-              <h1
-                class="title is-1 is-1"
+              <h3
+                class="title"
               >
-                Users
-              </h1>
-              <hr />
-              <br />
-              <button
-                class="button is-primary"
-              >
-                Add User
-              </button>
-              <br />
-              <br />
-              <div>
-                <table
-                  class="table is-hoverable is-fullwidth"
-                >
-                  <thead>
-                    <tr>
-                      <th>
-                        Id
-                      </th>
-                      <th>
-                        Email
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody />
-                </table>
-              </div>
+                Wakeparks
+              </h3>
             </div>
           </div>
         </div>
