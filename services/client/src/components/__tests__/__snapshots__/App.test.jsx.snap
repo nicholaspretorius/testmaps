@@ -75,6 +75,7 @@ exports[`renders a snapshot 1`] = `
               >
                 Wakeparks
               </h3>
+              <ul />
             </div>
           </div>
         </div>
