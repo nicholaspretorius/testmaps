@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
+import jwtDecode from "jwt-decode";
 
 import auth from "./../services/auth";
 import localStorage from "./../services/localStorage";
@@ -51,10 +52,12 @@ class App extends React.Component {
       const res = await auth.handleAuthentication();
       this.setState({
         profile: res.user,
+        permissions: jwtDecode(res.authResult.accessToken).permissions,
         accessToken: res.authResult.accessToken,
         expiresAt: new Date().getTime() + res.authResult.expiresIn * 1000
       });
       localStorage.setItem("accessToken", this.state.accessToken);
+      localStorage.setItem("permissions", this.state.permissions);
       this.props.history.replace("/");
     } catch (err) {
       console.log("onHandleAuth: ", err);
@@ -168,6 +171,7 @@ class App extends React.Component {
     this.props.history.replace("/");
     this.setState({ profile: null, expiresAt: null, accessToken: null });
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("permissions");
     auth.signOut();
   };
 

@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 const Profile = props => {
   const { profile } = props;
   const accessToken = localStorage.getItem("accessToken") || "";
+  const permissions = localStorage.getItem("permissions") || "";
   return (
     <div className="container is-full columns is-multiline">
       <h3 className="title">Profile</h3>
@@ -28,6 +29,16 @@ const Profile = props => {
         Access Token:
         <br />
         <span data-testid="access-token">{accessToken}</span>
+      </div>
+
+      <div className="column is-full">
+        Permissions:
+        <br />
+        <ul data-testid="permissions">
+          {permissions.split(",").map(permission => (
+            <li key={permission}>{permission}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
