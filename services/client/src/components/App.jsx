@@ -16,6 +16,8 @@ import UserStatus from "./UserStatus";
 import Message from "./Message";
 import Callback from "./Callback";
 import SanityCheck from "./SanityCheck";
+import Home from "./Home";
+import SecuredRoute from "./SecuredRoute";
 
 Modal.setAppElement(document.getElementById("root"));
 
@@ -282,9 +284,10 @@ class App extends React.Component {
                       />
                     )}
                   />
+                  <Route exact path="/" render={() => <Home />} />
                   <Route
                     exact
-                    path="/"
+                    path="/users"
                     render={() => (
                       <div>
                         <h1 className="title is-1 is-1">Users</h1>
@@ -329,7 +332,12 @@ class App extends React.Component {
                     path="/callback"
                     render={() => <Callback onHandleAuth={this.onHandleAuth} />}
                   />
-                  {this.isAuth() && <Route exact path="/sanity" render={() => <SanityCheck />} />}
+                  <SecuredRoute
+                    isAuth={this.isAuth}
+                    signIn={this.signIn}
+                    path="/sanity"
+                    component={SanityCheck}
+                  />
                 </Switch>
               </div>
             </div>
