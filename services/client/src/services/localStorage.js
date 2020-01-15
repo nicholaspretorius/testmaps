@@ -1,23 +1,19 @@
-class LocalStorage {
-  constructor() {
-    this.getItem = this.getItem.bind(this);
-    this.setItem = this.setItem.bind(this);
-    this.removeItem = this.removeItem.bind(this);
-  }
-
-  getItem(item) {
-    return window.localStorage.getItem(item);
-  }
-
-  setItem(item, value) {
-    return window.localStorage.setItem(item, value);
-  }
-
-  removeItem(item) {
-    return window.localStorage.removeItem(item);
-  }
+function getItem(item) {
+  return window.localStorage.getItem(item);
 }
 
-const localStorage = new LocalStorage();
+function setItem(item, value) {
+  return window.localStorage.setItem(item, value);
+}
+
+function removeItem(item) {
+  return window.localStorage.removeItem(item);
+}
+
+const localStorage = {
+  getItem,
+  setItem,
+  removeItem
+};
 
 export default localStorage;
