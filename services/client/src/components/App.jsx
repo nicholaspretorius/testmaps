@@ -18,6 +18,7 @@ import Callback from "./Callback";
 import SanityCheck from "./SanityCheck";
 import Home from "./Home";
 import SecuredRoute from "./SecuredRoute";
+import Profile from "./Profile";
 
 Modal.setAppElement(document.getElementById("root"));
 
@@ -332,12 +333,22 @@ class App extends React.Component {
                     path="/callback"
                     render={() => <Callback onHandleAuth={this.onHandleAuth} />}
                   />
-                  <SecuredRoute
-                    isAuth={this.isAuth}
-                    signIn={this.signIn}
-                    path="/sanity"
-                    component={SanityCheck}
-                  />
+                  {this.isAuth() && (
+                    <>
+                      <SecuredRoute
+                        isAuth={this.isAuth}
+                        signIn={this.signIn}
+                        path="/profile"
+                        render={() => <Profile profile={profile} />}
+                      />
+                      <SecuredRoute
+                        isAuth={this.isAuth}
+                        signIn={this.signIn}
+                        path="/sanity"
+                        render={() => <SanityCheck />}
+                      />
+                    </>
+                  )}
                 </Switch>
               </div>
             </div>

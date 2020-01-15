@@ -19,9 +19,14 @@ const NavBar = props => {
           About
         </Link>
         {isAuth() && (
-          <Link to="/sanity" className="navbar-item" data-testid="nav-sanity">
-            Sanity
-          </Link>
+          <>
+            <Link to="/profile" className="navbar-item" data-testid="nav-profile">
+              Profile
+            </Link>
+            <Link to="/sanity" className="navbar-item" data-testid="nav-sanity">
+              Sanity
+            </Link>
+          </>
         )}
       </div>
       <div className="navbar-end">
