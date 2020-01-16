@@ -3,7 +3,6 @@ import auth0 from "auth0-js";
 class Auth {
   // process.env.REACT_APP_AUTH0_DOMAIN,
   // process.env.REACT_APP_API_AUDIENCE,
-  // process.env.REACT_APP_AUTH0_CLIENT_ID,
   // "http://localhost:3007/callback"
   constructor() {
     this.auth0 = new auth0.WebAuth({
@@ -14,6 +13,8 @@ class Auth {
       responseType: "token",
       scope: "openid profile email"
     });
+
+    console.log("Process.env: ", process.env);
   }
 
   signIn() {
