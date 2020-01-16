@@ -78,10 +78,6 @@ build-heroku:
     DOCKER_DRIVER: overlay2
     HEROKU_APP_NAME: waketestmaps
     HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
-    REACT_APP_AUTH0_CLIENT_ID: ${REACT_APP_AUTH0_CLIENT_ID}
-    REACT_APP_API_AUDIENCE: ${REACT_APP_API_AUDIENCE}
-    REACT_APP_DOMAIN: ${REACT_APP_DOMAIN}
-    REACT_APP_AUTH0_DOMAIN: ${REACT_APP_AUTH0_DOMAIN}
   script:
     - apk add --no-cache curl
     - chmod +x ./release.sh
