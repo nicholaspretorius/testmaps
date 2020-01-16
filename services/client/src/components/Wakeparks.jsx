@@ -3,7 +3,7 @@ import axios from "axios";
 
 class Wakeparks extends React.Component {
   state = {
-    wakeparks: null
+    wakeparks: []
   };
 
   componentDidMount() {
@@ -12,7 +12,7 @@ class Wakeparks extends React.Component {
 
   async getWakeparks() {
     const options = {
-      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks`,
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/`,
       methods: "get",
       headers: {
         "Content-Type": "application/json"
