@@ -4,12 +4,13 @@ class Auth {
   // process.env.REACT_APP_AUTH0_DOMAIN,
   // process.env.REACT_APP_API_AUDIENCE,
   // process.env.REACT_APP_AUTH0_CLIENT_ID,
+  // "http://localhost:3007/callback"
   constructor() {
     this.auth0 = new auth0.WebAuth({
       domain: "nicholaspre.eu.auth0.com",
       audience: "testmaps",
-      clientID: "Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j",
-      redirectUri: "http://localhost:3007/callback",
+      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      redirectUri: `${process.env.REACT_APP_DOMAIN}/callback`,
       responseType: "token",
       scope: "openid profile email"
     });
@@ -65,7 +66,7 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
-      returnTo: "http://localhost:3007",
+      returnTo: process.env.REACT_APP_DOMAIN,
       clientID: process.env.REACT_APP_AUTH0_CLIENT_ID
     });
   }
