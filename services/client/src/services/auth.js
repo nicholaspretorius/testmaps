@@ -1,11 +1,14 @@
 import auth0 from "auth0-js";
 
 class Auth {
+  // process.env.REACT_APP_AUTH0_DOMAIN,
+  // process.env.REACT_APP_API_AUDIENCE,
+  // process.env.REACT_APP_AUTH0_CLIENT_ID,
   constructor() {
     this.auth0 = new auth0.WebAuth({
-      domain: process.env.REACT_APP_AUTH0_DOMAIN,
-      audience: process.env.REACT_APP_API_AUDIENCE,
-      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      domain: "nicholaspre.eu.auth0.com",
+      audience: "testmaps",
+      clientID: "Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j",
       redirectUri: "http://localhost:3007/callback",
       responseType: "token",
       scope: "openid profile email"
