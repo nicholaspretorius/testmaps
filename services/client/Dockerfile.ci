@@ -6,6 +6,10 @@ WORKDIR /usr/src/app
 # add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 ENV NODE_ENV development
+ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+ENV REACT_APP_AUTH0_DOMAIN $REACT_APP_AUTH0_DOMAIN
+ENV REACT_APP_API_AUDIENCE $REACT_APP_API_AUDIENCE
+ENV REACT_APP_AUTH0_CLIENT_ID $REACT_APP_AUTH0_CLIENT_ID
 
 # install and cache app dependencies
 COPY package.json /usr/src/app/package.json
