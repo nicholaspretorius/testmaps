@@ -6,7 +6,10 @@ import "@testing-library/jest-dom/extend-expect";
 
 global.renderWithRouter = function renderWithRouter(
   ui,
-  { route = "/", history = createMemoryHistory({ initialEntries: [route] }) } = {}
+  {
+    route = "/",
+    history = createMemoryHistory({ initialEntries: [route] })
+  } = {}
 ) {
   return {
     ...render(<Router history={history}>{ui}</Router>),
