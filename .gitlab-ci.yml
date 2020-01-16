@@ -16,6 +16,9 @@ build-users:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
+    AUTH0_DOMAIN: nicholaspre.eu.auth0.com
+    AUTH0_AUDIENCE: testmaps
+    AUTH0_CLIENT_ID: Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $IMAGE:users || true
@@ -37,6 +40,9 @@ test-users:
     POSTGRES_PASSWORD: ""
     DATABASE_TEST_URL: postgres://runner@postgres:5432/users
     FLASK_ENV: development
+    AUTH0_DOMAIN: nicholaspre.eu.auth0.com
+    AUTH0_AUDIENCE: testmaps
+    AUTH0_CLIENT_TEST_ID: qjqhGiKHei9h71ll70DG3tWV2Kwg5KET
   script:
     - cd /usr/src/app
     - pytest "project/tests" -p no:warnings
