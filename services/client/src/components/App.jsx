@@ -213,7 +213,7 @@ class App extends React.Component {
   };
 
   async componentDidMount() {
-    this.getUsers();
+    // this.getUsers();
     if (this.props.location.pathname === "/callback") return;
     try {
       const res = await auth.silentAuth();
