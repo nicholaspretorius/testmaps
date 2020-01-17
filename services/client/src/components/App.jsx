@@ -16,7 +16,6 @@ import RegisterForm from "./RegisterForm";
 import UserStatus from "./UserStatus";
 import Message from "./Message";
 import Callback from "./Callback";
-import SanityCheck from "./SanityCheck";
 import Home from "./Home";
 import SecuredRoute from "./SecuredRoute";
 import Profile from "./Profile";
@@ -274,9 +273,7 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={
-                          this.handleRegisterFormSubmit
-                        }
+                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
@@ -301,19 +298,13 @@ class App extends React.Component {
                         <hr />
                         <br />
                         {this.isAuthenticated && (
-                          <button
-                            onClick={this.handleOpenModal}
-                            className="button is-primary"
-                          >
+                          <button onClick={this.handleOpenModal} className="button is-primary">
                             Add User
                           </button>
                         )}
                         <br />
                         <br />
-                        <Modal
-                          isOpen={this.state.showModal}
-                          style={modalStyles}
-                        >
+                        <Modal isOpen={this.state.showModal} style={modalStyles}>
                           <div className="modal is-active">
                             <div className="modal-background" />
                             <div className="modal-card">
@@ -352,12 +343,6 @@ class App extends React.Component {
                         signIn={this.signIn}
                         path="/profile"
                         render={() => <Profile profile={profile} />}
-                      />
-                      <SecuredRoute
-                        isAuth={this.isAuth}
-                        signIn={this.signIn}
-                        path="/sanity"
-                        render={() => <SanityCheck />}
                       />
                     </>
                   )}

@@ -18,20 +18,6 @@ const NavBar = props => {
         <Link to="/about" className="navbar-item" data-testid="nav-about">
           About
         </Link>
-        {isAuth() && (
-          <>
-            <Link
-              to="/profile"
-              className="navbar-item"
-              data-testid="nav-profile"
-            >
-              Profile
-            </Link>
-            <Link to="/sanity" className="navbar-item" data-testid="nav-sanity">
-              Sanity
-            </Link>
-          </>
-        )}
       </div>
       <div className="navbar-end">
         {/* <Link to="/register" className="navbar-item" data-testid="nav-register">
@@ -42,25 +28,19 @@ const NavBar = props => {
         </Link> */}
         {isAuth() && (
           <>
-            <div className="navbar-item">{profile.name}</div>
+            <Link to="/profile" className="navbar-item" data-testid="nav-profile">
+              {profile.name}
+            </Link>
 
-            <div
-              className="navbar-item link"
-              onClick={signOut}
-              data-testid="nav-signout"
-            >
-              SignOut
+            <div className="navbar-item link" onClick={signOut} data-testid="nav-signout">
+              Logout
             </div>
           </>
         )}
 
         {!isAuth() && (
-          <span
-            className="navbar-item link"
-            onClick={signIn}
-            data-testid="nav-signin"
-          >
-            SignIn
+          <span className="navbar-item link" onClick={signIn} data-testid="nav-signin">
+            Login
           </span>
         )}
       </div>
@@ -87,11 +67,7 @@ const NavBar = props => {
   // }
 
   return (
-    <nav
-      className="navbar is-dark"
-      role="navigation"
-      aria-label="main navigation"
-    >
+    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
       <section className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item nav-title" style={titleStyle}>

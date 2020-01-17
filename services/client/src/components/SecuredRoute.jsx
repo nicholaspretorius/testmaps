@@ -8,6 +8,7 @@ function SecuredRoute(props) {
     <Route
       path={path}
       render={() => {
+        // TODO: Refactor to wait for silentAuth to finish and then isAuth
         // if (!isAuth()) {
         //   signIn();
         //   return <div></div>;
