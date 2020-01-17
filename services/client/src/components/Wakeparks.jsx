@@ -51,8 +51,8 @@ class Wakeparks extends React.Component {
               <th>Name</th>
               <th>Location</th>
               <th>Instagram</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
+              <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
             </tr>
           </thead>
           <tbody>
@@ -66,16 +66,16 @@ class Wakeparks extends React.Component {
                     </td>
                   )}
                   {wakepark.social && <td>{wakepark.social.instagram}</td>}
-                  {localStorage.isPermitted("put:cableparks") && (
-                    <td>
+                  <td>
+                    {localStorage.isPermitted("put:cableparks") && (
                       <button className="button is-warning is-small">Update Wakepark</button>
-                    </td>
-                  )}
-                  {localStorage.isPermitted("delete:cableparks") && (
-                    <td>
+                    )}
+                  </td>
+                  <td>
+                    {localStorage.isPermitted("delete:cableparks") && (
                       <button className="button is-danger is-small">Delete Wakepark</button>
-                    </td>
-                  )}
+                    )}
+                  </td>
                 </tr>
               ))}
 
