@@ -8,13 +8,14 @@ class Auth {
     this.auth0 = new auth0.WebAuth({
       domain: "nicholaspre.eu.auth0.com",
       audience: "testmaps",
-      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-      redirectUri: `${process.env.REACT_APP_DOMAIN}/callback`,
+      clientID: "Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j",
+      redirectUri: `${window.location.protocol}//${window.location.hostname}:${window.location.port}/callback`,
       responseType: "token",
       scope: "openid profile email"
     });
 
     console.log("Process.env: ", process.env);
+    console.log("this.auth: ", this.auth0);
   }
 
   signIn() {
@@ -67,8 +68,8 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
-      returnTo: process.env.REACT_APP_DOMAIN,
-      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID
+      returnTo: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
+      clientID: "Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j"
     });
   }
 }
