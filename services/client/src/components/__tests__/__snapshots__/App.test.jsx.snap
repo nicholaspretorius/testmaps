@@ -50,7 +50,7 @@ exports[`renders a snapshot 1`] = `
               class="navbar-item link"
               data-testid="nav-signin"
             >
-              SignIn
+              Login
             </span>
           </div>
         </div>
@@ -75,6 +75,7 @@ exports[`renders a snapshot 1`] = `
               >
                 Wakeparks
               </h3>
+              <div />
               <ul />
             </div>
           </div>

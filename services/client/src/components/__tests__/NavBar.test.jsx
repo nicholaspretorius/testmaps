@@ -24,10 +24,10 @@ describe("when not authenticated", () => {
     expect(getByText(props.title)).toHaveClass("nav-title");
     await wait(() => {
       // TODO: Investigate why it is running twice... render/componentDidMount
-      expect(props.isAuth).toHaveBeenCalledTimes(6);
+      expect(props.isAuth).toHaveBeenCalledTimes(4);
     });
     expect((await findByTestId("nav-about")).innerHTML).toBe("About");
-    expect((await findByTestId("nav-signin")).innerHTML).toBe("SignIn");
+    expect((await findByTestId("nav-signin")).innerHTML).toBe("Login");
     // expect((await findByTestId("nav-login")).innerHTML).toBe("Login");
   });
 
@@ -56,11 +56,10 @@ describe("when authenticated", () => {
     expect(getByText(props.title)).toHaveClass("nav-title");
     await wait(() => {
       // TODO: Investigate why it is running twice... render/componentDidMount
-      expect(props.isAuth).toHaveBeenCalledTimes(6);
+      expect(props.isAuth).toHaveBeenCalledTimes(4);
     });
     expect((await findByTestId("nav-about")).innerHTML).toBe("About");
-    expect((await findByTestId("nav-signout")).innerHTML).toBe("SignOut");
-    expect((await findByTestId("nav-sanity")).innerHTML).toBe("Sanity");
+    expect((await findByTestId("nav-signout")).innerHTML).toBe("Logout");
   });
 
   it("renders", () => {
