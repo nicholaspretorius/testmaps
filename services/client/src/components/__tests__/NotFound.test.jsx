@@ -7,5 +7,7 @@ afterEach(cleanup);
 
 it("renders properly", () => {
   const { getByTestId } = renderWithRouter(<NotFound />);
-  expect(getByTestId("not-found").innerHTML).toBe("Unfortunately there is no page with that url.");
+  expect(getByTestId("not-found").innerHTML).toBe(
+    "Unfortunately there is no page with that url."
+  );
 });

@@ -28,18 +28,30 @@ const NavBar = props => {
         </Link> */}
         {isAuth() && (
           <>
-            <Link to="/profile" className="navbar-item" data-testid="nav-profile">
+            <Link
+              to="/profile"
+              className="navbar-item"
+              data-testid="nav-profile"
+            >
               {profile.name}
             </Link>
 
-            <div className="navbar-item link" onClick={signOut} data-testid="nav-signout">
+            <div
+              className="navbar-item link"
+              onClick={signOut}
+              data-testid="nav-signout"
+            >
               Logout
             </div>
           </>
         )}
 
         {!isAuth() && (
-          <span className="navbar-item link" onClick={signIn} data-testid="nav-signin">
+          <span
+            className="navbar-item link"
+            onClick={signIn}
+            data-testid="nav-signin"
+          >
             Login
           </span>
         )}
@@ -67,7 +79,11 @@ const NavBar = props => {
   // }
 
   return (
-    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
+    <nav
+      className="navbar is-dark"
+      role="navigation"
+      aria-label="main navigation"
+    >
       <section className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item nav-title" style={titleStyle}>

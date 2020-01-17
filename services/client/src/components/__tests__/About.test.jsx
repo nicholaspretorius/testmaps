@@ -7,7 +7,9 @@ afterEach(cleanup);
 
 it("renders properly", () => {
   const { getByText } = render(<About />);
-  expect(getByText("Wakemaps is a wakepark listing directory.")).toHaveClass("content");
+  expect(getByText("Wakemaps is a wakepark listing directory.")).toHaveClass(
+    "content"
+  );
 });
 
 it("renders", () => {
