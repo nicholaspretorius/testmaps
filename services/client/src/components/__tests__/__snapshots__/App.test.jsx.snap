@@ -19,7 +19,7 @@ exports[`renders a snapshot 1`] = `
             href="/"
             style="font-weight: bold;"
           >
-            Testmaps
+            Wakemaps
           </a>
           <span
             class="nav-toggle navbar-burger"
@@ -66,7 +66,7 @@ exports[`renders a snapshot 1`] = `
           class="columns"
         >
           <div
-            class="column is-one-third"
+            class="column is-fullwidth"
           >
             <br />
             <div>
@@ -76,7 +76,28 @@ exports[`renders a snapshot 1`] = `
                 Wakeparks
               </h3>
               <div />
-              <ul />
+              <table
+                class="table is-hoverable is-fullwidth"
+              >
+                <thead>
+                  <tr>
+                    <th>
+                      Name
+                    </th>
+                    <th>
+                      Location
+                    </th>
+                    <th>
+                      Instagram
+                    </th>
+                    <th />
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr />
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
