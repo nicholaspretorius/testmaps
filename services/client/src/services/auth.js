@@ -1,15 +1,21 @@
 import auth0 from "auth0-js";
 
+const url =
+  window.location.port !== ""
+    ? `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
+    : `${window.location.protocol}//${window.location.hostname}`;
+
 class Auth {
   // process.env.REACT_APP_AUTH0_DOMAIN,
   // process.env.REACT_APP_API_AUDIENCE,
   // "http://localhost:3007/callback"
+
   constructor() {
     this.auth0 = new auth0.WebAuth({
       domain: "nicholaspre.eu.auth0.com",
       audience: "testmaps",
       clientID: "Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j",
-      redirectUri: `${window.location.protocol}//${window.location.hostname}:${window.location.port}/callback`,
+      redirectUri: `${url}/callback`,
       responseType: "token",
       scope: "openid profile email"
     });
@@ -68,7 +74,7 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
-      returnTo: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
+      returnTo: `${url}`,
       clientID: "Ry0LjeweiLlu0lqHexljlWwJ8hqWJL9j"
     });
   }
