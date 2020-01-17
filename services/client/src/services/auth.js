@@ -20,7 +20,7 @@ class Auth {
       scope: "openid profile email"
     });
 
-    console.log("this.auth: ", this.auth0);
+    // console.log("this.auth: ", this.auth0);
   }
 
   signIn() {

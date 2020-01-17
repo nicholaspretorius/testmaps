@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+import localStorage from "../services/localStorage";
+
 class Wakeparks extends React.Component {
   state = {
     wakeparks: []
@@ -35,6 +37,23 @@ class Wakeparks extends React.Component {
       <div>
         <h3 className="title">Wakeparks</h3>
 
+        <div>
+          {localStorage.isPermitted("post:cableparks") && (
+            <span>
+              <button className="button is-success is-small">Add Wakepark</button>
+            </span>
+          )}
+          {localStorage.isPermitted("delete:cableparks") && (
+            <span>
+              <button className="button is-danger is-small">Delete Wakepark</button>
+            </span>
+          )}
+          {localStorage.isPermitted("put:cableparks") && (
+            <span>
+              <button className="button is-warning is-small">Update Wakepark</button>
+            </span>
+          )}
+        </div>
         <ul>
           {wakeparks &&
             wakeparks.map(wakepark => (
