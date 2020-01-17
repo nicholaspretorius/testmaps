@@ -19,6 +19,7 @@ import Callback from "./Callback";
 import Home from "./Home";
 import SecuredRoute from "./SecuredRoute";
 import Profile from "./Profile";
+import NotFound from "./NotFound";
 
 Modal.setAppElement(document.getElementById("root"));
 
@@ -36,7 +37,7 @@ const modalStyles = {
 class App extends React.Component {
   state = {
     users: [],
-    title: "Testmaps",
+    title: "Wakemaps",
     messageType: null,
     messageText: null,
     showModal: false,
@@ -346,6 +347,7 @@ class App extends React.Component {
                       />
                     </>
                   )}
+                  <Route component={NotFound} />
                 </Switch>
               </div>
             </div>
