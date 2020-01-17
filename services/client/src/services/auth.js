@@ -20,7 +20,6 @@ class Auth {
       scope: "openid profile email"
     });
 
-    console.log("Process.env: ", process.env);
     console.log("this.auth: ", this.auth0);
   }
 
