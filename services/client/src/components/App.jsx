@@ -257,7 +257,7 @@ class App extends React.Component {
               />
             )}
             <div className="columns">
-              <div className="column is-one-third">
+              <div className="column is-fullwidth">
                 <br />
                 <Switch>
                   <Route

@@ -43,25 +43,45 @@ class Wakeparks extends React.Component {
               <button className="button is-success is-small">Add Wakepark</button>
             </span>
           )}
-          {localStorage.isPermitted("delete:cableparks") && (
-            <span>
-              <button className="button is-danger is-small">Delete Wakepark</button>
-            </span>
-          )}
-          {localStorage.isPermitted("put:cableparks") && (
-            <span>
-              <button className="button is-warning is-small">Update Wakepark</button>
-            </span>
-          )}
         </div>
-        <ul>
-          {wakeparks &&
-            wakeparks.map(wakepark => (
-              <li key={wakepark.id} data-testid="wakepark-name">
-                {wakepark.name}
-              </li>
-            ))}
-        </ul>
+
+        <table className="table is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Instagram</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {wakeparks &&
+              wakeparks.map(wakepark => (
+                <tr key={wakepark.id} data-testid="wakepark-name">
+                  <td>{wakepark.name}</td>
+                  {wakepark.location && (
+                    <td>
+                      Lat: {wakepark.location.lat}, Lng: {wakepark.location.lng}
+                    </td>
+                  )}
+                  {wakepark.social && <td>{wakepark.social.instagram}</td>}
+                  {localStorage.isPermitted("put:cableparks") && (
+                    <td>
+                      <button className="button is-warning is-small">Update Wakepark</button>
+                    </td>
+                  )}
+                  {localStorage.isPermitted("delete:cableparks") && (
+                    <td>
+                      <button className="button is-danger is-small">Delete Wakepark</button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+
+            <tr></tr>
+          </tbody>
+        </table>
       </div>
     );
   }
