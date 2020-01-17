@@ -3,9 +3,9 @@ import React from "react";
 const About = () => {
   return (
     <div>
-      <h3>About Us</h3>
+      <h3>About.</h3>
       <div>
-        <p className="content">About us content goes here.</p>
+        <p className="content">Wakemaps is a wakepark listing directory.</p>
       </div>
     </div>
   );
