@@ -2,13 +2,19 @@ import React from "react";
 import { cleanup, fireEvent } from "@testing-library/react";
 
 import AddWakepark from "./../AddWakepark.jsx";
+import localStorage from "./../../services/localStorage";
+
+jest.mock("./../../services/localStorage", () => ({ isPermitted: jest.fn() }));
 
 afterEach(cleanup);
 
 describe("renders", () => {
+  localStorage.isPermitted.mockImplementation(() => true);
+
   it("properly", () => {
     const { getByText } = renderWithRouter(<AddWakepark />);
     expect(getByText("Add Wakepark")).toHaveClass("title");
+    expect(localStorage.isPermitted).toHaveBeenCalled();
   });
 
   it("without values", () => {
