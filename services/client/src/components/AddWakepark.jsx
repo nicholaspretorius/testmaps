@@ -12,13 +12,37 @@ class AddWakepark extends Component {
   };
 
   onHandleAddWakepark = async data => {
+    const wakepark = {
+      name: data.name,
+      description: data.description,
+      location: {
+        lat: parseInt(data.lat),
+        lng: parseInt(data.lng)
+      },
+      social: {
+        instagram: data.instagramHandle
+      }
+    };
+
+    const options = {
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/`,
+      method: "post",
+      data: wakepark,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    };
     try {
-      const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/`, data);
-      if (res.status === 200) {
+      const res = await axios(options);
+      console.log("Res: ", res);
+      if (res.statusCode === 201) {
         this.setState({ toWakeparks: true });
+      } else {
+        // TODO: create message
       }
     } catch (ex) {
-      console.log(ex);
+      //console.error(ex);
     }
   };
 
@@ -28,7 +52,7 @@ class AddWakepark extends Component {
     }
 
     if (this.state.toWakeparks) {
-      return <Redirect to="/" data-testid="redirect" />;
+      // return <Redirect to="/" data-testid="redirect" />;
     }
 
     return (
@@ -39,6 +63,7 @@ class AddWakepark extends Component {
         <Formik
           initialValues={{
             name: "",
+            description: "",
             lat: "",
             lng: "",
             instagramHandle: ""
@@ -50,6 +75,7 @@ class AddWakepark extends Component {
           }}
           validationSchema={Yup.object().shape({
             name: Yup.string().required("Please enter a name"),
+            description: Yup.string().required("Please enter a description"),
             lat: Yup.string().required("Please enter a latitude"),
             lng: Yup.string().required("Please enter a longitude"),
             instagramHandle: Yup.string()
@@ -84,6 +110,26 @@ class AddWakepark extends Component {
                   {errors.name && touched.name && (
                     <div className="input-feedback" data-testid="errors-name">
                       {errors.name}
+                    </div>
+                  )}
+                </div>
+                <div className="field">
+                  <label htmlFor="input-description" className="label">
+                    Description
+                  </label>
+                  <input
+                    type="text"
+                    name="description"
+                    id="input-description"
+                    className={errors.description && touched.description ? "input error" : "input"}
+                    placeholder="Enter the wakepark description"
+                    value={values.description}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.description && touched.description && (
+                    <div className="input-feedback" data-testid="errors-description">
+                      {errors.description}
                     </div>
                   )}
                 </div>

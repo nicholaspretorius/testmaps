@@ -34,6 +34,24 @@ exports[`renders a snapshot 1`] = `
       >
         <label
           class="label"
+          for="input-description"
+        >
+          Description
+        </label>
+        <input
+          class="input"
+          id="input-description"
+          name="description"
+          placeholder="Enter the wakepark description"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="field"
+      >
+        <label
+          class="label"
           for="input-lat"
         >
           Latitude

@@ -36,6 +36,10 @@ describe("renders", () => {
     expect(nameInput).toHaveAttribute("type", "text");
     expect(nameInput).not.toHaveValue();
 
+    const descriptionInput = getByLabelText("Name");
+    expect(descriptionInput).toHaveAttribute("type", "text");
+    expect(descriptionInput).not.toHaveValue();
+
     const latInput = getByLabelText("Latitude");
     expect(latInput).toHaveAttribute("type", "text");
     expect(latInput).not.toHaveValue();
@@ -65,16 +69,19 @@ describe("handles form validation correctly", () => {
 
     const form = container.querySelector("form");
     const nameInput = getByLabelText("Name");
+    const descriptionInput = getByLabelText("Description");
     const latInput = getByLabelText("Latitude");
     const lngInput = getByLabelText("Longitude");
     const instaHandleInput = getByLabelText("Instagram Handle");
 
     fireEvent.blur(nameInput);
+    fireEvent.blur(descriptionInput);
     fireEvent.blur(latInput);
     fireEvent.blur(lngInput);
     fireEvent.blur(instaHandleInput);
 
     expect((await findByTestId("errors-name")).innerHTML).toBe("Please enter a name");
+    expect((await findByTestId("errors-description")).innerHTML).toBe("Please enter a description");
     expect((await findByTestId("errors-lat")).innerHTML).toBe("Please enter a latitude");
     expect((await findByTestId("errors-lng")).innerHTML).toBe("Please enter a longitude");
 
@@ -86,6 +93,7 @@ describe("handles form validation correctly", () => {
 
     const form = container.querySelector("form");
     const nameInput = getByLabelText("Name");
+    const descriptionInput = getByLabelText("Description");
     const latInput = getByLabelText("Latitude");
     const lngInput = getByLabelText("Longitude");
     const instaHandleInput = getByLabelText("Instagram Handle");
@@ -94,6 +102,8 @@ describe("handles form validation correctly", () => {
 
     fireEvent.change(nameInput, { target: { value: "ImaginaryWakepark" } });
     fireEvent.blur(nameInput);
+    fireEvent.change(descriptionInput, { target: { value: "This is an awesome wakepark!" } });
+    fireEvent.blur(descriptionInput);
     fireEvent.change(latInput, { target: { value: "1.23" } });
     fireEvent.blur(latInput);
     fireEvent.change(lngInput, { target: { value: "4.56" } });
