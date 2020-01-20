@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import localStorage from "../services/localStorage";
@@ -40,7 +41,9 @@ class Wakeparks extends React.Component {
         <div>
           {localStorage.isPermitted("post:cableparks") && (
             <span>
-              <button className="button is-success is-small">Add Wakepark</button>
+              <Link to="/add-wakepark" className="button is-success is-small">
+                Add Wakepark
+              </Link>
             </span>
           )}
         </div>
@@ -80,7 +83,7 @@ class Wakeparks extends React.Component {
             </tbody>
           </table>
         )}
-        {wakeparks && wakeparks.length == 0 && (
+        {wakeparks && wakeparks.length === 0 && (
           <div>
             <p>Unfortunately, there are currently no wakeparks listed.</p>
           </div>

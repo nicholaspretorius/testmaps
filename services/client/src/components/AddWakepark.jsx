@@ -1,12 +1,22 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+import localStorage from "../services/localStorage";
+
 class AddWakepark extends Component {
   state = {};
+
+  onHandleAddWakepark(values) {
+    console.log("Values: ", values);
+  }
+
   render() {
+    if (!localStorage.isPermitted("post:cableparks")) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div>
         <h3 className="title">Add Wakepark</h3>
@@ -20,7 +30,7 @@ class AddWakepark extends Component {
             instagramHandle: ""
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            onHandleAddWakepark(values);
+            this.onHandleAddWakepark(values);
             resetForm();
             setSubmitting(false);
           }}
@@ -57,7 +67,7 @@ class AddWakepark extends Component {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  {errors.name & touched.name && (
+                  {errors.name && touched.name && (
                     <div className="input-feedback" data-testid="errors-name">
                       {errors.name}
                     </div>
@@ -71,13 +81,13 @@ class AddWakepark extends Component {
                     type="text"
                     name="lat"
                     id="input-lat"
-                    className={errors.name && touched.name ? "input error" : "input"}
+                    className={errors.lat && touched.lat ? "input error" : "input"}
                     placeholder="Enter the wakepark latitude location"
                     value={values.lat}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  {errors.lat & touched.lat && (
+                  {errors.lat && touched.lat && (
                     <div className="input-feedback" data-testid="errors-lat">
                       {errors.lat}
                     </div>
@@ -91,13 +101,13 @@ class AddWakepark extends Component {
                     type="text"
                     name="lng"
                     id="input-lng"
-                    className={errors.name && touched.name ? "input error" : "input"}
+                    className={errors.lng && touched.lng ? "input error" : "input"}
                     placeholder="Enter the wakepark longitude location"
                     value={values.lng}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  {errors.lng & touched.lng && (
+                  {errors.lng && touched.lng && (
                     <div className="input-feedback" data-testid="errors-lng">
                       {errors.lng}
                     </div>
@@ -112,13 +122,15 @@ class AddWakepark extends Component {
                     type="text"
                     name="instagram-handle"
                     id="input-instagram-handle"
-                    className={errors.name && touched.name ? "input error" : "input"}
+                    className={
+                      errors.instagramHandle && touched.instagramHandle ? "input error" : "input"
+                    }
                     placeholder="Enter the wakepark Instagram handle"
                     value={values.instagramHandle}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  {errors.instagramHandle & touched.instagramHandle && (
+                  {errors.instagramHandle && touched.instagramHandle && (
                     <div className="input-feedback" data-testid="errors-instagram-handle">
                       {errors.instagramHandle}
                     </div>

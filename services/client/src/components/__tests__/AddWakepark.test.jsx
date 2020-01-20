@@ -1,5 +1,5 @@
 import React from "react";
-import { cleanup } from "@testing-library/react";
+import { cleanup, fireEvent } from "@testing-library/react";
 
 import AddWakepark from "./../AddWakepark.jsx";
 
@@ -33,5 +33,33 @@ describe("renders", () => {
     const buttonInput = getByText("Submit");
     expect(buttonInput).toHaveClass("button is-primary");
     expect(buttonInput).toHaveValue("Submit");
+  });
+
+  it("a snapshot", () => {
+    const { asFragment } = renderWithRouter(<AddWakepark />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+});
+
+describe("handles form validation correctly", () => {
+  it("when fields are empty", async () => {
+    const { getByLabelText, container, findByTestId } = renderWithRouter(<AddWakepark />);
+
+    const form = container.querySelector("form");
+    const nameInput = getByLabelText("Name");
+    const latInput = getByLabelText("Latitude");
+    const lngInput = getByLabelText("Longitude");
+    const instaHandleInput = getByLabelText("Instagram Handle");
+
+    fireEvent.blur(nameInput);
+    fireEvent.blur(latInput);
+    fireEvent.blur(lngInput);
+    fireEvent.blur(instaHandleInput);
+
+    expect((await findByTestId("errors-name")).innerHTML).toBe("Please enter a name");
+    expect((await findByTestId("errors-lat")).innerHTML).toBe("Please enter a latitude");
+    expect((await findByTestId("errors-lng")).innerHTML).toBe("Please enter a longitude");
+
+    fireEvent.submit(form);
   });
 });

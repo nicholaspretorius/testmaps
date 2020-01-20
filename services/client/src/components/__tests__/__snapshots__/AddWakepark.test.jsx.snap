@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders a snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <h3
+      class="title"
+    >
+      Add Wakepark
+    </h3>
+    <hr />
+    <br />
+    <form>
+      <div
+        class="field"
+      >
+        <label
+          class="label"
+          for="input-name"
+        >
+          Name
+        </label>
+        <input
+          class="input"
+          id="input-name"
+          name="name"
+          placeholder="Enter the wakepark name"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="field"
+      >
+        <label
+          class="label"
+          for="input-lat"
+        >
+          Latitude
+        </label>
+        <input
+          class="input"
+          id="input-lat"
+          name="lat"
+          placeholder="Enter the wakepark latitude location"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="field"
+      >
+        <label
+          class="label"
+          for="input-lng"
+        >
+          Longitude
+        </label>
+        <input
+          class="input"
+          id="input-lng"
+          name="lng"
+          placeholder="Enter the wakepark longitude location"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="field"
+      >
+        <label
+          class="label"
+          for="input-instagram-handle"
+        >
+          Instagram Handle
+        </label>
+        <input
+          class="input"
+          id="input-instagram-handle"
+          name="instagram-handle"
+          placeholder="Enter the wakepark Instagram handle"
+          type="text"
+          value=""
+        />
+      </div>
+      <input
+        class="button is-primary"
+        type="submit"
+        value="Submit"
+      />
+    </form>
+  </div>
+</DocumentFragment>
+`;
