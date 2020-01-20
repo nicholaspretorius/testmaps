@@ -77,7 +77,7 @@ exports[`renders a snapshot 1`] = `
         <input
           class="input"
           id="input-instagram-handle"
-          name="instagram-handle"
+          name="instagramHandle"
           placeholder="Enter the wakepark Instagram handle"
           type="text"
           value=""

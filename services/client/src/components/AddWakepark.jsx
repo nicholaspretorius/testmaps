@@ -2,19 +2,33 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 import localStorage from "../services/localStorage";
 
 class AddWakepark extends Component {
-  state = {};
+  state = {
+    toWakeparks: false
+  };
 
-  onHandleAddWakepark(values) {
-    console.log("Values: ", values);
-  }
+  onHandleAddWakepark = async data => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/`, data);
+      if (res.status === 200) {
+        this.setState({ toWakeparks: true });
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
 
   render() {
     if (!localStorage.isPermitted("post:cableparks")) {
-      return <Redirect to="/" />;
+      return <Redirect to="/" data-testid="redirect" />;
+    }
+
+    if (this.state.toWakeparks) {
+      return <Redirect to="/" data-testid="redirect" />;
     }
 
     return (
@@ -120,7 +134,7 @@ class AddWakepark extends Component {
                   </label>
                   <input
                     type="text"
-                    name="instagram-handle"
+                    name="instagramHandle"
                     id="input-instagram-handle"
                     className={
                       errors.instagramHandle && touched.instagramHandle ? "input error" : "input"

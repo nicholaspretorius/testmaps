@@ -1,12 +1,24 @@
 import React from "react";
-import { cleanup, fireEvent } from "@testing-library/react";
+import { cleanup, fireEvent, wait } from "@testing-library/react";
 
 import AddWakepark from "./../AddWakepark.jsx";
 import localStorage from "./../../services/localStorage";
 
 jest.mock("./../../services/localStorage", () => ({ isPermitted: jest.fn() }));
 
+// const onHandleAddWakepark = jest.fn();
+
 afterEach(cleanup);
+
+xdescribe("renders", () => {
+  localStorage.isPermitted.mockImplementation(() => false);
+
+  // TODO: Test does not work properly...
+  it("a redirect when post:wakeparks role is not present", () => {
+    const { findByTestId } = renderWithRouter(<AddWakepark />);
+    expect(findByTestId("redirect")).toBeTruthy();
+  });
+});
 
 describe("renders", () => {
   localStorage.isPermitted.mockImplementation(() => true);
@@ -67,5 +79,32 @@ describe("handles form validation correctly", () => {
     expect((await findByTestId("errors-lng")).innerHTML).toBe("Please enter a longitude");
 
     fireEvent.submit(form);
+  });
+
+  it("when fields are valid", async () => {
+    const { getByLabelText, container } = renderWithRouter(<AddWakepark />);
+
+    const form = container.querySelector("form");
+    const nameInput = getByLabelText("Name");
+    const latInput = getByLabelText("Latitude");
+    const lngInput = getByLabelText("Longitude");
+    const instaHandleInput = getByLabelText("Instagram Handle");
+
+    // expect(onHandleAddWakepark).toHaveBeenCalledTimes(0);
+
+    fireEvent.change(nameInput, { target: { value: "ImaginaryWakepark" } });
+    fireEvent.blur(nameInput);
+    fireEvent.change(latInput, { target: { value: "1.23" } });
+    fireEvent.blur(latInput);
+    fireEvent.change(lngInput, { target: { value: "4.56" } });
+    fireEvent.blur(lngInput);
+    fireEvent.change(instaHandleInput, { target: { value: "imaginary_wakepark" } });
+    fireEvent.blur(instaHandleInput);
+
+    fireEvent.submit(form);
+
+    // await wait(() => {
+    //   expect(onHandleAddWakepark).toHaveBeenCalledTimes(1);
+    // });
   });
 });
