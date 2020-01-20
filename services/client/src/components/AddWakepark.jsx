@@ -14,7 +14,10 @@ class AddWakepark extends Component {
         <br />
         <Formik
           initialValues={{
-            name: ""
+            name: "",
+            lat: "",
+            lng: "",
+            instagramHandle: ""
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             onHandleAddWakepark(values);
@@ -22,7 +25,10 @@ class AddWakepark extends Component {
             setSubmitting(false);
           }}
           validationSchema={Yup.object().shape({
-            name: Yup.string().required("Please enter a name")
+            name: Yup.string().required("Please enter a name"),
+            lat: Yup.string().required("Please enter a latitude"),
+            lng: Yup.string().required("Please enter a longitude"),
+            instagramHandle: Yup.string()
           })}
         >
           {props => {
@@ -54,6 +60,67 @@ class AddWakepark extends Component {
                   {errors.name & touched.name && (
                     <div className="input-feedback" data-testid="errors-name">
                       {errors.name}
+                    </div>
+                  )}
+                </div>
+                <div className="field">
+                  <label htmlFor="input-lat" className="label">
+                    Latitude
+                  </label>
+                  <input
+                    type="text"
+                    name="lat"
+                    id="input-lat"
+                    className={errors.name && touched.name ? "input error" : "input"}
+                    placeholder="Enter the wakepark latitude location"
+                    value={values.lat}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.lat & touched.lat && (
+                    <div className="input-feedback" data-testid="errors-lat">
+                      {errors.lat}
+                    </div>
+                  )}
+                </div>
+                <div className="field">
+                  <label htmlFor="input-lng" className="label">
+                    Longitude
+                  </label>
+                  <input
+                    type="text"
+                    name="lng"
+                    id="input-lng"
+                    className={errors.name && touched.name ? "input error" : "input"}
+                    placeholder="Enter the wakepark longitude location"
+                    value={values.lng}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.lng & touched.lng && (
+                    <div className="input-feedback" data-testid="errors-lng">
+                      {errors.lng}
+                    </div>
+                  )}
+                </div>
+
+                <div className="field">
+                  <label htmlFor="input-instagram-handle" className="label">
+                    Instagram Handle
+                  </label>
+                  <input
+                    type="text"
+                    name="instagram-handle"
+                    id="input-instagram-handle"
+                    className={errors.name && touched.name ? "input error" : "input"}
+                    placeholder="Enter the wakepark Instagram handle"
+                    value={values.instagramHandle}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.instagramHandle & touched.instagramHandle && (
+                    <div className="input-feedback" data-testid="errors-instagram-handle">
+                      {errors.instagramHandle}
                     </div>
                   )}
                 </div>
