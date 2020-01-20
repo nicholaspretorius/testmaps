@@ -40,28 +40,23 @@ class Wakeparks extends React.Component {
         <div>
           {localStorage.isPermitted("post:cableparks") && (
             <span>
-              <button className="button is-success is-small">
-                Add Wakepark
-              </button>
+              <button className="button is-success is-small">Add Wakepark</button>
             </span>
           )}
         </div>
-
-        <table className="table is-hoverable is-fullwidth">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Location</th>
-              <th>Instagram</th>
-              <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-              <th>
-                {localStorage.isPermitted("delete:cableparks") && "Delete"}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {wakeparks &&
-              wakeparks.map(wakepark => (
+        {wakeparks && wakeparks.length > 0 && (
+          <table className="table is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Instagram</th>
+                <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
+                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {wakeparks.map(wakepark => (
                 <tr key={wakepark.id} data-testid="wakepark-name">
                   <td>{wakepark.name}</td>
                   {wakepark.location && (
@@ -72,22 +67,24 @@ class Wakeparks extends React.Component {
                   {wakepark.social && <td>{wakepark.social.instagram}</td>}
                   <td>
                     {localStorage.isPermitted("put:cableparks") && (
-                      <button className="button is-warning is-small">
-                        Update Wakepark
-                      </button>
+                      <button className="button is-warning is-small">Update Wakepark</button>
                     )}
                   </td>
                   <td>
                     {localStorage.isPermitted("delete:cableparks") && (
-                      <button className="button is-danger is-small">
-                        Delete Wakepark
-                      </button>
+                      <button className="button is-danger is-small">Delete Wakepark</button>
                     )}
                   </td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        )}
+        {wakeparks && wakeparks.length == 0 && (
+          <div>
+            <p>Unfortunately, there are currently no wakeparks listed.</p>
+          </div>
+        )}
       </div>
     );
   }

@@ -76,26 +76,11 @@ exports[`renders a snapshot 1`] = `
                 Wakeparks
               </h3>
               <div />
-              <table
-                class="table is-hoverable is-fullwidth"
-              >
-                <thead>
-                  <tr>
-                    <th>
-                      Name
-                    </th>
-                    <th>
-                      Location
-                    </th>
-                    <th>
-                      Instagram
-                    </th>
-                    <th />
-                    <th />
-                  </tr>
-                </thead>
-                <tbody />
-              </table>
+              <div>
+                <p>
+                  Unfortunately, there are currently no wakeparks listed.
+                </p>
+              </div>
             </div>
           </div>
         </div>
