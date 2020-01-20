@@ -31,6 +31,24 @@ class Wakeparks extends React.Component {
       });
   }
 
+  async deleteWakepark(id) {
+    const options = {
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/${id}`,
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    };
+
+    try {
+      const res = await axios(options);
+      if (res.status === 200) {
+        this.getWakeparks();
+      }
+    } catch (ex) {}
+  }
+
   render() {
     const { wakeparks } = this.state;
 
@@ -75,7 +93,12 @@ class Wakeparks extends React.Component {
                   </td>
                   <td>
                     {localStorage.isPermitted("delete:cableparks") && (
-                      <button className="button is-danger is-small">Delete Wakepark</button>
+                      <button
+                        className="button is-danger is-small"
+                        onClick={() => this.deleteWakepark(wakepark.id)}
+                      >
+                        Delete Wakepark
+                      </button>
                     )}
                   </td>
                 </tr>

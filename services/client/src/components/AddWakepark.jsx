@@ -35,7 +35,6 @@ class AddWakepark extends Component {
     };
     try {
       const res = await axios(options);
-      console.log("Res: ", res);
       if (res.statusCode === 201) {
         this.setState({ toWakeparks: true });
       } else {
@@ -47,12 +46,12 @@ class AddWakepark extends Component {
   };
 
   render() {
-    if (!localStorage.isPermitted("post:cableparks")) {
+    if (this.state.toWakeparks) {
       return <Redirect to="/" data-testid="redirect" />;
     }
 
-    if (this.state.toWakeparks) {
-      // return <Redirect to="/" data-testid="redirect" />;
+    if (!localStorage.isPermitted("post:cableparks")) {
+      return <Redirect to="/" data-testid="redirect" />;
     }
 
     return (
