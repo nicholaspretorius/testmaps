@@ -44,7 +44,9 @@ xdescribe("renders", () => {
   // TODO: Test does not work properly...
   it("a redirect when post:wakeparks role is not present", () => {
     localStorage.isPermitted.mockImplementation(() => false);
-    const { findByTestId } = renderWithRouter(<UpdateWakepark {...mockProps} />);
+    const { findByTestId } = renderWithRouter(
+      <UpdateWakepark {...mockProps} />
+    );
     expect(findByTestId("redirect")).toBeTruthy();
   });
 });
@@ -62,7 +64,9 @@ describe("renders", () => {
   });
 
   it("with wakepark values", async () => {
-    const { getByLabelText, getByText } = renderWithRouter(<UpdateWakepark {...mockProps} />);
+    const { getByLabelText, getByText } = renderWithRouter(
+      <UpdateWakepark {...mockProps} />
+    );
 
     const nameInput = await waitForElement(() => getByLabelText("Name"));
     expect(nameInput).toHaveAttribute("type", "text");

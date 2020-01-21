@@ -78,7 +78,9 @@ class Wakeparks extends React.Component {
                 <th>Location</th>
                 <th>Instagram</th>
                 <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
+                <th>
+                  {localStorage.isPermitted("delete:cableparks") && "Delete"}
+                </th>
               </tr>
             </thead>
             <tbody>

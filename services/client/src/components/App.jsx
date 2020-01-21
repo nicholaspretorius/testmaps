@@ -276,7 +276,9 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                        onHandleRegisterFormSubmit={
+                          this.handleRegisterFormSubmit
+                        }
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
@@ -292,8 +294,16 @@ class App extends React.Component {
                     )}
                   />
                   <Route exact path="/" render={() => <Home />} />
-                  <Route exact path="/add-wakepark" render={() => <AddWakepark />} />
-                  <Route exact path="/update-wakepark/:id" component={UpdateWakepark} />
+                  <Route
+                    exact
+                    path="/add-wakepark"
+                    render={() => <AddWakepark />}
+                  />
+                  <Route
+                    exact
+                    path="/update-wakepark/:id"
+                    component={UpdateWakepark}
+                  />
                   <Route
                     exact
                     path="/users"
@@ -303,13 +313,19 @@ class App extends React.Component {
                         <hr />
                         <br />
                         {this.isAuthenticated && (
-                          <button onClick={this.handleOpenModal} className="button is-primary">
+                          <button
+                            onClick={this.handleOpenModal}
+                            className="button is-primary"
+                          >
                             Add User
                           </button>
                         )}
                         <br />
                         <br />
-                        <Modal isOpen={this.state.showModal} style={modalStyles}>
+                        <Modal
+                          isOpen={this.state.showModal}
+                          style={modalStyles}
+                        >
                           <div className="modal is-active">
                             <div className="modal-background" />
                             <div className="modal-card">
