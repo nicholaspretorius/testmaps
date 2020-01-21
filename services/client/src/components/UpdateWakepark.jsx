@@ -8,14 +8,14 @@ import localStorage from "../services/localStorage";
 
 class UpdateWakepark extends Component {
   state = {
+    id: this.props.match.params.id,
     wakepark: null,
     toWakeparks: false,
     isLoading: true
   };
 
   componentDidMount() {
-    const { id } = this.props.match.params;
-    this.getWakeparkDetails(id);
+    this.getWakeparkDetails(this.state.id);
   }
 
   async getWakeparkDetails(id) {
@@ -34,6 +34,39 @@ class UpdateWakepark extends Component {
       // ex
     }
   }
+
+  onHandleUpdateWakepark = async data => {
+    const wakepark = {
+      name: data.name,
+      description: data.description,
+      location: {
+        lat: parseInt(data.lat),
+        lng: parseInt(data.lng)
+      },
+      social: {
+        instagram: data.instagramHandle
+      }
+    };
+
+    const options = {
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/${this.state.id}`,
+      method: "put",
+      data: wakepark,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    };
+
+    try {
+      const res = await axios(options);
+
+      if (res.statusCode === 200) {
+        this.setState({ toWakeparks: true });
+        this.getWakeparkDetails(this.state.id);
+      }
+    } catch (ex) {}
+  };
 
   render() {
     const { wakepark, isLoading, toWakeparks } = this.state;
@@ -98,9 +131,7 @@ class UpdateWakepark extends Component {
                       type="text"
                       name="name"
                       id="input-name"
-                      className={
-                        errors.name && touched.name ? "input error" : "input"
-                      }
+                      className={errors.name && touched.name ? "input error" : "input"}
                       placeholder="Enter the wakepark name"
                       value={values.name}
                       onChange={handleChange}
@@ -121,9 +152,7 @@ class UpdateWakepark extends Component {
                       name="description"
                       id="input-description"
                       className={
-                        errors.description && touched.description
-                          ? "input error"
-                          : "input"
+                        errors.description && touched.description ? "input error" : "input"
                       }
                       placeholder="Enter the wakepark description"
                       value={values.description}
@@ -131,10 +160,7 @@ class UpdateWakepark extends Component {
                       onBlur={handleBlur}
                     />
                     {errors.description && touched.description && (
-                      <div
-                        className="input-feedback"
-                        data-testid="errors-description"
-                      >
+                      <div className="input-feedback" data-testid="errors-description">
                         {errors.description}
                       </div>
                     )}
@@ -147,9 +173,7 @@ class UpdateWakepark extends Component {
                       type="text"
                       name="lat"
                       id="input-lat"
-                      className={
-                        errors.lat && touched.lat ? "input error" : "input"
-                      }
+                      className={errors.lat && touched.lat ? "input error" : "input"}
                       placeholder="Enter the wakepark latitude location"
                       value={values.lat}
                       onChange={handleChange}
@@ -169,9 +193,7 @@ class UpdateWakepark extends Component {
                       type="text"
                       name="lng"
                       id="input-lng"
-                      className={
-                        errors.lng && touched.lng ? "input error" : "input"
-                      }
+                      className={errors.lng && touched.lng ? "input error" : "input"}
                       placeholder="Enter the wakepark longitude location"
                       value={values.lng}
                       onChange={handleChange}
@@ -193,9 +215,7 @@ class UpdateWakepark extends Component {
                       name="instagramHandle"
                       id="input-instagram-handle"
                       className={
-                        errors.instagramHandle && touched.instagramHandle
-                          ? "input error"
-                          : "input"
+                        errors.instagramHandle && touched.instagramHandle ? "input error" : "input"
                       }
                       placeholder="Enter the wakepark Instagram handle"
                       value={values.instagramHandle}
@@ -203,10 +223,7 @@ class UpdateWakepark extends Component {
                       onBlur={handleBlur}
                     />
                     {errors.instagramHandle && touched.instagramHandle && (
-                      <div
-                        className="input-feedback"
-                        data-testid="errors-instagram-handle"
-                      >
+                      <div className="input-feedback" data-testid="errors-instagram-handle">
                         {errors.instagramHandle}
                       </div>
                     )}
