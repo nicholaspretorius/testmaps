@@ -4,13 +4,16 @@ import { cleanup, fireEvent, wait } from "@testing-library/react";
 import AddWakepark from "./../AddWakepark.jsx";
 import localStorage from "./../../services/localStorage";
 
-jest.mock("./../../services/localStorage", () => ({ isPermitted: jest.fn() }));
+jest.mock("./../../services/localStorage", () => ({
+  isPermitted: jest.fn(),
+  getItem: jest.fn()
+}));
 
 // const onHandleAddWakepark = jest.fn();
 
 afterEach(cleanup);
 
-xdescribe("renders", () => {
+describe("renders", () => {
   localStorage.isPermitted.mockImplementation(() => false);
 
   // TODO: Test does not work properly...
@@ -65,9 +68,7 @@ describe("renders", () => {
 
 describe("handles form validation correctly", () => {
   it("when fields are empty", async () => {
-    const { getByLabelText, container, findByTestId } = renderWithRouter(
-      <AddWakepark />
-    );
+    const { getByLabelText, container, findByTestId } = renderWithRouter(<AddWakepark />);
 
     const form = container.querySelector("form");
     const nameInput = getByLabelText("Name");
@@ -82,23 +83,15 @@ describe("handles form validation correctly", () => {
     fireEvent.blur(lngInput);
     fireEvent.blur(instaHandleInput);
 
-    expect((await findByTestId("errors-name")).innerHTML).toBe(
-      "Please enter a name"
-    );
-    expect((await findByTestId("errors-description")).innerHTML).toBe(
-      "Please enter a description"
-    );
-    expect((await findByTestId("errors-lat")).innerHTML).toBe(
-      "Please enter a latitude"
-    );
-    expect((await findByTestId("errors-lng")).innerHTML).toBe(
-      "Please enter a longitude"
-    );
+    expect((await findByTestId("errors-name")).innerHTML).toBe("Please enter a name");
+    expect((await findByTestId("errors-description")).innerHTML).toBe("Please enter a description");
+    expect((await findByTestId("errors-lat")).innerHTML).toBe("Please enter a latitude");
+    expect((await findByTestId("errors-lng")).innerHTML).toBe("Please enter a longitude");
 
     fireEvent.submit(form);
   });
 
-  xit("when fields are valid", async () => {
+  it("when fields are valid", async () => {
     const { getByLabelText, container } = renderWithRouter(<AddWakepark />);
 
     const form = container.querySelector("form");
@@ -107,8 +100,6 @@ describe("handles form validation correctly", () => {
     const latInput = getByLabelText("Latitude");
     const lngInput = getByLabelText("Longitude");
     const instaHandleInput = getByLabelText("Instagram Handle");
-
-    // expect(onHandleAddWakepark).toHaveBeenCalledTimes(0);
 
     fireEvent.change(nameInput, { target: { value: "ImaginaryWakepark" } });
     fireEvent.blur(nameInput);
@@ -126,9 +117,5 @@ describe("handles form validation correctly", () => {
     fireEvent.blur(instaHandleInput);
 
     fireEvent.submit(form);
-
-    // await wait(() => {
-    //   expect(onHandleAddWakepark).toHaveBeenCalledTimes(1);
-    // });
   });
 });
