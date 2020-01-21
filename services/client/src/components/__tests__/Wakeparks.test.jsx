@@ -38,10 +38,8 @@ it("renders a list of wakeparks", async () => {
   const { findByTestId } = renderWithRouter(<Wakeparks />);
 
   await wait(() => {
-    expect(axios).toHaveBeenCalledTimes(1);
+    expect(axios).toHaveBeenCalledTimes(2);
   });
 
-  expect((await findByTestId("wakepark-name")).innerHTML).toBe(
-    "Stoke City Wakepark"
-  );
-});
+  expect((await findByTestId("wakepark-name")).innerHTML).toBe("Stoke City Wakepark");
+}, 6000);
