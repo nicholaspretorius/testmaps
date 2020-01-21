@@ -31,6 +31,24 @@ def seed_db():
             instagram_handle="stokecitywake",
         )
     )
+    db.session.add(
+        Wakepark(
+            name="Blue Rock",
+            description="Wakepark in Cape Town with Unit Parktech features!",
+            lat=-34.126774,
+            lng=18.901148,
+            instagram_handle="blue_rock_waterski",
+        )
+    )
+    db.session.add(
+        Wakepark(
+            name="Forever Resorts",
+            description="Beginner friendly wakepark in Bela-Bela.",
+            lat=-24.889612,
+            lng=28.290278,
+            instagram_handle="forever-resorts",
+        )
+    )
     db.session.commit()
 
 
