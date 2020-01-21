@@ -108,7 +108,9 @@ class UpdateWakepark extends Component {
               description: Yup.string().required("Please enter a description"),
               lat: Yup.string().required("Please enter a latitude"),
               lng: Yup.string().required("Please enter a longitude"),
-              instagramHandle: Yup.string()
+              instagramHandle: wakepark.social.instagram
+                ? Yup.string().required("Please enter an instagram handle")
+                : Yup.string()
             })}
           >
             {props => {
