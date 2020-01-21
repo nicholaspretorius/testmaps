@@ -47,14 +47,5 @@
     "@testing-library/react": "^9.4.0",
     "eslint-config-standard-jsx": "8.1.0",
     "prettier": "1.19.1"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/{!index,}.js"
-    ],
-    "coverageReporters": [
-      "text",
-      "html"
-    ]
   }
 }
