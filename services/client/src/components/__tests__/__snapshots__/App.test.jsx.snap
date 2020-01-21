@@ -75,8 +75,12 @@ exports[`renders a snapshot 1`] = `
               >
                 Wakeparks
               </h3>
-              <div />
-              <div>
+              <div
+                class="content"
+              />
+              <div
+                class="content"
+              >
                 <p>
                   Unfortunately, there are currently no wakeparks listed.
                 </p>

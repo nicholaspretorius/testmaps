@@ -56,7 +56,7 @@ class Wakeparks extends React.Component {
       <div>
         <h3 className="title">Wakeparks</h3>
 
-        <div>
+        <div className="content">
           {localStorage.isPermitted("post:cableparks") && (
             <span>
               <Link to="/add-wakepark" className="button is-success is-small">
@@ -65,6 +65,11 @@ class Wakeparks extends React.Component {
             </span>
           )}
         </div>
+        {wakeparks && wakeparks.length === 0 && (
+          <div className="content">
+            <p>Unfortunately, there are currently no wakeparks listed.</p>
+          </div>
+        )}
         {wakeparks && wakeparks.length > 0 && (
           <table className="table is-hoverable is-fullwidth">
             <thead>
@@ -73,9 +78,7 @@ class Wakeparks extends React.Component {
                 <th>Location</th>
                 <th>Instagram</th>
                 <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-                <th>
-                  {localStorage.isPermitted("delete:cableparks") && "Delete"}
-                </th>
+                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
               </tr>
             </thead>
             <tbody>
@@ -90,9 +93,7 @@ class Wakeparks extends React.Component {
                   {wakepark.social && <td>{wakepark.social.instagram}</td>}
                   <td>
                     {localStorage.isPermitted("put:cableparks") && (
-                      <button className="button is-warning is-small">
-                        Update Wakepark
-                      </button>
+                      <button className="button is-warning is-small">Update Wakepark</button>
                     )}
                   </td>
                   <td>
@@ -109,11 +110,6 @@ class Wakeparks extends React.Component {
               ))}
             </tbody>
           </table>
-        )}
-        {wakeparks && wakeparks.length === 0 && (
-          <div>
-            <p>Unfortunately, there are currently no wakeparks listed.</p>
-          </div>
         )}
       </div>
     );
