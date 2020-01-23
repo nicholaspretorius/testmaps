@@ -1,4 +1,4 @@
-xdescribe("Add Wakepark logged out", () => {
+describe("Add Wakepark logged out", () => {
   beforeEach(() => {
     cy.viewport(1200, 900);
   });
@@ -129,6 +129,55 @@ describe("Add Wakepark as logged in parkadmin", () => {
     cy.get("input[type='submit']")
       .contains("Submit")
       .should("have.class", "button is-primary");
+  });
+
+  describe("validates the form when fields are empty on blur", () => {
+    it("blurs the 'Name' field", () => {
+      cy.get("input#input-name")
+        .focus()
+        .blur();
+      cy.get("[data-testid=errors-name]").contains("Please enter a name");
+    });
+
+    it("blurs the 'Description' field and validates", () => {
+      cy.get("input#input-description")
+        .focus()
+        .blur();
+      cy.get("[data-testid=errors-description]").contains("Please enter a description");
+    });
+
+    it("blurs the 'Latitude' field and validates", () => {
+      cy.get("input#input-latitude")
+        .focus()
+        .blur();
+      cy.get("[data-testid=errors-lat]").contains("Please enter a latitude");
+    });
+
+    it("blurs the 'Longitude' field and validates", () => {
+      cy.get("input#input-longitude")
+        .focus()
+        .blur();
+      cy.get("[data-testid=errors-lng]").contains("Please enter a longitude");
+    });
+
+    it("blurs the 'Instagram Handle' field and does not validate", () => {
+      cy.get("input#input-instagram-handle")
+        .focus()
+        .blur();
+      cy.get("[data-testid=errors-instagram-handle]").should("not.be.visible");
+    });
+  });
+
+  describe("validates the form when fields are empty and is submitted", () => {
+    it("validates correctly", () => {
+      cy.get("input[type='submit']").click();
+
+      cy.get("[data-testid=errors-name]").contains("Please enter a name");
+      cy.get("[data-testid=errors-description]").contains("Please enter a description");
+      cy.get("[data-testid=errors-lat]").contains("Please enter a latitude");
+      cy.get("[data-testid=errors-lng]").contains("Please enter a longitude");
+      cy.get("[data-testid=errors-instagram-handle]").should("not.be.visible");
+    });
   });
 
   // it("logs the user out", () => {
