@@ -77,7 +77,7 @@ describe("profile page", () => {
       cy.get("[data-testid=permissions]");
     });
 
-    it("logs the user out", () => {
+    it("logs the regular user out", () => {
       cy.get("[data-testid=nav-signout]")
         .click()
         .url()
@@ -154,7 +154,7 @@ describe("profile page", () => {
         .contains("put:cablepark");
     });
 
-    xit("logs the user out", () => {
+    it("logs the parkadmin user out", () => {
       cy.get("[data-testid=nav-signout]")
         .click()
         .url()
