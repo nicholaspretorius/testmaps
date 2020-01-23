@@ -1,4 +1,4 @@
-describe("login", () => {
+describe("profile page", () => {
   beforeEach(() => {
     cy.viewport(1200, 900);
   });
@@ -26,17 +26,35 @@ describe("login", () => {
       });
   });
 
-  it("displays the navbar profile link correctly", () => {
-    const testEmail = "e2e-testing@madeupdomainname.com";
-
+  it("displays the profile page", () => {
     cy.get("[data-testid=nav-profile]")
-      .contains(testEmail)
-      .should("have.attr", "href")
-      .and("include", "profile");
+      .click()
+      .url()
+      .should("include", "/profile");
   });
 
-  it("displays the navbar logout link correctly", () => {
-    cy.get("[data-testid=nav-signout]").contains("Logout");
+  it("displays the title", () => {
+    cy.get("h3.title").contains("Profile");
+  });
+
+  it("displays the name, email and sub", () => {
+    cy.get("div.user-profile>ul>li")
+      .eq(0)
+      .contains("Name: ");
+    cy.get("div.user-profile>ul>li")
+      .eq(1)
+      .contains("Email: ");
+    cy.get("div.user-profile>ul>li")
+      .eq(2)
+      .contains("Sub: ");
+  });
+
+  it("displays the accessToken", () => {
+    cy.get("[data-testid=access-token]");
+  });
+
+  it("displays the permissions", () => {
+    cy.get("[data-testid]=permissions");
   });
 
   it("logs the user out", () => {
