@@ -1,4 +1,8 @@
 describe("login", () => {
+  beforeEach(() => {
+    cy.viewport(1200, 900);
+  });
+
   it("should login successfully", () => {
     cy.login()
       .then(res => {
@@ -20,5 +24,18 @@ describe("login", () => {
           }
         });
       });
+  });
+
+  it("displays the navbar profile link correctly", () => {
+    const testEmail = "e2e-testing@madeupdomainname.com";
+
+    cy.get("[data-testid=nav-profile]")
+      .contains(testEmail)
+      .should("have.attr", "href")
+      .and("include", "profile");
+  });
+
+  it("displays the navbar logout link correctly", () => {
+    cy.get("[data-testid=nav-signout]").contains("Logout");
   });
 });

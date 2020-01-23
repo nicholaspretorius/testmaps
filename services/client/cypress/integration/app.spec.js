@@ -1,4 +1,4 @@
-describe("App Home Page", () => {
+describe("App Home Page: Logged Out", () => {
   context("MacBoook Pro 15", () => {
     beforeEach(() => {
       cy.viewport(1200, 900);
