@@ -23,7 +23,8 @@
     "lint": "eslint 'src/**/*.js*'",
     "prettier:check": "prettier --check 'src/**/*.{js,jsx,json}'",
     "prettier:write": "prettier --write 'src/**/*.{js,jsx,json}'",
-    "cypress": "./node_modules/.bin/cypress open",
+    "cypress:open": "cypress open",
+    "cypress:run": "$(npm bin)/cypress run",
     "test": "react-scripts test",
     "test-coverage": "react-scripts test --bail --coverage --no-cache --env=jsdom --watchAll=false",
     "eject": "react-scripts eject"

@@ -5,6 +5,8 @@ stages:
   - test-users
   - build-client
   - test-client
+  - build-e2e
+  - test-e2e
   - build-heroku
 
 variables:
@@ -69,6 +71,29 @@ test-client:
     - npm run prettier:check
     - npm run lint
     - npm run test
+
+build-e2e:
+  stage: build-e2e
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_TOKEN $CI_REGISTRY
+    - docker pull $IMAGE:cypress || true
+    - docker build
+      --cache-from $IMAGE:cypress
+      --tag $IMAGE:cypress
+      --file ./services/client/Dockerfile-cypress-ci
+      "./services/client"
+      - docker push $IMAGE:cypress
+
+test-e2e:
+  stage: test-e2e
+  image: $IMAGE:cypress
+  script:
+    - cd /usr/src/app
+    - ./node_modules/.bin/cypress open
 
 build-heroku:
   stage: build-heroku
