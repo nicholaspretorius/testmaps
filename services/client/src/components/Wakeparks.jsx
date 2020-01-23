@@ -59,7 +59,11 @@ class Wakeparks extends React.Component {
         <div className="content">
           {localStorage.isPermitted("post:cableparks") && (
             <span>
-              <Link to="/add-wakepark" className="button is-success is-small">
+              <Link
+                to="/add-wakepark"
+                className="button is-success is-small"
+                data-testid="add-wakepark"
+              >
                 Add Wakepark
               </Link>
             </span>
@@ -78,9 +82,7 @@ class Wakeparks extends React.Component {
                 <th>Location</th>
                 <th>Instagram</th>
                 <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-                <th>
-                  {localStorage.isPermitted("delete:cableparks") && "Delete"}
-                </th>
+                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
               </tr>
             </thead>
             <tbody>
