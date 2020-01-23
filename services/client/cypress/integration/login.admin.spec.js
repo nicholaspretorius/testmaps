@@ -1,10 +1,10 @@
-describe("login regular user", () => {
+describe("login admin user", () => {
   beforeEach(() => {
     cy.viewport(1200, 900);
   });
 
-  const user = Cypress.env("auth_user_username");
-  const pass = Cypress.env("auth_user_password");
+  const user = Cypress.env("auth_admin_username");
+  const pass = Cypress.env("auth_admin_password");
 
   it("should login successfully", () => {
     cy.login(user, pass)
