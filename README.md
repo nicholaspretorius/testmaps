@@ -135,6 +135,9 @@ Note: For some reason *create-react-app* running after an `npm install` has prob
 * From the /services/client folder run: `npm test`
 * Runs all tests in --watch mode 
 * Run with coverage: `./node_modules/.bin/react-scripts test --coverage`
+
+### e2e Tests
+
 * To setup Cypress, from /services/client, run: `./node_modules/.bin/cypress open`
 * To run Cypress from Docker run: `docker-compose run cypress ./node_modules/.bin/cypress run`
 
