@@ -88,6 +88,8 @@ build-e2e:
   script:
     - echo "Project Dir, ${CI_PROJECT_DIR}"
     - ls
+    - cd services/client
+    - ls
     - npm ci
     - $(npm bin)/cypress cache path
     - $(npm bin)/cypress cache list
