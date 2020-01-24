@@ -43,7 +43,9 @@ class Wakeparks extends React.Component {
     };
 
     const wakeparks_existing = this.state.wakeparks;
-    const wakeparks_updated = this.state.wakeparks.filter(wakepark => wakepark.id !== id);
+    const wakeparks_updated = this.state.wakeparks.filter(
+      wakepark => wakepark.id !== id
+    );
     this.setState({ wakeparks: wakeparks_updated });
 
     try {
@@ -93,7 +95,9 @@ class Wakeparks extends React.Component {
                 <th>Location</th>
                 <th>Instagram</th>
                 <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
+                <th>
+                  {localStorage.isPermitted("delete:cableparks") && "Delete"}
+                </th>
               </tr>
             </thead>
             <tbody>

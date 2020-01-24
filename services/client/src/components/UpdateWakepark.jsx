@@ -137,7 +137,9 @@ class UpdateWakepark extends Component {
                       type="text"
                       name="name"
                       id="input-name"
-                      className={errors.name && touched.name ? "input error" : "input"}
+                      className={
+                        errors.name && touched.name ? "input error" : "input"
+                      }
                       placeholder="Enter the wakepark name"
                       value={values.name}
                       onChange={handleChange}
@@ -158,7 +160,9 @@ class UpdateWakepark extends Component {
                       name="description"
                       id="input-description"
                       className={
-                        errors.description && touched.description ? "input error" : "input"
+                        errors.description && touched.description
+                          ? "input error"
+                          : "input"
                       }
                       placeholder="Enter the wakepark description"
                       value={values.description}
@@ -166,7 +170,10 @@ class UpdateWakepark extends Component {
                       onBlur={handleBlur}
                     />
                     {errors.description && touched.description && (
-                      <div className="input-feedback" data-testid="errors-description">
+                      <div
+                        className="input-feedback"
+                        data-testid="errors-description"
+                      >
                         {errors.description}
                       </div>
                     )}
@@ -179,7 +186,9 @@ class UpdateWakepark extends Component {
                       type="text"
                       name="lat"
                       id="input-lat"
-                      className={errors.lat && touched.lat ? "input error" : "input"}
+                      className={
+                        errors.lat && touched.lat ? "input error" : "input"
+                      }
                       placeholder="Enter the wakepark latitude location"
                       value={values.lat}
                       onChange={handleChange}
@@ -199,7 +208,9 @@ class UpdateWakepark extends Component {
                       type="text"
                       name="lng"
                       id="input-lng"
-                      className={errors.lng && touched.lng ? "input error" : "input"}
+                      className={
+                        errors.lng && touched.lng ? "input error" : "input"
+                      }
                       placeholder="Enter the wakepark longitude location"
                       value={values.lng}
                       onChange={handleChange}
@@ -221,7 +232,9 @@ class UpdateWakepark extends Component {
                       name="instagramHandle"
                       id="input-instagram-handle"
                       className={
-                        errors.instagramHandle && touched.instagramHandle ? "input error" : "input"
+                        errors.instagramHandle && touched.instagramHandle
+                          ? "input error"
+                          : "input"
                       }
                       placeholder="Enter the wakepark Instagram handle"
                       value={values.instagramHandle}
@@ -229,7 +242,10 @@ class UpdateWakepark extends Component {
                       onBlur={handleBlur}
                     />
                     {errors.instagramHandle && touched.instagramHandle && (
-                      <div className="input-feedback" data-testid="errors-instagram-handle">
+                      <div
+                        className="input-feedback"
+                        data-testid="errors-instagram-handle"
+                      >
                         {errors.instagramHandle}
                       </div>
                     )}
