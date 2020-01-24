@@ -6,7 +6,8 @@ import localStorage from "../services/localStorage";
 
 class Wakeparks extends React.Component {
   state = {
-    wakeparks: []
+    wakeparks: [],
+    isLoading: true
   };
 
   componentDidMount() {
@@ -24,7 +25,7 @@ class Wakeparks extends React.Component {
 
     return axios(options)
       .then(res => {
-        this.setState({ wakeparks: res.data });
+        this.setState({ wakeparks: res.data, isLoading: false });
       })
       .catch(err => {
         // console.log(err);
@@ -41,16 +42,26 @@ class Wakeparks extends React.Component {
       }
     };
 
+    const wakeparks_existing = this.state.wakeparks;
+    const wakeparks_updated = this.state.wakeparks.filter(wakepark => wakepark.id !== id);
+    this.setState({ wakeparks: wakeparks_updated });
+
     try {
       const res = await axios(options);
       if (res.status === 200) {
         this.getWakeparks();
       }
-    } catch (ex) {}
+    } catch (ex) {
+      this.setState({ wakeparks: wakeparks_existing });
+    }
   }
 
   render() {
-    const { wakeparks } = this.state;
+    const { wakeparks, isLoading } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
 
     return (
       <div>
@@ -82,9 +93,7 @@ class Wakeparks extends React.Component {
                 <th>Location</th>
                 <th>Instagram</th>
                 <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-                <th>
-                  {localStorage.isPermitted("delete:cableparks") && "Delete"}
-                </th>
+                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
               </tr>
             </thead>
             <tbody>
