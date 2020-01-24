@@ -43,5 +43,7 @@ it("renders a list of wakeparks", async () => {
     expect(axios).toHaveBeenCalledTimes(2);
   });
 
-  expect((await findByTestId("wakepark-name")).innerHTML).toBe("Stoke City Wakepark");
+  expect((await findByTestId("wakepark-name")).innerHTML).toBe(
+    "Stoke City Wakepark"
+  );
 }, 6000);
