@@ -8,10 +8,13 @@ import localStorage from "../services/localStorage";
 
 class AddWakepark extends Component {
   state = {
-    toWakeparks: false
+    toWakeparks: false,
+    isLoading: false
   };
 
   onHandleAddWakepark = async data => {
+    this.setState({ isLoading: true });
+
     const wakepark = {
       name: data.name,
       description: data.description,
@@ -35,12 +38,14 @@ class AddWakepark extends Component {
     };
     try {
       const res = await axios(options);
-      if (res.statusCode === 201) {
-        this.setState({ toWakeparks: true });
+      if (res.status === 201) {
+        this.setState({ toWakeparks: true, isLoading: false });
       } else {
         // TODO: create message
+        this.setState({ toWakeparks: false, isLoading: false });
       }
     } catch (ex) {
+      this.setState({ isLoading: false });
       //console.error(ex);
     }
   };
@@ -52,6 +57,10 @@ class AddWakepark extends Component {
 
     if (!localStorage.isPermitted("post:cableparks")) {
       return <Redirect to="/" data-testid="redirect" />;
+    }
+
+    if (this.state.isLoading) {
+      return <div>Loading...</div>;
     }
 
     return (
@@ -100,9 +109,7 @@ class AddWakepark extends Component {
                     type="text"
                     name="name"
                     id="input-name"
-                    className={
-                      errors.name && touched.name ? "input error" : "input"
-                    }
+                    className={errors.name && touched.name ? "input error" : "input"}
                     placeholder="Enter the wakepark name"
                     value={values.name}
                     onChange={handleChange}
@@ -122,21 +129,14 @@ class AddWakepark extends Component {
                     type="text"
                     name="description"
                     id="input-description"
-                    className={
-                      errors.description && touched.description
-                        ? "input error"
-                        : "input"
-                    }
+                    className={errors.description && touched.description ? "input error" : "input"}
                     placeholder="Enter the wakepark description"
                     value={values.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
                   {errors.description && touched.description && (
-                    <div
-                      className="input-feedback"
-                      data-testid="errors-description"
-                    >
+                    <div className="input-feedback" data-testid="errors-description">
                       {errors.description}
                     </div>
                   )}
@@ -149,9 +149,7 @@ class AddWakepark extends Component {
                     type="text"
                     name="lat"
                     id="input-latitude"
-                    className={
-                      errors.lat && touched.lat ? "input error" : "input"
-                    }
+                    className={errors.lat && touched.lat ? "input error" : "input"}
                     placeholder="Enter the wakepark latitude location"
                     value={values.lat}
                     onChange={handleChange}
@@ -171,9 +169,7 @@ class AddWakepark extends Component {
                     type="text"
                     name="lng"
                     id="input-longitude"
-                    className={
-                      errors.lng && touched.lng ? "input error" : "input"
-                    }
+                    className={errors.lng && touched.lng ? "input error" : "input"}
                     placeholder="Enter the wakepark longitude location"
                     value={values.lng}
                     onChange={handleChange}
@@ -195,9 +191,7 @@ class AddWakepark extends Component {
                     name="instagramHandle"
                     id="input-instagram-handle"
                     className={
-                      errors.instagramHandle && touched.instagramHandle
-                        ? "input error"
-                        : "input"
+                      errors.instagramHandle && touched.instagramHandle ? "input error" : "input"
                     }
                     placeholder="Enter the wakepark Instagram handle"
                     value={values.instagramHandle}
@@ -205,10 +199,7 @@ class AddWakepark extends Component {
                     onBlur={handleBlur}
                   />
                   {errors.instagramHandle && touched.instagramHandle && (
-                    <div
-                      className="input-feedback"
-                      data-testid="errors-instagram-handle"
-                    >
+                    <div className="input-feedback" data-testid="errors-instagram-handle">
                       {errors.instagramHandle}
                     </div>
                   )}
