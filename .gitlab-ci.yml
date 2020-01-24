@@ -103,6 +103,7 @@ cypress-e2e:
     - ls
     - cd services/client
     - ls
+    - npm start
     - node_modules/.bin/cypress run
   # artifacts:
   #   expire_in: 1 week
@@ -122,9 +123,8 @@ cypress-e2e-chrome:
     - ls
     - cd services/client
     - ls
-    - cd node_modules/.bin
-    - ls
-    - cypress run
+    - npm start
+    - node_modules/.bin/cypress run
     # - node_modules/.bin/cypress run
     # - $(npm bin)/cypress run --browser chrome
   # artifacts:
