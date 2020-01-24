@@ -6,9 +6,20 @@ stages:
   - build-client
   - test-client
   - build-heroku
+  - build-e2e
+  - test-e2e
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm
+    - cache/Cypress
+    - node_modules
 
 build-users:
   stage: build-users
@@ -69,6 +80,46 @@ test-client:
     - npm run prettier:check
     - npm run lint
     - npm run test
+
+build-e2e:
+  image: cypress/base:10
+  stage: build-e2e
+
+  script:
+    - npm ci
+    - $(npm bin)/cypress cache path
+    - $(npm bin)/cypress cache list
+    - $(npm bin)/cypress verify
+
+cypress-e2e:
+  image: cypress/base:10
+  stage: test-e2e
+  script:
+    - $(npm bin)/cypress run
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+      - cypress/screenshots
+      - cypress/videos
+    reports:
+      junit:
+        - results/TEST-*.xml
+
+cypress-e2e-chrome:
+  image: cypress/browsers:chrome67
+  stage: test-e2e
+  script:
+    - $(npm bin)/cypress run --browser chrome
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+      - cypress/screenshots
+      - cypress/videos
+    reports:
+      junit:
+        - results/TEST-*.xml
 
 build-heroku:
   stage: build-heroku
