@@ -99,16 +99,16 @@ cypress-e2e:
   image: cypress/base:10
   stage: test-e2e
   script:
+    - echo "$(npm bin)"
     - ls
     - cd services/client
-    - $(npm bin)/cypress run
+    - node_modules/.bin/cypress run
   artifacts:
     expire_in: 1 week
     when: always
     paths:
-      - ls
-      - services/client/cypress/screenshots
-      - services/client/cypress/videos
+      # - services/client/cypress/screenshots
+      # - services/client/cypress/videos
     reports:
       junit:
         - results/TEST-*.xml
@@ -117,16 +117,17 @@ cypress-e2e-chrome:
   image: cypress/browsers:chrome67
   stage: test-e2e
   script:
+    - echo "$(npm bin)"
     - ls
     - cd services/client
-    - $(npm bin)/cypress run --browser chrome
+    - node_modules/.bin/cypress run
+    # - $(npm bin)/cypress run --browser chrome
   artifacts:
     expire_in: 1 week
     when: always
     paths:
-      - ls
-      - services/client/cypress/screenshots
-      - services/client/cypress/videos
+      # - services/client/cypress/screenshots
+      # - services/client/cypress/videos
     reports:
       junit:
         - results/TEST-*.xml
