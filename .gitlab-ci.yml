@@ -86,7 +86,7 @@ build-e2e:
   stage: build-e2e
 
   script:
-    - cd /usr/src/app
+    - cd /services/client
     - npm ci
     - $(npm bin)/cypress cache path
     - $(npm bin)/cypress cache list
