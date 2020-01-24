@@ -70,21 +70,7 @@ exports[`renders a snapshot 1`] = `
           >
             <br />
             <div>
-              <h3
-                class="title"
-              >
-                Wakeparks
-              </h3>
-              <div
-                class="content"
-              />
-              <div
-                class="content"
-              >
-                <p>
-                  Unfortunately, there are currently no wakeparks listed.
-                </p>
-              </div>
+              Loading...
             </div>
           </div>
         </div>

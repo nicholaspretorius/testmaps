@@ -31,7 +31,9 @@ beforeEach(() => {
 
 it("renders a title", async () => {
   const { getByText } = renderWithRouter(<Wakeparks />);
-  expect(getByText("Wakeparks")).toHaveClass("title");
+  await wait(() => {
+    expect(getByText("Wakeparks")).toHaveClass("title");
+  });
 });
 
 it("renders a list of wakeparks", async () => {
@@ -41,7 +43,5 @@ it("renders a list of wakeparks", async () => {
     expect(axios).toHaveBeenCalledTimes(2);
   });
 
-  expect((await findByTestId("wakepark-name")).innerHTML).toBe(
-    "Stoke City Wakepark"
-  );
+  expect((await findByTestId("wakepark-name")).innerHTML).toBe("Stoke City Wakepark");
 }, 6000);
