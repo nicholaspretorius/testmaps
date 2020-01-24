@@ -102,16 +102,17 @@ cypress-e2e:
     - echo "$(npm bin)"
     - ls
     - cd services/client
+    - ls
     - node_modules/.bin/cypress run
-  artifacts:
-    expire_in: 1 week
-    when: always
-    paths:
-      # - services/client/cypress/screenshots
-      # - services/client/cypress/videos
-    reports:
-      junit:
-        - results/TEST-*.xml
+  # artifacts:
+  #   expire_in: 1 week
+  #   when: always
+  #   paths:
+  #     # - services/client/cypress/screenshots
+  #     # - services/client/cypress/videos
+  #   reports:
+  #     junit:
+  #       - results/TEST-*.xml
 
 cypress-e2e-chrome:
   image: cypress/browsers:chrome67
@@ -120,17 +121,21 @@ cypress-e2e-chrome:
     - echo "$(npm bin)"
     - ls
     - cd services/client
-    - node_modules/.bin/cypress run
+    - ls
+    - cd node_modules/.bin
+    - ls
+    - cypress run
+    # - node_modules/.bin/cypress run
     # - $(npm bin)/cypress run --browser chrome
-  artifacts:
-    expire_in: 1 week
-    when: always
-    paths:
-      # - services/client/cypress/screenshots
-      # - services/client/cypress/videos
-    reports:
-      junit:
-        - results/TEST-*.xml
+  # artifacts:
+  #   expire_in: 1 week
+  #   when: always
+  #   paths:
+  #     # - services/client/cypress/screenshots
+  #     # - services/client/cypress/videos
+  #   reports:
+  #     junit:
+  #       - results/TEST-*.xml
 
 build-heroku:
   stage: build-heroku
