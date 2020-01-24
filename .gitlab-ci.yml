@@ -11,15 +11,15 @@ stages:
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
-  npm_config_cache: "$CI_PROJECT_DIR/.npm"
-  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+  npm_config_cache: "$CI_PROJECT_DIR/services/client/.npm"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/services/client/cache/Cypress"
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - .npm
-    - cache/Cypress
-    - node_modules
+    - services/client/.npm
+    - services/client/cache/Cypress
+    - services/client/node_modules
 
 build-users:
   stage: build-users
