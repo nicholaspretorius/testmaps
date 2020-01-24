@@ -17,6 +17,14 @@ describe("Add Wakepark as logged in parkadmin", () => {
   const pass = Cypress.env("auth_parkadmin_password");
   const baseUrl = Cypress.config().baseUrl;
 
+  beforeEach(() => {
+    cy.restoreLocalStorageCache();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorageCache();
+  });
+
   it("should login the parkadmin user successfully", () => {
     cy.login(user, pass)
       .then(res => {
@@ -177,6 +185,55 @@ describe("Add Wakepark as logged in parkadmin", () => {
       cy.get("[data-testid=errors-lat]").contains("Please enter a latitude");
       cy.get("[data-testid=errors-lng]").contains("Please enter a longitude");
       cy.get("[data-testid=errors-instagram-handle]").should("not.be.visible");
+    });
+  });
+
+  describe("submits form correctly", () => {
+    it("fills in the 'name' field correctly", () => {
+      cy.get("input#input-name")
+        .focus()
+        .clear()
+        .type("e2eWakpark")
+        .blur();
+    });
+
+    it("fills in the 'name' field correctly", () => {
+      cy.get("input#input-description")
+        .focus()
+        .clear()
+        .type("e2e description of wakepark")
+        .blur();
+    });
+
+    it("fills in the 'latitude' field correctly", () => {
+      cy.get("input#input-latitude")
+        .focus()
+        .clear()
+        .type("1.23")
+        .blur();
+    });
+
+    it("fills in the 'longitude' field correctly", () => {
+      cy.get("input#input-longitude")
+        .focus()
+        .clear()
+        .type("4.56")
+        .blur();
+    });
+
+    it("fills in the 'instagram handle' field correctly", () => {
+      cy.get("input#input-instagram-handle")
+        .focus()
+        .clear()
+        .type("e2e_wakepark")
+        .blur();
+    });
+
+    it("submits the form successfully", () => {
+      cy.get("input[type='submit']")
+        .click()
+        .url()
+        .should("eq", baseUrl + "/");
     });
   });
 
