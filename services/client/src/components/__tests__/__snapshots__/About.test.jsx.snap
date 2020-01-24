@@ -3,7 +3,9 @@
 exports[`renders 1`] = `
 <DocumentFragment>
   <div>
-    <h3>
+    <h3
+      class="title"
+    >
       About.
     </h3>
     <div>

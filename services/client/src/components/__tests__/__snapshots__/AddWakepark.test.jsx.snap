@@ -52,13 +52,13 @@ exports[`renders a snapshot 1`] = `
       >
         <label
           class="label"
-          for="input-lat"
+          for="input-latitude"
         >
           Latitude
         </label>
         <input
           class="input"
-          id="input-lat"
+          id="input-latitude"
           name="lat"
           placeholder="Enter the wakepark latitude location"
           type="text"
@@ -70,13 +70,13 @@ exports[`renders a snapshot 1`] = `
       >
         <label
           class="label"
-          for="input-lng"
+          for="input-longitude"
         >
           Longitude
         </label>
         <input
           class="input"
-          id="input-lng"
+          id="input-longitude"
           name="lng"
           placeholder="Enter the wakepark longitude location"
           type="text"
