@@ -109,6 +109,7 @@ cypress-e2e:
     - ls
     - cd services/client
     - ls
+    - npm start &
     - node_modules/.bin/cypress run --config baseUrl=http://client
   artifacts:
     expire_in: 1 week
