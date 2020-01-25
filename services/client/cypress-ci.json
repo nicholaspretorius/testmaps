@@ -1,4 +1,3 @@
 {
-    "baseUrl": "https://waketestmaps.herokuapp.com",
-    "video": false
+    "baseUrl": "https://waketestmaps.herokuapp.com"
 }

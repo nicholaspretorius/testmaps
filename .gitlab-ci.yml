@@ -14,6 +14,12 @@ variables:
   npm_config_cache: "$CI_PROJECT_DIR/services/client/.npm"
   CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/services/client/cache/Cypress"
 
+services:
+  - name: $IMAGE:users
+    alias: users
+  - name: $IMAGE:client
+    alias: client
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
@@ -103,39 +109,38 @@ cypress-e2e:
     - ls
     - cd services/client
     - ls
-    - npm start
-    - node_modules/.bin/cypress run
-  # artifacts:
-  #   expire_in: 1 week
-  #   when: always
-  #   paths:
-  #     # - services/client/cypress/screenshots
-  #     # - services/client/cypress/videos
-  #   reports:
-  #     junit:
-  #       - results/TEST-*.xml
+    - node_modules/.bin/cypress run --config baseUrl=http://client
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+      # - services/client/cypress/screenshots
+      - services/client/cypress/videos
+    reports:
+      junit:
+        - results/TEST-*.xml
 
-cypress-e2e-chrome:
-  image: cypress/browsers:chrome67
-  stage: test-e2e
-  script:
-    - echo "$(npm bin)"
-    - ls
-    - cd services/client
-    - ls
-    - npm start
-    - node_modules/.bin/cypress run
-    # - node_modules/.bin/cypress run
-    # - $(npm bin)/cypress run --browser chrome
-  # artifacts:
-  #   expire_in: 1 week
-  #   when: always
-  #   paths:
-  #     # - services/client/cypress/screenshots
-  #     # - services/client/cypress/videos
-  #   reports:
-  #     junit:
-  #       - results/TEST-*.xml
+# cypress-e2e-chrome:
+#   image: cypress/browsers:chrome67
+#   stage: test-e2e
+#   script:
+#     - echo "$(npm bin)"
+#     - echo $IMAGE
+#     - ls
+#     - cd services/client
+#     - ls
+#     - node_modules/.bin/cypress run --config baseUrl=http://client
+# - node_modules/.bin/cypress run
+# - $(npm bin)/cypress run --browser chrome
+# artifacts:
+#   expire_in: 1 week
+#   when: always
+#   paths:
+#     # - services/client/cypress/screenshots
+#     # - services/client/cypress/videos
+#   reports:
+#     junit:
+#       - results/TEST-*.xml
 
 build-heroku:
   stage: build-heroku
