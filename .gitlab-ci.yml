@@ -108,7 +108,7 @@ cypress-e2e:
     - echo "$(npm bin)"
     - ls
     - cd services/client
-    - npm start
+    - npm start &
     - ls
     - node_modules/.bin/cypress run
   artifacts:
