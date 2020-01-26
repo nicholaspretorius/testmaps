@@ -111,15 +111,15 @@ cypress-e2e:
     - echo "$(npm bin)"
     - cd services/client
     - node_modules/.bin/cypress run
-  artifacts:
-    expire_in: 1 week
-    when: always
-    paths:
-      # - services/client/cypress/screenshots
-      - services/client/cypress/videos
-    reports:
-      junit:
-        - results/TEST-*.xml
+  # artifacts:
+  #   expire_in: 1 week
+  #   when: always
+  #   paths:
+  #     # - services/client/cypress/screenshots
+  #     - services/client/cypress/videos
+  #   reports:
+  #     junit:
+  #       - results/TEST-*.xml
 
 # cypress-e2e-chrome:
 #   image: cypress/browsers:chrome67
