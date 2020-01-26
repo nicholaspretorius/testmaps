@@ -104,12 +104,12 @@ build-e2e:
 cypress-e2e:
   image: cypress/base:10
   stage: test-e2e
-  script:
-    - echo "$(npm bin)"
-    - ls
+  before_script:
     - cd services/client
     - npm start &
-    - ls
+  script:
+    - echo "$(npm bin)"
+    - cd services/client
     - node_modules/.bin/cypress run
   artifacts:
     expire_in: 1 week
