@@ -88,7 +88,8 @@ test-client:
     - ls
     - npm run prettier:check
     - npm run lint
-    - ./node_modules/.bin/cypress run
+    - npm start & (sleep 20 && ./node_modules/.bin/cypress run)
+    # - ./node_modules/.bin/cypress run
     # - npm run test
 # build-e2e:
 #   image: cypress/base:10
