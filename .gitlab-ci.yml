@@ -106,6 +106,8 @@ cypress-e2e:
   stage: test-e2e
 
   script:
+    - docker version
+    - docker-compose version
     - echo "$(npm bin)"
     - ls
     - cd services/client
