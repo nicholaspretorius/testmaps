@@ -4,7 +4,7 @@ describe("App Home Page: Logged Out", () => {
       cy.viewport(1200, 900);
     });
 
-    it("visits the page", () => {
+    it.only("visits the page", () => {
       cy.visit("/");
     });
 
