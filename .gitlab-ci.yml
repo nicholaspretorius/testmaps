@@ -108,6 +108,8 @@ cypress-e2e:
   script:
     - echo "$(npm bin)"
     - ls
+    - cd services/client
+    - ls
     - npm start & (sleep 10 && node_modules/.bin/cypress run)
   # artifacts:
   #   expire_in: 1 week
