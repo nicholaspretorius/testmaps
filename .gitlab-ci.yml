@@ -1,13 +1,13 @@
 image: docker:stable
 
 stages:
-  - build-users
-  - test-users
-  - build-client
-  - test-client
+  # - build-users
+  # - test-users
+  # - build-client
+  # - test-client
   - build-e2e
   - test-e2e
-  - build-heroku
+  # - build-heroku
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
@@ -27,65 +27,65 @@ cache:
     - services/client/cache/Cypress
     - services/client/node_modules
 
-build-users:
-  stage: build-users
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $IMAGE:users || true
-    - docker build
-      --cache-from $IMAGE:users
-      --tag $IMAGE:users
-      --file ./services/users/Dockerfile.prod
-      "./services/users"
-    - docker push $IMAGE:users
+# build-users:
+#   stage: build-users
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: overlay2
+#   script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker pull $IMAGE:users || true
+#     - docker build
+#       --cache-from $IMAGE:users
+#       --tag $IMAGE:users
+#       --file ./services/users/Dockerfile.prod
+#       "./services/users"
+#     - docker push $IMAGE:users
 
-test-users:
-  stage: test-users
-  image: $IMAGE:users
-  services:
-    - postgres:latest
-  variables:
-    POSTGRES_DB: users
-    POSTGRES_USER: runner
-    POSTGRES_PASSWORD: ""
-    DATABASE_TEST_URL: postgres://runner@postgres:5432/users
-    FLASK_ENV: development
-  script:
-    - cd /usr/src/app
-    - pytest "project/tests" -p no:warnings
-    - flake8 project
-    - black project --check
-    - isort project/**/*.py --check-only
+# test-users:
+#   stage: test-users
+#   image: $IMAGE:users
+#   services:
+#     - postgres:latest
+#   variables:
+#     POSTGRES_DB: users
+#     POSTGRES_USER: runner
+#     POSTGRES_PASSWORD: ""
+#     DATABASE_TEST_URL: postgres://runner@postgres:5432/users
+#     FLASK_ENV: development
+#   script:
+#     - cd /usr/src/app
+#     - pytest "project/tests" -p no:warnings
+#     - flake8 project
+#     - black project --check
+#     - isort project/**/*.py --check-only
 
-build-client:
-  stage: build-client
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
-    REACT_APP_USERS_SERVICE_URL: http://localhost:5001
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $IMAGE:client || true
-    - docker build
-      --cache-from $IMAGE:client
-      --tag $IMAGE:client
-      --file ./services/client/Dockerfile.ci
-      "./services/client"
-    - docker push $IMAGE:client
+# build-client:
+#   stage: build-client
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: overlay2
+#     REACT_APP_USERS_SERVICE_URL: http://localhost:5001
+#   script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker pull $IMAGE:client || true
+#     - docker build
+#       --cache-from $IMAGE:client
+#       --tag $IMAGE:client
+#       --file ./services/client/Dockerfile.ci
+#       "./services/client"
+#     - docker push $IMAGE:client
 
-test-client:
-  stage: test-client
-  image: $IMAGE:client
-  script:
-    - cd /usr/src/app
-    - npm run prettier:check
-    - npm run lint
-    - npm run test
+# test-client:
+#   stage: test-client
+#   image: $IMAGE:client
+#   script:
+#     - cd /usr/src/app
+#     - npm run prettier:check
+#     - npm run lint
+#     - npm run test
 
 build-e2e:
   image: cypress/base:10
@@ -105,6 +105,11 @@ cypress-e2e:
   image: cypress/base:10
   stage: test-e2e
 
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+
   script:
     - docker version
     - docker-compose version
@@ -122,7 +127,6 @@ cypress-e2e:
   #   reports:
   #     junit:
   #       - results/TEST-*.xml
-
 # cypress-e2e-chrome:
 #   image: cypress/browsers:chrome67
 #   stage: test-e2e
@@ -145,34 +149,34 @@ cypress-e2e:
 #     junit:
 #       - results/TEST-*.xml
 
-build-heroku:
-  stage: build-heroku
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
-    HEROKU_APP_NAME: waketestmaps
-    HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
-  script:
-    - apk add --no-cache curl
-    - chmod +x ./release.sh
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $IMAGE:build-react || true
-    - docker pull $IMAGE:production || true
-    - docker build
-      --target build-react
-      --cache-from $IMAGE:build-react
-      --tag $IMAGE:build-react
-      --file ./Dockerfile.deploy
-      "."
-    - docker build
-      --cache-from $IMAGE:production
-      --tag $IMAGE:production
-      --tag $HEROKU_REGISTRY_IMAGE
-      --file ./Dockerfile.deploy
-      "."
-    - docker push $IMAGE:build-react
-    - docker push $IMAGE:production
-    - docker login -u _ -p $HEROKU_AUTH_TOKEN registry.heroku.com
-    - docker push $HEROKU_REGISTRY_IMAGE
-    - ./release.sh
+# build-heroku:
+#   stage: build-heroku
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: overlay2
+#     HEROKU_APP_NAME: waketestmaps
+#     HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
+#   script:
+#     - apk add --no-cache curl
+#     - chmod +x ./release.sh
+#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker pull $IMAGE:build-react || true
+#     - docker pull $IMAGE:production || true
+#     - docker build
+#       --target build-react
+#       --cache-from $IMAGE:build-react
+#       --tag $IMAGE:build-react
+#       --file ./Dockerfile.deploy
+#       "."
+#     - docker build
+#       --cache-from $IMAGE:production
+#       --tag $IMAGE:production
+#       --tag $HEROKU_REGISTRY_IMAGE
+#       --file ./Dockerfile.deploy
+#       "."
+#     - docker push $IMAGE:build-react
+#     - docker push $IMAGE:production
+#     - docker login -u _ -p $HEROKU_AUTH_TOKEN registry.heroku.com
+#     - docker push $HEROKU_REGISTRY_IMAGE
+#     - ./release.sh
