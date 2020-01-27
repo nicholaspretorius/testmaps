@@ -1,4 +1,4 @@
-image: docker/compose:stable
+image: docker/compose:latest
 
 stages:
   # - build-users
