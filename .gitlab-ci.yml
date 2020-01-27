@@ -21,7 +21,7 @@ services:
     alias: client
   - name: $IMAGE:e2e
     alias: e2e
-  - name: $IMAGE: docker/compose
+  - name: $IMAGE:docker/compose
     alias: docker/compose
 
 cache:
