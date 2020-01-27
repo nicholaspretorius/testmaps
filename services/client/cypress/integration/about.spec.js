@@ -1,4 +1,4 @@
-describe("About Page", () => {
+xdescribe("About Page", () => {
   beforeEach(() => {
     cy.viewport(1200, 900);
   });

@@ -1,4 +1,4 @@
-describe("login parkadmin user", () => {
+xdescribe("login parkadmin user", () => {
   beforeEach(() => {
     cy.viewport(1200, 900);
   });

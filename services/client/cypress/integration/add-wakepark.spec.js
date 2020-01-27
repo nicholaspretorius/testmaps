@@ -1,4 +1,4 @@
-describe("Add Wakepark logged out", () => {
+xdescribe("Add Wakepark logged out", () => {
   beforeEach(() => {
     cy.viewport(1200, 900);
   });
@@ -12,7 +12,7 @@ describe("Add Wakepark logged out", () => {
   });
 });
 
-describe("Add Wakepark as logged in parkadmin", () => {
+xdescribe("Add Wakepark as logged in parkadmin", () => {
   const user = Cypress.env("auth_parkadmin_username");
   const pass = Cypress.env("auth_parkadmin_password");
   const baseUrl = Cypress.config().baseUrl;

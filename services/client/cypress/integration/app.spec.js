@@ -26,7 +26,7 @@ describe("App Home Page: Logged Out", () => {
   });
 });
 
-describe("App Home Page: Logged in", () => {
+xdescribe("App Home Page: Logged in", () => {
   const baseUrl = Cypress.config().baseUrl;
 
   beforeEach(() => {
