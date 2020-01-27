@@ -11,8 +11,8 @@ stages:
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
-  npm_config_cache: "$CI_PROJECT_DIR/services/client/.npm"
-  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/services/client/cache/Cypress"
+  # npm_config_cache: "$CI_PROJECT_DIR/services/client/.npm"
+  # CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/services/client/cache/Cypress"
 
 services:
   - name: $IMAGE:users
@@ -88,8 +88,8 @@ test-client:
     - ls
     - npm run prettier:check
     - npm run lint
-    # - npm run test
     - ./node_modules/.bin/cypress run
+    # - npm run test
 # build-e2e:
 #   image: cypress/base:10
 #   stage: build-e2e
