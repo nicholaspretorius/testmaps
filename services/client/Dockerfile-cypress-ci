@@ -32,11 +32,12 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 ENV CI=1
 
+# copy cypress files and folders
+COPY --from=run-react /usr/src/app /usr/src/app
+
 # install cypress
 RUN npm install cypress
 
-# copy cypress files and folders
-COPY --from=run-react /usr/src/app /usr/src/app
 COPY cypress /usr/src/app/cypress
 COPY cypress.json /usr/src/app/cypress.json
 
