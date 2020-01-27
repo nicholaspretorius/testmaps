@@ -128,7 +128,7 @@ test-e2e:
   services:
     - docker:dind
   before_script:
-    - apk add --update py-pip
+    # - apk add --update py-pip
     - pip install docker-compose
   variables:
     DOCKER_DRIVER: overlay2
