@@ -127,11 +127,14 @@ test-e2e:
   image: $IMAGE:e2e
   services:
     - docker:dind
+  before_script:
+    - apk add --update py-pip
+    - pip install docker-compose
   variables:
     DOCKER_DRIVER: overlay2
   script:
     - ls
-    - docker version
+    # - docker version
     - docker-compose version
     - cd /usr/src/app
     - npm start & (sleep 10 && node_modules/.bin/cypress run --config baseUrl=http://localhost:3007)
