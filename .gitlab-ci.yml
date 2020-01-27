@@ -21,8 +21,6 @@ services:
     alias: client
   - name: $IMAGE:e2e
     alias: e2e
-  - name: $IMAGE:docker/compose
-    alias: docker/compose
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -128,7 +126,9 @@ test-e2e:
   stage: test-e2e
   image: $IMAGE:e2e
   services:
-    - docker/compose
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
   script:
     - ls
     - docker version

@@ -4,6 +4,7 @@ FROM cypress/browsers:chrome65-ff57
 WORKDIR /usr/src/app
 
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
+ENV CI=1
 
 # install cypress
 RUN npm install cypress
