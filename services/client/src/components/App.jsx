@@ -106,7 +106,8 @@ class App extends React.Component {
       },
       social: {
         instagram: data.instagramHandle
-      }
+      },
+      owner_id: this.state.profile.sub
     };
 
     const options = {
@@ -138,8 +139,6 @@ class App extends React.Component {
   };
 
   onHandleUpdateWakepark = async (data, id) => {
-    console.log("Data: ", data);
-    console.log("Wakepark ID: ", id);
     const wakepark_updated = {
       name: data.name,
       description: data.description,
@@ -149,7 +148,8 @@ class App extends React.Component {
       },
       social: {
         instagram: data.instagramHandle
-      }
+      },
+      owner_id: this.state.profile.sub
     };
 
     // const wakepark_existing = wakepark;

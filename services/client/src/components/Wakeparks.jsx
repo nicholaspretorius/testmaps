@@ -107,7 +107,7 @@ class Wakeparks extends React.Component {
                     )}
                   </td>
                   <td>
-                    {isPermittedAndOwner("put:cableparks", ownerId, wakepark.owner_id) && (
+                    {isPermittedAndOwner("delete:cableparks", ownerId, wakepark.owner_id) && (
                       <button
                         className="button is-danger is-small"
                         onClick={() => this.deleteWakepark(wakepark.id)}
