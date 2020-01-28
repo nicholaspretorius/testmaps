@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import localStorage from "../services/localStorage";
+import localStorage from "./../services/localStorage";
+import isPermittedAndOwner from "./../services/can";
 
 class Wakeparks extends React.Component {
   state = {
@@ -46,6 +47,7 @@ class Wakeparks extends React.Component {
 
   render() {
     const { wakeparks, isLoading } = this.state;
+    const { ownerId } = this.props;
 
     if (isLoading) {
       return <div>Loading...</div>;
@@ -95,7 +97,7 @@ class Wakeparks extends React.Component {
                   )}
                   {wakepark.social && <td>{wakepark.social.instagram}</td>}
                   <td>
-                    {localStorage.isPermitted("put:cableparks") && (
+                    {isPermittedAndOwner("put:cableparks", ownerId, wakepark.owner_id) && (
                       <Link
                         to={`/update-wakepark/${wakepark.id}`}
                         className="button is-warning is-small"
@@ -105,7 +107,7 @@ class Wakeparks extends React.Component {
                     )}
                   </td>
                   <td>
-                    {localStorage.isPermitted("delete:cableparks") && (
+                    {isPermittedAndOwner("put:cableparks", ownerId, wakepark.owner_id) && (
                       <button
                         className="button is-danger is-small"
                         onClick={() => this.deleteWakepark(wakepark.id)}

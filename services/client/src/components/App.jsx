@@ -403,7 +403,12 @@ class App extends React.Component {
                   <Route
                     exact
                     path="/"
-                    render={() => <Home deleteWakepark={this.onHandleDeleteWakepark} />}
+                    render={() => (
+                      <Home
+                        deleteWakepark={this.onHandleDeleteWakepark}
+                        ownerId={profile ? profile.sub : ""}
+                      />
+                    )}
                   />
                   <Route
                     exact
