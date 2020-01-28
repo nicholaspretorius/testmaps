@@ -4,7 +4,7 @@ describe("App Home Page: Logged Out", () => {
       cy.viewport(1200, 900);
     });
 
-    it.only("visits the page", () => {
+    it("visits the page", () => {
       cy.visit("/");
     });
 
@@ -26,7 +26,7 @@ describe("App Home Page: Logged Out", () => {
   });
 });
 
-xdescribe("App Home Page: Logged in", () => {
+describe("App Home Page: Logged in", () => {
   const baseUrl = Cypress.config().baseUrl;
 
   beforeEach(() => {
