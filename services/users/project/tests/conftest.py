@@ -35,13 +35,14 @@ def add_user():
 
 @pytest.fixture(scope="module")
 def add_wakepark():
-    def _add_wakepark(name, description, lat, lng, instagram_handle):
+    def _add_wakepark(name, description, lat, lng, instagram_handle, owner_id):
         wakepark = Wakepark(
             name=name,
             description=description,
             lat=lat,
             lng=lng,
             instagram_handle=instagram_handle,
+            owner_id=owner_id,
         )
         db.session.add(wakepark)
         db.session.commit()
