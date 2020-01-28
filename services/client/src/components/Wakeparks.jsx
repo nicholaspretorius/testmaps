@@ -36,7 +36,9 @@ class Wakeparks extends React.Component {
   async deleteWakepark(id) {
     const res = this.props.deleteWakepark(id);
     const wakeparks_existing = this.state.wakeparks;
-    const wakeparks_updated = this.state.wakeparks.filter(wakepark => wakepark.id !== id);
+    const wakeparks_updated = this.state.wakeparks.filter(
+      wakepark => wakepark.id !== id
+    );
 
     if (res) {
       this.setState({ wakeparks: wakeparks_updated });
@@ -83,7 +85,9 @@ class Wakeparks extends React.Component {
                 <th>Location</th>
                 <th>Instagram</th>
                 <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
+                <th>
+                  {localStorage.isPermitted("delete:cableparks") && "Delete"}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -97,7 +101,11 @@ class Wakeparks extends React.Component {
                   )}
                   {wakepark.social && <td>{wakepark.social.instagram}</td>}
                   <td>
-                    {isPermittedAndOwner("put:cableparks", ownerId, wakepark.owner_id) && (
+                    {isPermittedAndOwner(
+                      "put:cableparks",
+                      ownerId,
+                      wakepark.owner_id
+                    ) && (
                       <Link
                         to={`/update-wakepark/${wakepark.id}`}
                         className="button is-warning is-small"
@@ -107,7 +115,11 @@ class Wakeparks extends React.Component {
                     )}
                   </td>
                   <td>
-                    {isPermittedAndOwner("delete:cableparks", ownerId, wakepark.owner_id) && (
+                    {isPermittedAndOwner(
+                      "delete:cableparks",
+                      ownerId,
+                      wakepark.owner_id
+                    ) && (
                       <button
                         className="button is-danger is-small"
                         onClick={() => this.deleteWakepark(wakepark.id)}

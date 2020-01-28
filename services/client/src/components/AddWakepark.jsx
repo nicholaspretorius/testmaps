@@ -65,7 +65,9 @@ class AddWakepark extends Component {
                     type="text"
                     name="name"
                     id="input-name"
-                    className={errors.name && touched.name ? "input error" : "input"}
+                    className={
+                      errors.name && touched.name ? "input error" : "input"
+                    }
                     placeholder="Enter the wakepark name"
                     value={values.name}
                     onChange={handleChange}
@@ -85,14 +87,21 @@ class AddWakepark extends Component {
                     type="text"
                     name="description"
                     id="input-description"
-                    className={errors.description && touched.description ? "input error" : "input"}
+                    className={
+                      errors.description && touched.description
+                        ? "input error"
+                        : "input"
+                    }
                     placeholder="Enter the wakepark description"
                     value={values.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
                   {errors.description && touched.description && (
-                    <div className="input-feedback" data-testid="errors-description">
+                    <div
+                      className="input-feedback"
+                      data-testid="errors-description"
+                    >
                       {errors.description}
                     </div>
                   )}
@@ -105,7 +114,9 @@ class AddWakepark extends Component {
                     type="text"
                     name="lat"
                     id="input-latitude"
-                    className={errors.lat && touched.lat ? "input error" : "input"}
+                    className={
+                      errors.lat && touched.lat ? "input error" : "input"
+                    }
                     placeholder="Enter the wakepark latitude location"
                     value={values.lat}
                     onChange={handleChange}
@@ -125,7 +136,9 @@ class AddWakepark extends Component {
                     type="text"
                     name="lng"
                     id="input-longitude"
-                    className={errors.lng && touched.lng ? "input error" : "input"}
+                    className={
+                      errors.lng && touched.lng ? "input error" : "input"
+                    }
                     placeholder="Enter the wakepark longitude location"
                     value={values.lng}
                     onChange={handleChange}
@@ -147,7 +160,9 @@ class AddWakepark extends Component {
                     name="instagramHandle"
                     id="input-instagram-handle"
                     className={
-                      errors.instagramHandle && touched.instagramHandle ? "input error" : "input"
+                      errors.instagramHandle && touched.instagramHandle
+                        ? "input error"
+                        : "input"
                     }
                     placeholder="Enter the wakepark Instagram handle"
                     value={values.instagramHandle}
@@ -155,7 +170,10 @@ class AddWakepark extends Component {
                     onBlur={handleBlur}
                   />
                   {errors.instagramHandle && touched.instagramHandle && (
-                    <div className="input-feedback" data-testid="errors-instagram-handle">
+                    <div
+                      className="input-feedback"
+                      data-testid="errors-instagram-handle"
+                    >
                       {errors.instagramHandle}
                     </div>
                   )}
