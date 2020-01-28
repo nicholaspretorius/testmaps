@@ -34,7 +34,7 @@ class Wakepark(db.Model):
         self.owner_id = owner_id
 
     def __repr__(self):
-        return f"<Wakepark id: {self.id}, name: {self.name} owner_id: {self.owner_id}>"
+        return f"<Wakepark id: {self.id}, name: {self.name}, owner_id: {self.owner_id}>"
 
     def to_json(self):
         return {
