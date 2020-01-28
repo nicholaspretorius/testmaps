@@ -206,8 +206,8 @@ def test_delete_wakepark(test_app, test_db, add_wakepark):
         28.185543,
         "stokecitywake",
         "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients"
-        # "google-oauth2|104755831296456998532"
     )
+
     client = test_app.test_client()
     res_one = client.get("/wakeparks/")
     data = json.loads(res_one.data.decode())
@@ -242,6 +242,34 @@ def test_delete_wakepark_not_found(test_app, test_db):
     assert res.content_type == "application/json"
     assert not data["status"]
     assert "Resource not found" in data["message"]
+
+
+def test_delete_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
+    recreate_db()
+
+    add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+        "google-oauth2|104755831296456998532"
+    )
+    client = test_app.test_client()
+    res_one = client.get("/wakeparks/")
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 200
+    assert res_one.content_type == "application/json"
+    assert len(data) == 1
+
+    res_two = client.delete(
+        f"/wakeparks/1", headers={"Authorization": f"Bearer {access_token}"}
+    )
+    data = json.loads(res_two.data.decode())
+    assert res_two.status_code == 403
+    assert res_two.content_type == "application/json"
+    assert "forbidden" in data["code"]
+    assert "Not resource owner." in data["description"]
 
 
 @pytest.mark.parametrize(
@@ -372,6 +400,43 @@ def test_update_wakepark_not_found(test_app, test_db):
     assert res.content_type == "application/json"
     assert not data["status"]
     assert "Resource not found" in data["message"]
+
+
+def test_update_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
+    recreate_db()
+
+    # initial wakepark
+    new_wakepark = add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+        "google-oauth2|104755831296456998532"
+    )
+
+    # updated wakepark
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+        "location": {"lat": -25.952558, "lng": 28.185543},
+        "social": {"instagram": "stokecitywake"},
+        "owner_id": "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients"
+    }
+
+    client = test_app.test_client()
+    res_one = client.put(
+        f"/wakeparks/{new_wakepark.id}",
+        data=json.dumps(wakepark),
+        headers={"Authorization": f"Bearer {access_token}"},
+        content_type="application/json",
+    )
+
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 403
+    assert res_one.content_type == "application/json"
+    assert "Not resource owner." in data["description"]
+    assert "forbidden" in data["code"]
 
 
 @pytest.mark.parametrize(
@@ -514,6 +579,44 @@ def test_patch_wakepark_not_found(test_app, test_db):
     assert res.content_type == "application/json"
     assert not data["status"]
     assert "Resource not found" in data["message"]
+
+
+def test_patch_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
+    recreate_db()
+
+    # initial wakepark
+    new_wakepark = add_wakepark(
+        "Stoke City Wakepark",
+        "The only cablepark in Gauteng!",
+        -25.952558,
+        28.185543,
+        "stokecitywake",
+        "google-oauth2|104755831296456998532"
+    )
+
+    # updated wakepark
+    wakepark = {
+        "name": "Stoke City Wakepark",
+        "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
+        "lat": -25.952558,
+        "lng": 28.185543,
+        "instagram_handle": "stokecitywake",
+        "owner_id": "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients"
+    }
+
+    client = test_app.test_client()
+    res_one = client.patch(
+        f"/wakeparks/{new_wakepark.id}",
+        data=json.dumps(wakepark),
+        headers={"Authorization": f"Bearer {access_token}"},
+        content_type="application/json",
+    )
+
+    data = json.loads(res_one.data.decode())
+    assert res_one.status_code == 403
+    assert res_one.content_type == "application/json"
+    assert "Not resource owner." in data["description"]
+    assert "forbidden" in data["code"]
 
 
 @pytest.mark.parametrize(
