@@ -15,21 +15,32 @@ class Wakepark(db.Model):
     lat = db.Column(db.Float(), nullable=True)
     lng = db.Column(db.Float(), nullable=True)
     instagram_handle = db.Column(db.String(128), nullable=True)
+    owner_id = db.Column(db.String(), default=True, nullable=False)
 
-    def __init__(self, name="", lat="", lng="", description="", instagram_handle=""):
+    def __init__(
+        self,
+        name="",
+        lat="",
+        lng="",
+        description="",
+        instagram_handle="",
+        owner_id="google-oauth2|104755831296456998532",
+    ):
         self.name = name
         self.description = description
         self.lat = lat
         self.lng = lng
         self.instagram_handle = instagram_handle
+        self.owner_id = owner_id
 
     def __repr__(self):
-        return f"<Wakepark id: {self.id}, name: {self.name} >"
+        return f"<Wakepark id: {self.id}, name: {self.name} owner_id: {self.owner_id}>"
 
     def to_json(self):
         return {
             "id": self.id,
             "name": self.name,
+            "owner_id": self.owner_id,
             "location": {"lat": self.lat, "lng": self.lng},
             "description": self.description,
             "social": {
@@ -45,4 +56,5 @@ class Wakepark(db.Model):
             "lng": self.lng,
             "description": self.description,
             "instagram_handle": self.instagram_handle,
+            "owner_id": self.owner_id,
         }

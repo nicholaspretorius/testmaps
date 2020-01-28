@@ -7,6 +7,8 @@ from urllib.request import urlopen
 from flask import abort, request
 from jose import jwt
 
+from project.apis.wakeparks.services import get_wakepark_by_id
+
 AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
 AUTH0_AUDIENCE = os.environ.get("AUTH0_AUDIENCE")
 ALGORITHMS = os.environ.get("ALGORITHMS")
@@ -60,11 +62,25 @@ def get_token_auth_header():
     return header_parts[1]
 
 
-def check_permissions(permission, payload):
+def check_permissions(permission, payload, id):
+
+    user_id = payload["sub"]
+
+    if id:
+        wakepark = get_wakepark_by_id(id)
+        if wakepark:
+            owner_id = wakepark.owner_id
+            print("Owner ID: ", owner_id)
+            print("User ID: ", user_id)
+            if owner_id != user_id:
+                raise AuthError(
+                    {"code": "forbidden", "description": "Not resource owner."}, 403
+                )
+
     if permission == "":
         return True
 
-    if "permissions" not in payload:
+    if "permissions" not in payload or user_id is None:
         raise AuthError(
             {
                 "code": "invalid_claims",
@@ -163,12 +179,13 @@ def requires_auth(permission=""):
         @wraps(f)
         def wrapper(*args, **kwargs):
             token = get_token_auth_header()
+            resource_id = kwargs.get("wakepark_id")
             try:
                 payload = verify_decode_jwt(token)
             except ():
                 abort(401)
 
-            check_permissions(permission, payload)
+            check_permissions(permission, payload, resource_id)
 
             return f(payload, *args, **kwargs)
 

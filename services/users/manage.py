@@ -29,6 +29,7 @@ def seed_db():
             lat=-25.952558,
             lng=28.185543,
             instagram_handle="stokecitywake",
+            owner_id="google-oauth2|104755831296456998532",
         )
     )
     db.session.add(
@@ -38,6 +39,7 @@ def seed_db():
             lat=-34.126774,
             lng=18.901148,
             instagram_handle="blue_rock_waterski",
+            owner_id="auth0|5ddb7e53ecc37b0ef0912ab8",
         )
     )
     db.session.add(
@@ -47,6 +49,7 @@ def seed_db():
             lat=-24.889612,
             lng=28.290278,
             instagram_handle="forever-resorts",
+            owner_id="google-oauth2|104755831296456998532",
         )
     )
     db.session.commit()

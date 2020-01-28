@@ -55,6 +55,11 @@ WAKEPARK = api.model(
             description="The name of the wakepark",
             example="Stok-ed Wakepark",
         ),
+        "owner_id": fields.String(
+            required=True,
+            description="The creator of the wakepark",
+            example="oauth|1234567890...",
+        ),
         "description": fields.String(
             required=True,
             description="A less than 255 characters description of the wakepark",
@@ -70,6 +75,11 @@ UPDATE_WAKEPARK = api.model(
     {
         "name": fields.String(
             description="The name of the wakepark", example="Stok-ed Wakepark"
+        ),
+        "owner_id": fields.String(
+            required=True,
+            description="The creator of the wakepark",
+            example="oauth|1234567890...",
         ),
         "description": fields.String(
             description="A less than 255 characters description of the wakepark",
@@ -113,6 +123,7 @@ class WakeparkList(Resource):
             post_data = request.get_json()
             name = post_data.get("name")
             description = post_data.get("description")
+            owner_id = post_data.get("owner_id")
 
             if post_data.get("location"):
                 lat = post_data.get("location")["lat"]
@@ -127,7 +138,7 @@ class WakeparkList(Resource):
                 return res, 400
 
             new_wakepark = create_wakepark(
-                name, description, lat, lng, instagram_handle
+                name, description, lat, lng, instagram_handle, owner_id
             )
             res = new_wakepark.to_json()
             return res, 201
@@ -159,6 +170,7 @@ class Wakeparks(Resource):
         """Deletes a single wakepark"""
         try:
             wakepark = get_wakepark_by_id(wakepark_id)
+            print("Wakepark: ", wakepark)
 
             if wakepark is None:
                 api.abort(404, "Resource not found", status=False)
@@ -192,6 +204,7 @@ class Wakeparks(Resource):
             post_data = request.get_json()
             name = post_data.get("name")
             description = post_data.get("description")
+            owner_id = post_data.get("owner_id")
 
             if post_data.get("location"):
                 lat = post_data.get("location")["lat"]
@@ -201,7 +214,7 @@ class Wakeparks(Resource):
                 instagram_handle = post_data.get("social")["instagram"]
 
             updated_wakepark = update_wakepark(
-                wakepark, name, description, lat, lng, instagram_handle
+                wakepark, name, description, lat, lng, instagram_handle, owner_id
             )
 
             res = {
