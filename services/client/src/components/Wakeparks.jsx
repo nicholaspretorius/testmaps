@@ -33,27 +33,13 @@ class Wakeparks extends React.Component {
   }
 
   async deleteWakepark(id) {
-    const options = {
-      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/${id}`,
-      method: "delete",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-      }
-    };
-
+    const res = this.props.deleteWakepark(id);
     const wakeparks_existing = this.state.wakeparks;
-    const wakeparks_updated = this.state.wakeparks.filter(
-      wakepark => wakepark.id !== id
-    );
-    this.setState({ wakeparks: wakeparks_updated });
+    const wakeparks_updated = this.state.wakeparks.filter(wakepark => wakepark.id !== id);
 
-    try {
-      const res = await axios(options);
-      if (res.status === 200) {
-        this.getWakeparks();
-      }
-    } catch (ex) {
+    if (res) {
+      this.setState({ wakeparks: wakeparks_updated });
+    } else {
       this.setState({ wakeparks: wakeparks_existing });
     }
   }
@@ -95,9 +81,7 @@ class Wakeparks extends React.Component {
                 <th>Location</th>
                 <th>Instagram</th>
                 <th>{localStorage.isPermitted("put:cableparks") && "Edit"}</th>
-                <th>
-                  {localStorage.isPermitted("delete:cableparks") && "Delete"}
-                </th>
+                <th>{localStorage.isPermitted("delete:cableparks") && "Delete"}</th>
               </tr>
             </thead>
             <tbody>

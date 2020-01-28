@@ -96,6 +96,115 @@ class App extends React.Component {
       });
   };
 
+  onHandleAddWakepark = async data => {
+    const wakepark = {
+      name: data.name,
+      description: data.description,
+      location: {
+        lat: parseFloat(data.lat),
+        lng: parseFloat(data.lng)
+      },
+      social: {
+        instagram: data.instagramHandle
+      }
+    };
+
+    const options = {
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/`,
+      method: "post",
+      data: wakepark,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    };
+    try {
+      const res = await axios(options);
+      if (res.status === 201) {
+        //this.setState({ toWakeparks: true });
+        this.createMessage("success", "Wakepark added.");
+        this.props.history.push("/");
+        return true;
+      } else {
+        // TODO: create message
+        this.createMessage("danger", "Error adding wakepark.");
+        return false;
+      }
+    } catch (ex) {
+      //console.error(ex);
+      this.createMessage("danger", "Exception adding wakepark.");
+      return false;
+    }
+  };
+
+  onHandleUpdateWakepark = async (data, id) => {
+    console.log("Data: ", data);
+    console.log("Wakepark ID: ", id);
+    const wakepark_updated = {
+      name: data.name,
+      description: data.description,
+      location: {
+        lat: parseFloat(data.lat),
+        lng: parseFloat(data.lng)
+      },
+      social: {
+        instagram: data.instagramHandle
+      }
+    };
+
+    // const wakepark_existing = wakepark;
+
+    const options = {
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/${id}`,
+      method: "put",
+      data: wakepark_updated,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    };
+
+    try {
+      const res = await axios(options);
+      //this.setState({ wakepark: wakepark_updated });
+
+      if (res.status === 200) {
+        this.createMessage("success", "Wakepark updated.");
+        this.props.history.push("/");
+        // this.setState({ toWakeparks: true });
+      }
+    } catch (ex) {
+      this.createMessage("danger", "Error updating wakepark.");
+      //this.setState({ wakepark: wakepark_existing });
+    }
+  };
+
+  onHandleDeleteWakepark = async id => {
+    const options = {
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/wakeparks/${id}`,
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    };
+
+    // const wakeparks_existing = wakeparks;
+    // const wakeparks_updated = wakeparks.filter(wakepark => wakepark.id !== id);
+    // this.setState({ wakeparks: wakeparks_updated });
+
+    try {
+      const res = await axios(options);
+      if (res.status === 200) {
+        // this.getWakeparks();
+        this.createMessage("success", "Wakepark deleted.");
+      }
+    } catch (ex) {
+      // this.setState({ wakeparks: wakeparks_existing });
+      this.createMessage("danger", "Error deleting wakepark.");
+    }
+  };
+
   removeUser = user_id => {
     axios
       .delete(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/${user_id}`)
@@ -276,9 +385,7 @@ class App extends React.Component {
                     path="/register"
                     render={() => (
                       <RegisterForm
-                        onHandleRegisterFormSubmit={
-                          this.handleRegisterFormSubmit
-                        }
+                        onHandleRegisterFormSubmit={this.handleRegisterFormSubmit}
                         isAuthenticated={this.isAuthenticated}
                       />
                     )}
@@ -293,16 +400,20 @@ class App extends React.Component {
                       />
                     )}
                   />
-                  <Route exact path="/" render={() => <Home />} />
+                  <Route
+                    exact
+                    path="/"
+                    render={() => <Home deleteWakepark={this.onHandleDeleteWakepark} />}
+                  />
                   <Route
                     exact
                     path="/add-wakepark"
-                    render={() => <AddWakepark />}
+                    render={() => <AddWakepark addWakepark={this.onHandleAddWakepark} />}
                   />
                   <Route
                     exact
                     path="/update-wakepark/:id"
-                    component={UpdateWakepark}
+                    render={() => <UpdateWakepark updateWakepark={this.onHandleUpdateWakepark} />}
                   />
                   <Route
                     exact
@@ -313,19 +424,13 @@ class App extends React.Component {
                         <hr />
                         <br />
                         {this.isAuthenticated && (
-                          <button
-                            onClick={this.handleOpenModal}
-                            className="button is-primary"
-                          >
+                          <button onClick={this.handleOpenModal} className="button is-primary">
                             Add User
                           </button>
                         )}
                         <br />
                         <br />
-                        <Modal
-                          isOpen={this.state.showModal}
-                          style={modalStyles}
-                        >
+                        <Modal isOpen={this.state.showModal} style={modalStyles}>
                           <div className="modal is-active">
                             <div className="modal-background" />
                             <div className="modal-card">
