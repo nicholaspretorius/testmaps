@@ -66,9 +66,7 @@ describe("renders", () => {
 
 describe("handles form validation correctly", () => {
   it("when fields are empty", async () => {
-    const { getByLabelText, container, findByTestId } = renderWithRouter(
-      <AddWakepark />
-    );
+    const { getByLabelText, container, findByTestId } = renderWithRouter(<AddWakepark />);
 
     const form = container.querySelector("form");
     const nameInput = getByLabelText("Name");
@@ -83,24 +81,20 @@ describe("handles form validation correctly", () => {
     fireEvent.blur(lngInput);
     fireEvent.blur(instaHandleInput);
 
-    expect((await findByTestId("errors-name")).innerHTML).toBe(
-      "Please enter a name"
-    );
-    expect((await findByTestId("errors-description")).innerHTML).toBe(
-      "Please enter a description"
-    );
-    expect((await findByTestId("errors-lat")).innerHTML).toBe(
-      "Please enter a latitude"
-    );
-    expect((await findByTestId("errors-lng")).innerHTML).toBe(
-      "Please enter a longitude"
-    );
+    expect((await findByTestId("errors-name")).innerHTML).toBe("Please enter a name");
+    expect((await findByTestId("errors-description")).innerHTML).toBe("Please enter a description");
+    expect((await findByTestId("errors-lat")).innerHTML).toBe("Please enter a latitude");
+    expect((await findByTestId("errors-lng")).innerHTML).toBe("Please enter a longitude");
 
     fireEvent.submit(form);
   });
 
   it("when fields are valid", async () => {
-    const { getByLabelText, container } = renderWithRouter(<AddWakepark />);
+    const mockProps = {
+      addWakepark: () => true
+    };
+
+    const { getByLabelText, container } = renderWithRouter(<AddWakepark {...mockProps} />);
 
     const form = container.querySelector("form");
     const nameInput = getByLabelText("Name");
