@@ -14,7 +14,7 @@ def test_get_all_wakeparks(test_app, test_db, add_wakepark):
         -25.952558,
         28.185543,
         "stokecitywake",
-        "auth0|5ddb7e53ecc37b0ef0912ab8"
+        "auth0|5ddb7e53ecc37b0ef0912ab8",
     )
     add_wakepark(
         "Blue Rock",
@@ -22,7 +22,7 @@ def test_get_all_wakeparks(test_app, test_db, add_wakepark):
         -25.952558,
         28.185543,
         "blue_rock_waterski",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
 
     res = client.get(f"/wakeparks/")
@@ -41,7 +41,7 @@ def test_get_single_wakepark(test_app, test_db, add_wakepark):
         -25.952558,
         28.185543,
         "stokecitywake",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
     client = test_app.test_client()
     id = wakepark.id
@@ -85,7 +85,7 @@ def test_add_wakepark(test_app, test_db):
         "description": "The only cablepark in Gauteng!",
         "location": {"lat": -25.952558, "lng": 28.185543},
         "social": {"instagram": "stokecitywake"},
-        "owner_id": "google-oauth2|104755831296456998532"
+        "owner_id": "google-oauth2|104755831296456998532",
     }
 
     res = client.post(
@@ -132,7 +132,7 @@ new_wakepark = {
     "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
     "location": {"lat": -25.952558, "lng": 28.185543},
     "social": {"instagram": "stokecitywake"},
-    "owner_id": "google-oauth2|104755831296456998532"
+    "owner_id": "google-oauth2|104755831296456998532",
 }
 
 
@@ -205,7 +205,7 @@ def test_delete_wakepark(test_app, test_db, add_wakepark):
         -25.952558,
         28.185543,
         "stokecitywake",
-        "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients"
+        "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients",
     )
 
     client = test_app.test_client()
@@ -253,7 +253,7 @@ def test_delete_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
         -25.952558,
         28.185543,
         "stokecitywake",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
     client = test_app.test_client()
     res_one = client.get("/wakeparks/")
@@ -314,7 +314,7 @@ def test_delete_wakepark_unauthorised(
         -25.952558,
         28.185543,
         "stokecitywake",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
     client = test_app.test_client()
     res_one = client.get("/wakeparks/")
@@ -384,7 +384,7 @@ def test_update_wakepark_not_found(test_app, test_db):
         "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
         "location": {"lat": -25.952558, "lng": 28.185543},
         "social": {"instagram": "stokecitywake"},
-        "owner_id": "google-oauth2|104755831296456998532"
+        "owner_id": "google-oauth2|104755831296456998532",
     }
 
     recreate_db()
@@ -412,7 +412,7 @@ def test_update_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
         -25.952558,
         28.185543,
         "stokecitywake",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
 
     # updated wakepark
@@ -421,7 +421,7 @@ def test_update_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
         "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
         "location": {"lat": -25.952558, "lng": 28.185543},
         "social": {"instagram": "stokecitywake"},
-        "owner_id": "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients"
+        "owner_id": "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients",
     }
 
     client = test_app.test_client()
@@ -482,7 +482,7 @@ def test_update_wakepark_unauthorised(
         -25.952558,
         28.185543,
         "stokecitywake",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
 
     # updated wakepark
@@ -491,7 +491,7 @@ def test_update_wakepark_unauthorised(
         "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
         "location": {"lat": -25.952558, "lng": 28.185543},
         "social": {"instagram": "stokecitywake"},
-        "owner_id": "google-oauth2|104755831296456998532"
+        "owner_id": "google-oauth2|104755831296456998532",
     }
 
     client = test_app.test_client()
@@ -563,7 +563,7 @@ def test_patch_wakepark_not_found(test_app, test_db):
         "description": "The only 5 Tower and 2 Tower cablepark in Gauteng!",
         "location": {"lat": -25.952558, "lng": 28.185543},
         "social": {"instagram": "stokecitywake"},
-        "owner_id": "google-oauth2|104755831296456998532"
+        "owner_id": "google-oauth2|104755831296456998532",
     }
 
     recreate_db()
@@ -591,7 +591,7 @@ def test_patch_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
         -25.952558,
         28.185543,
         "stokecitywake",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
 
     # updated wakepark
@@ -601,7 +601,7 @@ def test_patch_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
         "lat": -25.952558,
         "lng": 28.185543,
         "instagram_handle": "stokecitywake",
-        "owner_id": "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients"
+        "owner_id": "qjqhGiKHei9h71ll70DG3tWV2Kwg5KET@clients",
     }
 
     client = test_app.test_client()
@@ -662,7 +662,7 @@ def test_patch_wakepark_unauthorised(
         -25.952558,
         28.185543,
         "stokecitywake",
-        "google-oauth2|104755831296456998532"
+        "google-oauth2|104755831296456998532",
     )
 
     # updated wakepark
@@ -672,7 +672,7 @@ def test_patch_wakepark_unauthorised(
         "lat": -25.952558,
         "lng": 28.185543,
         "instagram_handle": "stokecitywake",
-        "owner_id": "google-oauth2|104755831296456998532"
+        "owner_id": "google-oauth2|104755831296456998532",
     }
 
     client = test_app.test_client()
