@@ -7,4 +7,5 @@ env
 htmlcov/
 node_modules/
 instructions.md
+motivation.md
 .DS_Store
