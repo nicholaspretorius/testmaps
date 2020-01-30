@@ -193,7 +193,7 @@ describe("Add Wakepark as logged in parkadmin", () => {
       cy.get("input#input-name")
         .focus()
         .clear()
-        .type("e2eWakpark")
+        .type("e2eWakepark")
         .blur();
     });
 
