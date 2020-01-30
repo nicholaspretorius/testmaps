@@ -71,13 +71,11 @@ def check_permissions(permission, payload, id):
 
     user_id = payload["sub"]
 
+    # check that user is resource owner/superadmin
     if id:
         wakepark = get_wakepark_by_id(id)
         if wakepark:
             owner_id = wakepark.owner_id
-            print("Owner ID: ", owner_id)
-            print("User ID: ", user_id)
-            print("Superadmins", superadmins)
             if owner_id != user_id and user_id not in superadmins:
                 raise AuthError(
                     {"code": "forbidden", "description": "Not resource owner."}, 403
