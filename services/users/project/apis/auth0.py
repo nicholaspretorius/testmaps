@@ -64,6 +64,11 @@ def get_token_auth_header():
 
 def check_permissions(permission, payload, id):
 
+    superadmins = [
+        "auth0|5e329997b5be300ef6889c4c",
+        "google-oauth2|104755831296456998532",
+    ]
+
     user_id = payload["sub"]
 
     if id:
@@ -72,7 +77,8 @@ def check_permissions(permission, payload, id):
             owner_id = wakepark.owner_id
             print("Owner ID: ", owner_id)
             print("User ID: ", user_id)
-            if owner_id != user_id:
+            print("Superadmins", superadmins)
+            if owner_id != user_id and user_id not in superadmins:
                 raise AuthError(
                     {"code": "forbidden", "description": "Not resource owner."}, 403
                 )
