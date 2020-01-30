@@ -108,6 +108,8 @@ To run the API tests, you can do the following. Please note the various options 
 * `dc exec users /bin/sh -c "isort project/*/*.py --diff"`
 * `dc exec users /bin/sh -c "isort project/*/*.py"`
 
+* [Pycodestyle](https://pypi.org/project/pycodestyle/) (formerly known as Pep8) `dc exec users pycodestyle project`
+
 ### Run the shell
 
 You can run the Flask shell as follows:
