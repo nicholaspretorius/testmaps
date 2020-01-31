@@ -18,15 +18,9 @@ The emails below are not real email addresses, they are just used for purposes o
 * Parkadmin user: reviewer-guest-parkadmin@madeupdomainname.com
 * Superadmin user: reviewer-guest-admin@madeupdomainname.com
 
-You can view the "Profile" details including the user id, token and permissions by clicking on the user email address in the navbar at top right. From there, you can use the token to for making requests via Swagger or Postman. 
+You can view the "Profile" details including the user id, token and permissions by clicking on the user email address in the navbar at top right. From there, you can use the token for making requests via Swagger. 
 
-Note: You will see several endpoints documented in Swagger, however, for the purposes of this project, only the "wakeparks" endpoint is in scope for this capstone project.
-
-## Concept
-
-I love wakeskating. Essentially, it is similar to wakeboarding, but you are not strapped into the board. Much of wakeboarding and wakeskating happens at what are called "cableparks" or "wakeparks". Essentially these are lakes/dams/bodies of water where there are a system of towers with a running cable between them. Carriers run along the cable, pulling the riders along across the water. As such, the idea for this project was to create a listing or directory of wakeparks. the result is "Wakemaps" (aka "Testmaps"). 
-
-Essentially, this project represent the *foundation* for a wakepark directory listing. The app is not much to look at and has a very small feature set - but serves to illustrate the basics of a fullstack app. I feel it forms a solid base from which to expand out on features in future.
+Note: You will see several endpoints documented in Swagger, however, for the purposes of this project, only the "wakeparks" endpoint is in scope for this project.
 
 ## Motivation
 
@@ -34,9 +28,9 @@ I wanted to create a project that pulled together many of the skills I have lear
 
 ### What was missing from the Nanodegrees?
 
-The Fullstack Nanodegree contained a section on running applications through Docker, the example was somewhat straightforward and, importantly, did not include a database or frontend. To my mind, the trickiest part of working with Docker is getting multiple technologies working together cohesively. Hence, I worked to implement this approach in this project.
+The Fullstack Nanodegree contained a section on running applications through Docker, the example was somewhat straightforward and, importantly, did not include a database or frontend. To my mind, the trickiest part of working with Docker is getting multiple technologies working together cohesively. Hence, I worked to implement such an approach in this project.
 
-The React Developer Nanodegree, while fairly broad in scope - covering React, Redux and React Native - the React Developer ND did not include anything in regards to testing. As such, I wanted to learn how to write tests for React. Additionally, and quite strangely, the React Developer Nanodegree did not really cover how to manage authentication and authorisation. That in itself left many questions unanswered in my mind which I feel I have begun to delve into through this project. 
+The React Developer Nanodegree, while fairly broad in scope - covering React, Redux and React Native - the React Developer ND did not include anything in regards to testing. As such, I wanted to learn how to write tests for React. Additionally, the React Developer Nanodegree did not cover how to manage authentication and authorisation. 
 
 ### Goal
 
@@ -71,14 +65,15 @@ While Auth0 has a wide array of tutorials an documentation, they seem to have co
 
 ### Deployment
 
-When it comes to deployment, the application is run through a GitLab CI/CD pipeline, and will deploy to Heroku only if all linting, formatting and testing passes for both the API and the client. 
+When it comes to deployment, the application is run through a GitLab CI/CD pipeline, and will deploy to Heroku only if all linting, formatting and testing passes for both the API and the client. (You can see the pipeline badge on the GitLab version of the repo [here](https://gitlab.com/nicholaspretorius/testmaps))
 
 ### API Documentation
 
-I am not listing the API documentation in Markdown here since I have made Swagger and a Postman collection available for use. 
+I am not listing the API documentation in Markdown here since I have incorporated Swagger into the project. Please take a look at the link below:
 
-Swagger: https://waketestmaps.herokuapp.com/docs
-Postman: Link to collection file... 
+Swagger: [https://waketestmaps.herokuapp.com/docs](https://waketestmaps.herokuapp.com/docs)
+
+In order to use Swagger for endpoints that require authentication, visit the client app, login and then visit the `/profile` page by clicking on your username at top right. On that page I have displayed the relevant user details including the JSON Web Token which can be pasted into Swagger for use. 
 
 ### Roles
 
@@ -105,76 +100,31 @@ The available permissions are:
 
 ## Reflection on Project
 
-While this app is limited in scope and features, I feel it represents a solid foundation from which to develop future features from. Learning how to pull together all these various strands into a cohesive project took longer than I had originally expected. As a result the scope of the project is smaller than I had originally intended. That being said, I feel confident that most of the pieces I wanted to pull together are in place in terms of tooling. 
-
-Regardless, I feel this project really is "fullstack" in that it has elements from not only backend and frontend areas, but also from devops and tooling. There is a lot more to do feature-wise, but I feel this makes for a good starting point from which to build out.
+While this app is limited in scope and features, I feel it represents a solid foundation from which to develop future features from. Learning how to pull together all these various strands into a cohesive project was a large learning curve. Combining Docker, backend, frontend, testing and a CI/CD pipeline I think this project really is "fullstack" despite the scope and feature set being very small at this stage.
 
 ## Where to find the app?
 
-As mentioned above:
-
 * Frontend: [https://waketestmaps.herokuapp.com/](https://waketestmaps.herokuapp.com/)
-* API/Swagger: [https://waketestmaps.herokuapp.com/docs](https://waketestmaps.herokuapp.com/docs)
+* Swagger: [https://waketestmaps.herokuapp.com/docs](https://waketestmaps.herokuapp.com/docs)
 
 ## Reviewer Notes
 
-I feel that this project has expanded my horizons. As a front-end developer coming from the Angular world, pretty much everything used in this project was more or less unknown to me before October 2019 (I did have a bit of experience with React prior to my React Developer Nanodegree). As such, while the app is nothing to shout about, a lot of effort and background learning went into this. Outside of the course materials, I had to learn about Docker, GitLab CI, Cypress, Jest, React Testing Library, Swagger, Flask-RESTplus not to mention the Auth0 nuances. Finally, getting them all working together nicely was yet another learning process. 
-
-While this project has given me much confidence in my new skills, the irony is that, the more I learn, the more I realise I do not know and it is both amazing to consider how much I have learned, and also how much I still have to learn!
-
-### A Note on Auth0
-
-Auth0 is an expansive service with a lot of documentation. After using it for some time, I have come to realise that, should I create a version 2 of this project, I would not use the Auth0 Authorisation API and Auth0 "Lock UI" but rather the Management API. By my understanding, the Management API provides far more freedom in terms of implementation, and ultimately with what can be present in the client. 
-
-For example: I would like to create my own custom "Registration" and "Login" pages where I can control the layout, design and fields available. One use case for this would be on the "Registration" page where users can request the "parkadmin" role if they are the owner or manager of a wakepark. At present, it is not clear to me that Auth0 offers this capability via their Lock UI which this project makes use of. 
-
-I know I can use "Auth0 Rules" to augment user and app metadata on authentication, however, at this point, I do not think one can use custom fields available via the UI, unless using the Management API. 
-
-#### A Note on Testing and Authorisation
-
-Auth0 is a service that I have been learning more about as I use it. There are some nuances to using it, that were not clear to me from the earlier course project. For one, the "Auth0 redirect" which takes the user to an external Auth0 page poses a challenge when it comes to unit or e2e testing. Namely: 
-
-Since Auth0 forces the "redirect", one cannot "login" via the Authorisation API and receive a token as you typically would with an API + SPA. In order to do so, one needs to make use of special "grants". There were two specific cases I looked into beyond the regular Auth0 flow. 
-
-##### Grants
-
-Auth0 provides various authentication mechanisms. For my purposes, I had two scenarios to investigate beyond the typical Auth0 Lock UI login used by the client: 
-
-1. Get an auth token to use in unit/e2e tests that did not use a redirect so that I could test the API endpoints. 
-2. Get an auth token to use in Postman collection in order to run a set of automated tests via a Postman collection
-
-In order to make use of Auth0 to get tokens programmatically, one needs to make a POST request to /oauth/token. This endpoint can however *not* be safely used by an SPA since that endpoint requires a secret and secrets cannot be securely used by a frontend only client. 
-
-In the first case, I made use of the "client_credentials" grant which is intended for use in machine-to-machine Auth0 auth. Briefly, it enables auth without a user or password but it requires the Auth0 secret. This is fine for use in unit/e2e testing (or in a MVC frontend) since the secret can be safely stored and not revealed in code. This is what I used for the unit tests. 
-
-For the second case, the situation was less clear, firstly, the intention was to share the Postman collection via the repo publicly so that the reviewer could run the tests and see the examples. Additionally, even to use Swagger, the user would need a token, which could not safely be provided via Postman or Swagger. The issue here is that the Auth0 "password" grant, requires the Auth0 secret, as well as a username and password. I was happy to use this approach in my development, but sharing the Auth0 secret publicly in the Postman collection is problematic. 
-
-As a result, in order to use Swagger or Postman, the user will need to sign into the frontend application and visit the `/profile` page. On that page I have displayed the relevant user details which can be pasted into Swagger or Postman for use. 
-
-That being said, the functionality provided by the frontend covers all the functionality supported by the API for purposes of this project. As such, using Swagger or Postman is not required. 
-
-### Todos
-
-Below are a list of possible todos for the future. While I will be moving onto doing the Cloud Developer Nanodegree, in some respects, this project now feels like my pet learning project. I want to:
-
-* Use Redux in frontend (primarily I have not done this yet since I still need to learn how to unit test Redux)
-* I have not been able to successfully incorporate the Cypress e2e tests into the CI/CD pipeline yet. (I am able to build the Cypress container and run the tests - but these are run only against the frontend with the running of `npm start` and not against the entire application running from `docker-compose`. It is not yet clear to me how to get GitLab CI to recognise docker or docker-compose commands in a Cypress container)
-* Add auth to Swagger. 
-* Expand Flask-Admin to /wakeparks endpoint.
-* Transplant Auth0 flow to separate "applications" for local, dev and "live" versions.
-* Migrate Auth0 functionality to use the Auth0 Management API.
-* Increase test coverage for backend, frontend and e2e.
-* Add a React Native client (with unit tests in React Native Testing Library and e2e test in Detox)
-* Wrap that React Native client up in a CI/CD pipeline of its own
-* Migrate application to AWS
-
-All of those are just "foundations" or structural concerns - I have not even really gotten to "features" or how the application should actually look from a design perspective. 
-
-Needless to say, there is a lot more to do!
+I feel that this project has expanded my horizons. As a front-end developer coming from the Angular world, pretty much everything used in this project was more or less unknown to me before October 2019 (I did have a bit of experience with React prior to my React Developer Nanodegree). Outside of the course materials, I had to learn about Docker, GitLab CI, Cypress, Jest, React Testing Library, Swagger, Flask-RESTplus not to mention the Auth0 nuances. Finally, getting them all working together nicely was yet another learning process. 
 
 ## Development Notes
 
 Below are reference notes related to developing and running the project. Please read through them to get accustomed and started.
+
+### GitHub
+
+Check project out at: [https://github.com/nicholaspretorius/testmaps](https://github.com/nicholaspretorius/testmaps)
+Git Clone: `git clone https://github.com/nicholaspretorius/testmaps.git`
+
+### GitLab
+
+Same repo is present on GitLab at: [https://gitlab.com/nicholaspretorius/testmaps](https://gitlab.com/nicholaspretorius/testmaps)
+
+CI/CD pipeline is run from GitLab.
 
 ## Instructions
 
