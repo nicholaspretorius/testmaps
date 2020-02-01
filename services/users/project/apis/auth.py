@@ -6,7 +6,11 @@ from flask_restplus import Namespace, Resource, fields
 
 from project import bcrypt
 from project.apis.users.models import User
-from project.apis.users.services import create_user, get_user_by_email, get_user_by_id
+from project.apis.users.services import (
+    create_user,
+    get_user_by_email,
+    get_user_by_id,
+)
 
 api = Namespace("auth", description="Authorisation resource")
 
@@ -38,13 +42,21 @@ LOGIN = api.inherit(
 
 REFRESH = api.model(
     "REFRESH",
-    {"refresh_token": fields.String(required=True, description="JWT Refresh token")},
+    {
+        "refresh_token": fields.String(
+            required=True, description="JWT Refresh token"
+        )
+    },
 )
 
 TOKENS = api.inherit(
     "TOKENS",
     REFRESH,
-    {"access_token": fields.String(required=True, description="JWT Access token")},
+    {
+        "access_token": fields.String(
+            required=True, description="JWT Access token"
+        )
+    },
 )
 
 parser = api.parser()

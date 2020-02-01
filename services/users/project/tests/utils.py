@@ -51,7 +51,9 @@ def get_auth0_access_token():
     headers = {"content-type": "application/json"}
 
     res = requests.post(
-        f"https://{domain}/oauth/token", data=json.dumps(payload), headers=headers
+        f"https://{domain}/oauth/token",
+        data=json.dumps(payload),
+        headers=headers,
     )
 
     access_token = res.json()["access_token"]

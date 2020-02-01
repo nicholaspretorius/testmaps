@@ -19,7 +19,9 @@ def test_add_user(test_app, test_db):
 
 def test_add_user_no_post_data(test_app, test_db):
     client = test_app.test_client()
-    res = client.post(f"/users/", data=json.dumps({}), content_type="application/json")
+    res = client.post(
+        f"/users/", data=json.dumps({}), content_type="application/json"
+    )
 
     data = json.loads(res.data.decode())
     assert res.status_code == 400
@@ -196,7 +198,9 @@ def test_update_user_invalid_json(test_app, test_db, add_user):
     user = add_user("test@test.com", "password")
     client = test_app.test_client()
     res = client.put(
-        f"/users/{user.id}", data=json.dumps({}), content_type="application/json"
+        f"/users/{user.id}",
+        data=json.dumps({}),
+        content_type="application/json",
     )
 
     data = json.loads(res.data.decode())

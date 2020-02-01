@@ -56,13 +56,17 @@ def test_user_registration_duplicate_email(test_app, test_db, add_user):
         ({"email": "test@test.com", "pass": "password"}, "Invalid payload"),
     ],
 )
-def test_user_registration_invalid_payload(test_app, test_db, payload, message):
+def test_user_registration_invalid_payload(
+    test_app, test_db, payload, message
+):
     recreate_db()
     client = test_app.test_client()
     py = payload
     print("Payload: ", py)
     res = client.post(
-        f"/auth/register", data=json.dumps(payload), content_type="application/json"
+        f"/auth/register",
+        data=json.dumps(payload),
+        content_type="application/json",
     )
     data = json.loads(res.data.decode())
     assert res.status_code == 400
@@ -93,7 +97,9 @@ def test_user_login_not_registered(test_app, test_db):
     client = test_app.test_client()
     res = client.post(
         f"/auth/login",
-        data=json.dumps({"email": "whaddayaknow@test.com", "password": "password"}),
+        data=json.dumps(
+            {"email": "whaddayaknow@test.com", "password": "password"}
+        ),
         content_type="application/json",
     )
 

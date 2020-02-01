@@ -34,18 +34,19 @@ class Wakepark(db.Model):
         self.owner_id = owner_id
 
     def __repr__(self):
-        return f"<Wakepark id: {self.id}, name: {self.name}, owner_id: {self.owner_id}>"
+        return (
+            f"<Wakepark id:{self.id},name:{self.name},owner:{self.owner_id}>"
+        )
 
     def to_json(self):
+        ig_url = "https://www.instagram.com/"
         return {
             "id": self.id,
             "name": self.name,
             "owner_id": self.owner_id,
             "location": {"lat": self.lat, "lng": self.lng},
             "description": self.description,
-            "social": {
-                "instagram": f"https://www.instagram.com/{self.instagram_handle}"
-            },
+            "social": {"instagram": f"{ig_url}{self.instagram_handle}"},
         }
 
     def to_dict(self):

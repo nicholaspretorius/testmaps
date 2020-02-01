@@ -46,9 +46,12 @@ error = api.model(
     "Error",
     {
         "success": fields.Boolean(default=False),
-        "error": fields.Integer(description="The HTTP error code", example=400),
+        "error": fields.Integer(
+            description="The HTTP error code", example=400
+        ),
         "message": fields.String(
-            description="The associated error message", example="Invalid payload"
+            description="The associated error message",
+            example="Invalid payload",
         ),
     },
 )

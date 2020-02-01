@@ -62,7 +62,7 @@ WAKEPARK = api.model(
         ),
         "description": fields.String(
             required=True,
-            description="A less than 255 characters description of the wakepark",
+            description="Description less than 255 characters",
             example="Some awesome wakepark description!",
         ),
         "location": fields.Nested(LOCATION),
@@ -82,7 +82,7 @@ UPDATE_WAKEPARK = api.model(
             example="oauth|1234567890...",
         ),
         "description": fields.String(
-            description="A less than 255 characters description of the wakepark",
+            description="Description less than 255 characters",
             example="Some awesome wakepark description!",
         ),
         "lat": fields.Float(
@@ -101,7 +101,9 @@ UPDATE_WAKEPARK = api.model(
 )
 
 parser = api.parser()
-parser.add_argument("Authorization", location="headers", help="Bearer token required")
+parser.add_argument(
+    "Authorization", location="headers", help="Bearer token required"
+)
 
 
 @api.route("/")
@@ -185,7 +187,7 @@ class Wakeparks(Resource):
         except AuthError:
             return abort(401)
 
-    # TODO: Need to refactor how this route selects what to update and what not to
+    # TODO: Need to refactor how this selects what to update and what not to
     @api.expect(parser, WAKEPARK, validate=True)
     @api.response(200, "Success")
     @api.response(400, "Invalid payload")
@@ -214,7 +216,13 @@ class Wakeparks(Resource):
                 instagram_handle = post_data.get("social")["instagram"]
 
             updated_wakepark = update_wakepark(
-                wakepark, name, description, lat, lng, instagram_handle, owner_id
+                wakepark,
+                name,
+                description,
+                lat,
+                lng,
+                instagram_handle,
+                owner_id,
             )
 
             res = {

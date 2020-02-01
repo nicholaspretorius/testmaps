@@ -9,7 +9,7 @@ def test_repr(test_app, test_db, add_wakepark):
     )
     val = repr(wakepark)
     assert val == (
-        "<Wakepark id: 1,"
-        " name: Stoke City Wakepark,"
-        " owner_id: google-oauth2|104755831296456998532>"
+        "<Wakepark id:1,"
+        "name:Stoke City Wakepark,"
+        "owner:google-oauth2|104755831296456998532>"
     )

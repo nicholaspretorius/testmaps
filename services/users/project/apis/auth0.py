@@ -78,7 +78,11 @@ def check_permissions(permission, payload, id):
             owner_id = wakepark.owner_id
             if owner_id != user_id and user_id not in superadmins:
                 raise AuthError(
-                    {"code": "forbidden", "description": "Not resource owner."}, 403
+                    {
+                        "code": "forbidden",
+                        "description": "Not resource owner.",
+                    },
+                    403,
                 )
 
     if permission == "":
@@ -116,7 +120,11 @@ def verify_decode_jwt(token):
     # check for kid (Auth0 key id)
     if "kid" not in unverified_header:
         raise AuthError(
-            {"code": "invalid_header", "description": "Authorization malformed."}, 401
+            {
+                "code": "invalid_header",
+                "description": "Authorization malformed.",
+            },
+            401,
         )
 
     for key in jwks["keys"]:

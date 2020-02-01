@@ -34,7 +34,9 @@ def delete_wakepark(wakepark):
     return wakepark
 
 
-def update_wakepark(wakepark, name, description, lat, lng, instagram_handle, owner_id):
+def update_wakepark(
+    wakepark, name, description, lat, lng, instagram_handle, owner_id
+):
     wakepark.name = name
     wakepark.description = description
     wakepark.lat = lat

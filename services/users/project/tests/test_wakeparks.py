@@ -73,7 +73,9 @@ def test_single_wakepark_no_id(test_app, test_db):
     assert "Resource not found" in data["message"]
 
 
-access_token = get_auth0_access_token()  # get access_token for requires_auth routes
+access_token = (
+    get_auth0_access_token()
+)  # get access_token for requires_auth routes
 
 
 def test_add_wakepark(test_app, test_db):
@@ -105,7 +107,10 @@ def test_add_wakepark(test_app, test_db):
     [
         ({}, "Input payload validation failed"),
         (
-            {"description": "Cool wakepark!", "location": {"lat": 23, "lng": 99}},
+            {
+                "description": "Cool wakepark!",
+                "location": {"lat": 23, "lng": 99},
+            },
             "Input payload validation failed",
         ),
     ],
@@ -275,7 +280,11 @@ def test_delete_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
 @pytest.mark.parametrize(
     "headers, code, description",
     [
-        ({}, "authorisation_header_not_found", "Authorisation header not found."),
+        (
+            {},
+            "authorisation_header_not_found",
+            "Authorisation header not found.",
+        ),
         (
             {"X-Authorisation": f"{access_token}"},
             "authorisation_header_not_found",
@@ -374,7 +383,10 @@ def test_update_wakepark(test_app, test_db, add_wakepark):
     data = json.loads(res_two.data.decode())
     assert res_two.status_code == 200
     assert res_two.content_type == "application/json"
-    assert "The only 5 Tower and 2 Tower cablepark in Gauteng!" in data["description"]
+    assert (
+        "The only 5 Tower and 2 Tower cablepark in Gauteng!"
+        in data["description"]
+    )
 
 
 def test_update_wakepark_not_found(test_app, test_db):
@@ -442,7 +454,11 @@ def test_update_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
 @pytest.mark.parametrize(
     "headers, code, description",
     [
-        ({}, "authorisation_header_not_found", "Authorisation header not found."),
+        (
+            {},
+            "authorisation_header_not_found",
+            "Authorisation header not found.",
+        ),
         (
             {"X-Authorisation": f"{access_token}"},
             "authorisation_header_not_found",
@@ -553,7 +569,10 @@ def test_patch_wakepark(test_app, test_db, add_wakepark):
     data = json.loads(res_two.data.decode())
     assert res_two.status_code == 200
     assert res_two.content_type == "application/json"
-    assert "The only 5 Tower and 2 Tower cablepark in Gauteng!" in data["description"]
+    assert (
+        "The only 5 Tower and 2 Tower cablepark in Gauteng!"
+        in data["description"]
+    )
 
 
 def test_patch_wakepark_not_found(test_app, test_db):
@@ -622,7 +641,11 @@ def test_patch_wakepark_not_resource_owner(test_app, test_db, add_wakepark):
 @pytest.mark.parametrize(
     "headers, code, description",
     [
-        ({}, "authorisation_header_not_found", "Authorisation header not found."),
+        (
+            {},
+            "authorisation_header_not_found",
+            "Authorisation header not found.",
+        ),
         (
             {"X-Authorisation": f"{access_token}"},
             "authorisation_header_not_found",

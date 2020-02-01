@@ -28,7 +28,9 @@ def test_add_user(test_app, monkeypatch):
     monkeypatch.setattr(
         project.apis.users.views, "get_user_by_email", mock_get_user_by_email
     )
-    monkeypatch.setattr(project.apis.users.views, "create_user", mock_create_user)
+    monkeypatch.setattr(
+        project.apis.users.views, "create_user", mock_create_user
+    )
 
     client = test_app.test_client()
     res = client.post(
@@ -45,7 +47,9 @@ def test_add_user(test_app, monkeypatch):
 
 def test_add_user_no_post_data(test_app, monkeypatch):
     client = test_app.test_client()
-    res = client.post(f"/users/", data=json.dumps({}), content_type="application/json")
+    res = client.post(
+        f"/users/", data=json.dumps({}), content_type="application/json"
+    )
 
     data = json.loads(res.data.decode())
     assert res.status_code == 400
@@ -57,7 +61,9 @@ def test_add_user_no_email(test_app, monkeypatch):
     client = test_app.test_client()
     res = client.post(
         f"/users/",
-        data=json.dumps({"website": "website@test.com", "password": "password"}),
+        data=json.dumps(
+            {"website": "website@test.com", "password": "password"}
+        ),
         content_type="application/json",
     )
 
@@ -77,7 +83,9 @@ def test_add_user_duplicate_email(test_app, monkeypatch):
     monkeypatch.setattr(
         project.apis.users.views, "get_user_by_email", mock_get_user_by_email
     )
-    monkeypatch.setattr(project.apis.users.views, "create_user", mock_create_user)
+    monkeypatch.setattr(
+        project.apis.users.views, "create_user", mock_create_user
+    )
 
     client = test_app.test_client()
 
@@ -123,7 +131,9 @@ def test_single_user(test_app, monkeypatch):
             "active": True,
         }
 
-    monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
+    monkeypatch.setattr(
+        project.apis.users.views, "get_user_by_id", mock_get_user_by_id
+    )
 
     client = test_app.test_client()
     res = client.get(f"/users/1")
@@ -138,7 +148,9 @@ def test_single_user_not_found(test_app, monkeypatch):
     def mock_get_user_by_id(user_id):
         return None
 
-    monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
+    monkeypatch.setattr(
+        project.apis.users.views, "get_user_by_id", mock_get_user_by_id
+    )
 
     client = test_app.test_client()
     res = client.get(f"/users/999")
@@ -152,7 +164,9 @@ def test_single_user_no_id(test_app, monkeypatch):
     def mock_get_user_by_id(user_id):
         return None
 
-    monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
+    monkeypatch.setattr(
+        project.apis.users.views, "get_user_by_id", mock_get_user_by_id
+    )
 
     client = test_app.test_client()
     res = client.get(f"/users/test")
@@ -208,8 +222,12 @@ def test_update_user(test_app, monkeypatch):
     def mock_update_user(user, email):
         return MockResponsePut()
 
-    monkeypatch.setattr(project.apis.users.views, "get_user_by_id", mock_get_user_by_id)
-    monkeypatch.setattr(project.apis.users.views, "update_user", mock_update_user)
+    monkeypatch.setattr(
+        project.apis.users.views, "get_user_by_id", mock_get_user_by_id
+    )
+    monkeypatch.setattr(
+        project.apis.users.views, "update_user", mock_update_user
+    )
 
     client = test_app.test_client()
     res_one = client.put(
@@ -240,7 +258,9 @@ def test_update_user_with_password(test_app, test_db, add_user):
     client = test_app.test_client()
     res = client.put(
         f"/users/{user.id}",
-        data=json.dumps({"email": "update@test.com", "password": password_two}),
+        data=json.dumps(
+            {"email": "update@test.com", "password": password_two}
+        ),
         content_type="application/json",
     )
 

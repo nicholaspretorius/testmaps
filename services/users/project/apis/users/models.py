@@ -36,7 +36,8 @@ class User(db.Model):
             seconds = current_app.config.get("REFRESH_TOKEN_EXPIRATION")
 
         payload = {
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=seconds),
+            "exp": datetime.datetime.utcnow()
+            + datetime.timedelta(seconds=seconds),
             "iat": datetime.datetime.utcnow(),
             "sub": user_id,
         }

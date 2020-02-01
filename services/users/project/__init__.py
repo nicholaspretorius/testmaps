@@ -64,6 +64,6 @@ def create_app(script_info=None):
 
     @app.errorhandler(500)
     def internal_error(error):
-        return jsonify({"status": False, "message": f"Internal error: {error}"}), 500
+        return jsonify({"status": False, "message": f"Error: {error}"}), 500
 
     return app
