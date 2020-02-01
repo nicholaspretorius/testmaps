@@ -60,7 +60,7 @@ test-users:
     - cd /usr/src/app
     - pytest "project/tests" -p no:warnings
     - flake8 project
-    - black project --check
+    - black --line-length=79 project --check
     - isort project/**/*.py --check-only
 
 build-client:
