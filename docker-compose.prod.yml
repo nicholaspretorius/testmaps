@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  users:
+    build:
+      context: ./services/users
+      dockerfile: Dockerfile.aws.prod
+    # entrypoint: ["/usr/src/app/entrypoint.sh"]
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_ENV=production
+      - APP_SETTINGS=project.config.ProductionConfig
+      - DATABASE_URL=postgresql://postgres:postgres@users-db:5432/users_prod
+      - DATABASE_TEST_URL=postgresql://postgres:postgres@users-db:5432/users_test
+      - SECRET_KEY=prod
+      - AUTH0_DOMAIN=${AUTH0_DOMAIN}
+      - AUTH0_AUDIENCE=${AUTH0_AUDIENCE}
+      - AUTH0_CLIENT_TEST_ID=${AUTH0_CLIENT_TEST_ID}
+      - AUTH0_SECRET=${AUTH0_SECRET}
+    depends_on:
+      - users-db
+  users-db:
+    build:
+      context: ./services/users/project/db
+      dockerfile: Dockerfile
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  client:
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile.prod
+      args:
+        - NODE_ENV=production
+        - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+        - REACT_APP_AUTH0_DOMAIN=${AUTH0_DOMAIN}
+        - REACT_APP_API_AUDIENCE=${AUTH0_AUDIENCE}
+        - REACT_APP_AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}
+        - REACT_APP_DOMAIN=${REACT_APP_DOMAIN}
+    ports:
+      - 3007:80
+    depends_on:
+      - users

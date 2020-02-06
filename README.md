@@ -173,7 +173,9 @@ Note: Anywhere you see "dc" this is my shortcut for "docker-compose", which has 
 * `docker-compose up --build`
 * To sanity check that the API is running, visit: `http://localhost:5001/hello`
 * See logs `docker-compose logs -f` (Ctrl + c to quit)
-
+* `docker-compose -f docker-compose.prod.yml up -d --build`
+* `docker-compose -f docker-compose.prod.yml exec users python manage.py recreate_db`
+* `docker-compose -f docker-compose.prod.yml exec users python manage.py seed_db`
 
 #### Docker Housekeeping
 
